@@ -3,6 +3,8 @@
 
 (eval-when-compile (require 'cl))
 
+(exec-path-from-shell-initialize)
+
 ; From https://github.com/alezost/alect-themes#emacs-2431-and-earlier
 (when (and (version<= "24" emacs-version)
            (version< emacs-version "24.4"))
