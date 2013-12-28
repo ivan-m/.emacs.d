@@ -21,7 +21,7 @@
 
   (turn-on-haskell-decl-scan)
 
-  (turn-on-haskell-unicode-input-method)
+  ; (turn-on-haskell-unicode-input-method)
 
   ; For camelCase
   (capitalized-words-mode)
