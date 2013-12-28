@@ -131,7 +131,6 @@ specs, then the override spec."
     org-pandoc
     pandoc-mode
     rainbow-delimiters
-    rainbow-mode
     rw-hunspell
     rw-ispell
     rw-language-and-country-codes
