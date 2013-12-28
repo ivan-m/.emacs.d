@@ -68,8 +68,7 @@
   (define-key haskell-mode-map (kbd "M-<right>")
     (lambda () (interactive) (haskell-move-nested 1)))
 
-  (define-key haskell-mode-map (kbd "C-c C-s") 'insert-scc-at-point)
-  (define-key haskell-mode-map (kbd "C-c C-u C-s") 'kill-scc-at-point)
+  (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 
   (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
 
@@ -105,8 +104,17 @@
   (define-key haskell-interactive-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
   (define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell))
 
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-;; from http://www.serpentine.com/blog/2007/10/09/using-emacs-to-insert-scc-annotations-in-haskell-code/
+;; Based upon http://www.serpentine.com/blog/2007/10/09/using-emacs-to-insert-scc-annotations-in-haskell-code/
+
+(defun toggle-scc-at-point (&optional arg)
+  "Insert or kill (with universal-argument) an SCC annotation at
+point."
+  (interactive "P")
+  (if (equal arg nil)
+      (insert-scc-at-point)
+    (kill-scc-at-point)))
 
 (defun insert-scc-at-point ()
   "Insert an SCC annotation at point."
