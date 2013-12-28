@@ -232,25 +232,25 @@
 
 ;; (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-mumamo-mode))
 
-;; From https://github.com/paul7/dev-conf/blob/master/.emacs-haskell
-(defvar cabal-use-sandbox nil)
-(setq-default haskell-program-name "ghci")
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+;; Based upon https://github.com/paul7/dev-conf/blob/master/.emacs-haskell
+(defvar cabal-use-sandbox t)
+; (setq-default haskell-program-name "ghci")
 (defun cabal-toggle-sandboxing-local ()
   (interactive)
   (set (make-local-variable 'cabal-use-sandbox) (not cabal-use-sandbox))
-  (message (concat "This buffer haskell-program-name is ``"
-                   (set (make-local-variable 'haskell-program-name)
+  (message (format "This buffer haskell-process-type is ``%s''"
+                   (set (make-local-variable 'haskell-process-type)
                         (if cabal-use-sandbox
-                            "cabal repl "
-                          "ghci"))
-                   "''")))
+                            'cabal-repl
+                          'ghci)))))
 
 (defun cabal-toggle-sandboxing ()
   (interactive)
   (setq cabal-use-sandbox (not cabal-use-sandbox))
-  (message (concat "haskell-program-name is ``"
-                   (setq haskell-program-name
+  (message (format "haskell-process-type is ``%s''"
+                   (setq haskell-process-type
                         (if cabal-use-sandbox
-                            "cabal repl "
-                          "ghci"))
-                   "''")))
+                            'cabal-repl
+                          'ghci)))))
