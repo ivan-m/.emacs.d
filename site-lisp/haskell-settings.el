@@ -94,14 +94,12 @@
   (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
   (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
   (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-  (define-key haskell-cabal-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
   (define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell))
 
 (defun haskell-interactive-hook ()
   ; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
   (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
   (define-key haskell-interactive-mode-map (kbd "C-z c") 'haskell-process-cabal)
-  (define-key haskell-interactive-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
   (define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell))
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
