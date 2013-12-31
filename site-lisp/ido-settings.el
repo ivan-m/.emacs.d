@@ -1,12 +1,16 @@
 (require 'ido)
 (eval-after-load "ido" '(require 'ido-hacks))
 
-(defadvice ido-find-file (after find-file-sudo activate)
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+;; (defadvice ido-find-file (after find-file-sudo disable) ;activate
+;;   "Find file as root if necessary."
+;;   (unless (and buffer-file-name
+;;                (file-writable-p buffer-file-name))
+;;     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
+(defun find-alternate-file-with-sudo ()
+  "Re-open with sudo."
+  (interactive)
+  (find-alternate-file (concat "/sudo::" (buffer-file-name))))
 
 ; ido-like functionality for minibuffer commands
 ; set above

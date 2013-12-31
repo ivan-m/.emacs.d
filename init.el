@@ -26,7 +26,7 @@
 (package-initialize)
 
 (let ((byte-compile-warnings nil))
-  (byte-recompile-directory (expand-file-name site-lisp-dir) 0))
+  (byte-recompile-directory site-lisp-dir 0))
 
 ;;; Actually get things going.
 
