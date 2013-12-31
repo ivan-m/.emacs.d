@@ -12,17 +12,6 @@
   (interactive)
   (find-alternate-file (concat "/sudo::" (buffer-file-name))))
 
-; ido-like functionality for minibuffer commands
-; set above
-; (mcomplete-mode)
-
-;; (setq smex-save-file "~/.emacs.d/smex.save") ;; keep my ~/ clean
-;; (smex-initialize)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "<menu>") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; (global-set-key (kbd "C-c M-x") 'smex-update-and-run)
-
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
@@ -37,33 +26,6 @@
 ;; This is your old M-x.
 (global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
-;; (setq ido-execute-command-cache nil)
-
-;; (defun ido-execute-command ()
-;;   (interactive)
-;;   (call-interactively
-;;    (intern
-;;     (ido-completing-read
-;;      "M-x "
-;;      (all-completions "" obarray 'commandp)))))
-
-  ;; (interactive)
-  ;; (call-interactively
-  ;;  (intern
-  ;;   (ido-completing-read
-  ;;    "M-x "
-  ;;    (progn
-  ;;      (unless ido-execute-command-cache
-  ;;        (mapatoms (lambda (s)
-  ;;                    (when (commandp s)
-  ;;                      (setq ido-execute-command-cache
-  ;;                            (cons (format "%S" s) ido-execute-command-cache))))))
-  ;;      ido-execute-command-cache)))))
-
-
-;; (global-set-key "\M-x" 'ido-execute-command)
-;; (global-set-key (kbd "<menu>") 'ido-execute-command)
-
 ; Still needed?
 (eval-after-load "icomplete" '(progn (require 'icomplete+)))
 
@@ -77,23 +39,6 @@
 (add-hook 'ido-setup-hook
           (lambda ()
             (define-key ido-completion-map [tab] 'ido-complete)))
-
-; sort ido filelist by mtime instead of alphabetically
-;(add-hook 'ido-make-file-list-hook 'ido-sort-mtime)
-;(add-hook 'ido-make-dir-list-hook 'ido-sort-mtime)
-(defun ido-sort-mtime ()
-  (setq ido-temp-list
-        (sort ido-temp-list
-              (lambda (a b)
-                (let ((ta (nth 5 (file-attributes (concat ido-current-directory a))))
-                      (tb (nth 5 (file-attributes (concat ido-current-directory b)))))
-                  (if (= (nth 0 ta) (nth 0 tb))
-                      (> (nth 1 ta) (nth 1 tb))
-                    (> (nth 0 ta) (nth 0 tb)))))))
-  (ido-to-end  ;; move . files to end (again)
-   (delq nil (mapcar
-              (lambda (x) (if (string-equal (substring x 0 1) ".") x))
-              ido-temp-list))))
 
 ;; from http://www.emacswiki.org/cgi-bin/wiki/ImenuMode
 (defun try-to-add-imenu ()
