@@ -164,9 +164,6 @@ specs, then the override spec."
 
 (require 'notifications)
 
-(require 'recentf)
-(add-hook 'kill-emacs-hook 'recentf-save-list)
-
 (require 'undohist)
 (undohist-initialize)
 
