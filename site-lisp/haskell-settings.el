@@ -24,7 +24,7 @@
 
   (turn-on-haskell-decl-scan)
 
-  (ghc-init)
+  ;(ghc-init)
 
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
