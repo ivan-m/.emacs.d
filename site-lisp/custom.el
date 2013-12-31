@@ -126,7 +126,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil :family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 113 :width normal))))
- '(woman-bold ((t (:inherit bold :foreground "#00aff5"))))
- '(woman-italic ((t (:inherit italic :foreground "#3cb370")))))
+ '(woman-bold ((t (:inherit bold :foreground "#00aff5"))) t)
+ '(woman-italic ((t (:inherit italic :foreground "#3cb370"))) t))
 
 ; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))
