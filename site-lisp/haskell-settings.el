@@ -1,12 +1,12 @@
 ;(require 'haskell-checkers)
 
 ; Need to find out how to do this without a require.
-(require 'auto-complete)
-(ac-define-source ghc-mod
-  '((depends ghc)
-    (candidates . (ghc-select-completion-symbol))
-    (symbol . "s")
-    (cache)))
+;; (require 'auto-complete)
+;; (ac-define-source ghc-mod
+;;   '((depends ghc)
+;;     (candidates . (ghc-select-completion-symbol))
+;;     (symbol . "s")
+;;     (cache)))
 
 (add-hook 'haskell-mode-hook 'haskell-hook)
 (add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook)
@@ -83,9 +83,9 @@
 
   (lambda () (ghc-init))
 
-  (setq ac-sources '(ac-source-words-in-same-mode-buffers
-                     ac-source-dictionary
-                     ac-source-ghc-mod))
+  ;(setq ac-sources '(ac-source-words-in-same-mode-buffers
+  ;                   ac-source-dictionary
+  ;                   ac-source-ghc-mod))
   )
 
 ;; Useful to have these keybindings for .cabal files, too.
