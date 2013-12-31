@@ -4,6 +4,84 @@
 (require 'haskell-checkers)
 
 (require 'shm)
+
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Make flycheck aware of sandboxes.
+
+(require 'flycheck)
+
+; From https://github.com/gridaphobe/dotfiles/blob/master/emacs.d/config/my-haskell.el
+(defun my/find-cabal-sandbox-pkg-db ()
+  (let* ((cabal-file (haskell-cabal-find-file))
+         (cabal-root (when cabal-file (file-name-directory cabal-file)))
+         (pkg-db (file-expand-wildcards
+                  (concat cabal-root ".cabal-sandbox/*.conf.d"))))
+    (if pkg-db (car pkg-db))))
+
+(defvar flycheck-haskell-options
+  '("-Wall" "-isrc" "-fno-warn-missing-signatures"))
+
+(flycheck-define-checker haskell-hdevtools
+  "A Haskell syntax and type checker using hdevtools.
+
+See URL `https://github.com/bitc/hdevtools'."
+  :command
+  ("hdevtools" "check"
+   (eval (apply #'append (mapcar (lambda (o) (list "-g" o)) flycheck-haskell-options)))
+   (eval (let ((pkg-db (my/find-cabal-sandbox-pkg-db)))
+           (if pkg-db
+               (list "-g" "-package-db" "-g" pkg-db))))
+   source-inplace)
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ":"
+            (or " " "\n ") "Warning:" (optional "\n")
+            (one-or-more " ")
+            (message (one-or-more not-newline)
+                     (zero-or-more "\n"
+                                   (one-or-more " ")
+                                   (one-or-more not-newline)))
+            line-end)
+   (error line-start (file-name) ":" line ":" column ":"
+          (or (message (one-or-more not-newline))
+              (and "\n" (one-or-more " ")
+                   (message (one-or-more not-newline)
+                            (zero-or-more "\n"
+                                          (one-or-more " ")
+                                          (one-or-more not-newline)))))
+          line-end))
+  :modes haskell-mode
+  :next-checkers ((warnings-only . haskell-hlint)))
+
+(flycheck-define-checker my-haskell-ghc
+  "A Haskell syntax and type checker using ghc.
+
+See URL `http://www.haskell.org/ghc/'."
+   :command ("ghc" (eval flycheck-haskell-options)
+             (eval (let ((pkg-db (my/find-cabal-sandbox-pkg-db)))
+                     (if pkg-db (list "-package-db" pkg-db))))
+             source-inplace)
+   :error-patterns
+   ((warning line-start (file-name) ":" line ":" column ":"
+             (or " " "\n ") "Warning:" (optional "\n")
+             (one-or-more " ")
+             (message (one-or-more not-newline)
+                      (zero-or-more "\n"
+                                    (one-or-more " ")
+                                    (one-or-more not-newline)))
+             line-end)
+    (error line-start (file-name) ":" line ":" column ":"
+           (or (message (one-or-more not-newline))
+               (and "\n" (one-or-more " ")
+                    (message (one-or-more not-newline)
+                             (zero-or-more "\n"
+                                           (one-or-more " ")
+                                           (one-or-more not-newline)))))
+           line-end))
+   :modes haskell-mode
+   :next-checkers ((warnings-only . haskell-hlint)))
+
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 ; Need to find out how to do this without a require.
 ;; (require 'auto-complete)
 ;; (ac-define-source ghc-mod
