@@ -118,6 +118,7 @@ specs, then the override spec."
     git-rebase-mode
     graphviz-dot-mode
     haskell-mode
+    helm
     ido-at-point
     ido-hacks
     ido-ubiquitous
