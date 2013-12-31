@@ -97,6 +97,7 @@
  '(show-paren-style (quote parenthesis))
  '(size-indication-mode t)
  '(smex-auto-update nil)
+ '(smex-save-file "~/.emacs.d/smex-items")
  '(tab-width 4)
  '(text-mode-hook (quote (turn-on-auto-fill table-recognize text-mode-hook-identify)))
  '(tool-bar-mode nil)
