@@ -1,4 +1,7 @@
-;(require 'haskell-checkers)
+(require 'haskell-mode)
+(require 'haskell-indentation)
+(require 'haskell-interactive-mode)
+(require 'haskell-checkers)
 
 ; Need to find out how to do this without a require.
 ;; (require 'auto-complete)
