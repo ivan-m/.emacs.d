@@ -1,3 +1,6 @@
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Specifying paths.
+
 ; covered by site-start?
 ;(load "/usr/share/emacs/site-lisp/site-exherbo")
 
@@ -11,11 +14,13 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
-;;; Loading existing packages and byte-compiling.  Need to do this as
-;;; byte-compilation depends on some packages being available/loaded.
-;;;
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Loading existing packages. Need to do this here as byte-compilation
+; depends on some packages being available/loaded.
 
 (require 'package)
+
+;; In case we want to only load a sub-set.
 ;; (setq package-load-list
 ;;       '((fill-column-indicator t)))
 
@@ -25,10 +30,14 @@
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Byte-compile settings.
+
 (let ((byte-compile-warnings nil))
   (byte-recompile-directory site-lisp-dir 0))
 
-;;; Actually get things going.
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Actually get things going.
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" site-lisp-dir))
