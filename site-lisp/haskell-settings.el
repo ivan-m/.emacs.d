@@ -314,10 +314,6 @@ point."
 (autoload 'markdown-code-mode "markdown-code-mode" "" t)
 (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-code-mode))
 
-;; (add-to-list 'auto-mode-alist '("\\.lhs" . literate-haskell-mode))
-
-;; (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-mumamo-mode))
-
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ;; Based upon https://github.com/paul7/dev-conf/blob/master/.emacs-haskell
@@ -340,9 +336,9 @@ point."
                         (if cabal-use-sandbox
                             'cabal-repl
                           'ghci)))))
+
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Keybindings
-
 
 (define-key haskell-mode-map (kbd "<return>") 'haskell-simple-indent-newline-same-col)
 (define-key haskell-mode-map (kbd "C-<return>") 'haskell-simple-indent-newline-indent)
