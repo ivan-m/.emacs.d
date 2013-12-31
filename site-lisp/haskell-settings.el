@@ -109,6 +109,8 @@ See URL `http://www.haskell.org/ghc/'."
 
   (flyspell-prog-mode)
 
+  (auto-insert-mode 1)
+
   ;(setq ac-sources '(ac-source-words-in-same-mode-buffers
   ;                   ac-source-dictionary
   ;                   ac-source-ghc-mod))
@@ -200,7 +202,29 @@ point."
         (rename-buffer "*who-calls*")
         (switch-to-buffer-other-window buffer)))))
 
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+(require 'skeleton)
+(require 'autoinsert)
+
+; Skeletons
+(define-skeleton haskell-module-skeleton
+  "Haskell hs file header"
+  "Brief description: "
+  "{- \|\n"
+  '(setq module-name (haskell-guess-module-name))
+  "   Module      : " module-name "\n"
+  "   Description : " str | (concat "The \"" module-name "\" module") "\n"
+  "   Copyright   : (c) Ivan Lazar Miljenovic\n"
+  "   License     : 3-Clause BSD-style\n"
+  "   Maintainer  : Ivan.Miljenovic@gmail.com\n"
+  "\n"
+  "   " _ "\n"
+  "\n"
+  " -}\n"
+  "module " module-name " where\n\n")
+
+(add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
 
 ; code block support in latex haskell
 
