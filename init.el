@@ -31,11 +31,9 @@
 ;;; Actually get things going.
 
 ;; Keep emacs Custom-settings in separate file
-(defconst custom-file-location (expand-file-name "custom" site-lisp-dir))
-
-(setq custom-file (concat custom-file-location ".el"))
+(setq custom-file (expand-file-name "custom.el" site-lisp-dir))
 
 ; Load this first as it needs to load items for settings, etc.
 (load "settings")
 
-(load custom-file-location)
+(load custom-file)

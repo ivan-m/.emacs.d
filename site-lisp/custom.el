@@ -1,3 +1,7 @@
+;;; -*- no-byte-compile: t -*-
+;; Don't byte-compile, as it will cause issues (loading older
+;; byte-compiled file, etc.)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
