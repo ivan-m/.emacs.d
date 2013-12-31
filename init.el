@@ -31,6 +31,19 @@
 (package-initialize)
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+; Until structured-haskell-mode gets available via package.el,
+; load manually.
+
+(defconst shm-loc
+  (expand-file-name "structured-haskell-mode/elisp"
+                    user-emacs-directory))
+
+(add-to-list 'load-path shm-loc)
+
+(let ((byte-compile-warnings nil))
+  (byte-recompile-directory shm-loc 0))
+
+; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Byte-compile settings.
 
 (let ((byte-compile-warnings nil))

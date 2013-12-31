@@ -1,8 +1,9 @@
 (require 'haskell-mode)
-(require 'haskell-indentation)
+(require 'haskell-simple-indent)
 (require 'haskell-interactive-mode)
 (require 'haskell-checkers)
 
+(require 'shm)
 ; Need to find out how to do this without a require.
 ;; (require 'auto-complete)
 ;; (ac-define-source ghc-mod
@@ -16,11 +17,8 @@
 ;(add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
 
 (defun haskell-hook ()
-  ; Smart indentation
-  (turn-on-haskell-indentation)
-  ;(turn-on-haskell-simple-indent)
-  ;(define-key haskell-mode-map (kbd "<return>") 'haskell-simple-indent-newline-same-col)
-  ;(define-key haskell-mode-map (kbd "C-<return>") 'haskell-simple-indent-newline-indent)
+  (structured-haskell-mode 1)
+  (turn-on-haskell-simple-indent)
 
   (capitalized-words-mode)
 
@@ -244,6 +242,8 @@ point."
 ; Keybindings
 
 
+(define-key haskell-mode-map (kbd "<return>") 'haskell-simple-indent-newline-same-col)
+(define-key haskell-mode-map (kbd "C-<return>") 'haskell-simple-indent-newline-indent)
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
 (define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload-file)
 (define-key haskell-mode-map [f5] 'haskell-process-load-or-reload)
