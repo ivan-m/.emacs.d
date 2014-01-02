@@ -1,30 +1,30 @@
-; $Id: smb-mode.el,v 1.3 1999/12/10 18:22:15 weare Exp weare $
-; smb-mode.el, Emacs Major Mode for editing smb.conf
-; v0.21
-; Author: Johnny Weare <jrweare@gmail.com> ; http://jrweare.googlepages.com
-; Original by: Fraser McCrossan <fraserm@gtn.net>
-; See http://jrweare.googlepages.com/smbmode.html for installation instructions
-; Last updated: 16-Dec-1998
-; Copyright (C) 1998-2006 Johnny Weare
-; Copyright (C) 1998 Fraser McCrossan
-; Portions copied from the "man.el" package by Barry A. Warsaw
-; <bwarsaw@cen.com> and others which is Copyright (C) 1993, 1994, 1996,
-; 1997 Free Software Foundation, Inc.
+;; $Id: smb-mode.el,v 1.3 1999/12/10 18:22:15 weare Exp weare $
+;; smb-mode.el, Emacs Major Mode for editing smb.conf
+;; v0.21
+;; Author: Johnny Weare <jrweare@gmail.com> ; http://jrweare.googlepages.com
+;; Original by: Fraser McCrossan <fraserm@gtn.net>
+;; See http://jrweare.googlepages.com/smbmode.html for installation instructions
+;; Last updated: 16-Dec-1998
+;; Copyright (C) 1998-2006 Johnny Weare
+;; Copyright (C) 1998 Fraser McCrossan
+;; Portions copied from the "man.el" package by Barry A. Warsaw
+;; <bwarsaw@cen.com> and others which is Copyright (C) 1993, 1994, 1996,
+;; 1997 Free Software Foundation, Inc.
 
-; This code is free software; you can redistribute it and/or modify
-; it under the terms of the GNU General Public License as published by
-; the Free Software Foundation; either version 2, or (at your option)
-; any later version.
+;; This code is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
 
-; This code is distributed in the hope that it will be useful,
-; but WITHOUT ANY WARRANTY; without even the implied warranty of
-; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-; GNU General Public License for more details.
+;; This code is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 
-; You should have received a copy of the GNU General Public License
-; along with GNU Emacs; see the file COPYING.  If not, write to the
-; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-; Boston, MA 02111-1307, USA.
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+;; Boston, MA 02111-1307, USA.
 
 (defalias 'smb-backward-section 'backward-page)
 (defalias 'smb-forward-section 'forward-page)
@@ -96,7 +96,7 @@ section headers immediately after entering outline-minor-mode.")
     '("Set yes/no Parameter to No" . smb-param-n))
   (define-key smb-menu-map [run-testparm]
     '("Run testparm on buffer" . smb-run-testparm))
-)
+  )
 
 (if smb-sec-menu-map
     nil
@@ -111,7 +111,7 @@ section headers immediately after entering outline-minor-mode.")
     '("Comment Out" . smb-comment-section))
   (define-key smb-sec-menu-map [new-section]
     '("New" . smb-new-section))
-)
+  )
 
 (if smb-mode-map
     nil
@@ -146,13 +146,13 @@ section headers immediately after entering outline-minor-mode.")
   (save-match-data
     (save-excursion
       (if (re-search-backward "^[ \t]*\\(\\[.+\\]\\)" nil t)
-	    (if (and
-		 (>= (match-beginning 1) (window-start))
-		 (<= (match-beginning 1) (window-end)))
-		(progn
-		  (goto-char (match-beginning 1))
-		  (sit-for 1))
-	      (message (concat "In section " (match-string 1))))))))
+          (if (and
+               (>= (match-beginning 1) (window-start))
+               (<= (match-beginning 1) (window-end)))
+              (progn
+                (goto-char (match-beginning 1))
+                (sit-for 1))
+            (message (concat "In section " (match-string 1))))))))
 
 (defun smb-previous-line-indent ()
   "Returns a string of the indentation of the previous line, or empty
@@ -161,16 +161,16 @@ string if there is no previous line."
   (save-excursion
     (save-restriction
       (save-match-data
-	(widen)
-	(if (zerop (forward-line -1))
-	    (progn
-	      (end-of-line)
-	      (let ((limit (point)))
-		(beginning-of-line)
-		(if (re-search-forward "^[ \t]+" limit t)
-		    (match-string 0)
-		  "")))
-	  "")))))
+        (widen)
+        (if (zerop (forward-line -1))
+            (progn
+              (end-of-line)
+              (let ((limit (point)))
+                (beginning-of-line)
+                (if (re-search-forward "^[ \t]+" limit t)
+                    (match-string 0)
+                  "")))
+          "")))))
 
 (defun smb-line-is-something-p (re)
   "Generic line identifier."
@@ -207,37 +207,37 @@ Otherwise, indent by value of smb-indent."
   (save-excursion
     (end-of-line)
     (let* ((limit (make-marker))
-	   (limit (point)))
+           (limit (point)))
       (or
        (progn
-	 (if (smb-line-is-section-p)
-	     (progn
-	       (if (equal (match-string 1) "[")
-		   nil
-		 (replace-match "[" t nil nil 1))
-	       (if smb-use-outline-mode
-		   (save-excursion
-		     (end-of-line)
-		     (if (outline-visible)
-			 (hide-entry)
-		       (show-entry)))
-		 (setq flash nil))
-	       t)))
+         (if (smb-line-is-section-p)
+             (progn
+               (if (equal (match-string 1) "[")
+                   nil
+                 (replace-match "[" t nil nil 1))
+               (if smb-use-outline-mode
+                   (save-excursion
+                     (end-of-line)
+                     (if (outline-visible)
+                         (hide-entry)
+                       (show-entry)))
+                 (setq flash nil))
+               t)))
        (progn
-	 (if (smb-line-is-comment-p)
-	     (if (equal (match-string 1)
-			(smb-previous-line-indent))
-		 nil
-	       (replace-match (smb-previous-line-indent) t nil nil 1)
-	       t)))
+         (if (smb-line-is-comment-p)
+             (if (equal (match-string 1)
+                        (smb-previous-line-indent))
+                 nil
+               (replace-match (smb-previous-line-indent) t nil nil 1)
+               t)))
        (progn
-	 (if (smb-line-is-setting-p)
-	     (if (= (- (match-end 1) (match-beginning 1)) smb-indent)
-		 nil
-	       (delete-region (match-beginning 1) (match-end 1))
-	       (beginning-of-line)
-	       (insert-char ?\  smb-indent)
-	       t))))))
+         (if (smb-line-is-setting-p)
+             (if (= (- (match-end 1) (match-beginning 1)) smb-indent)
+                 nil
+               (delete-region (match-beginning 1) (match-end 1))
+               (beginning-of-line)
+               (insert-char ?\  smb-indent)
+               t))))))
   (if flash
       (smb-which-section)))
 
@@ -253,19 +253,19 @@ Otherwise, indent by value of smb-indent."
   (if (= (preceding-char) ?\ )
       nil
     (if smb-pad-equal
-	(insert " ")))
+        (insert " ")))
   (insert "=")
   (if (= (following-char) ?\ )
       nil
     (if smb-pad-equal
-	(insert " ")))
+        (insert " ")))
   (smb-indent-line))
 
 (defun smb-new-section (newname)
   "Insert a new copy of the current section after the current section."
   (interactive "*MCopy this section as name: ")
   (next-line 1) ;; hack to make sure if point on section header, doesn't use
-		;; previous section
+  ;; previous section
   (smb-backward-section)
   (beginning-of-line)
   (next-line 1)
@@ -280,7 +280,7 @@ Otherwise, indent by value of smb-indent."
 on it."
   `(save-excursion
      (next-line 1) ;; hack to make sure if point on section header, doesn't use
-		   ;; previous section
+     ;; previous section
      (smb-backward-section)
      (beginning-of-line)
      (let ((beg (point)))
@@ -327,17 +327,17 @@ If optional argument YN is positive, set it to yes, otherwise no."
     (let ((limit (point)))
       (beginning-of-line)
       (if (not (re-search-forward "[ \t]*=[ \t]*\\([yY][eE][sS]\\|[nN][oO]\\) *$"
-				  limit t))
-	  (error "No yes/no parameter on the current line")
-	(replace-match
-	 (if yn
-	     (if (> (prefix-numeric-value yn) 0)
-		 "yes"
-	       "no")
-	   (if (equal (downcase (match-string 1)) "yes")
-	       "no"
-	     "yes"))
-	 t t nil 1)))))
+                                  limit t))
+          (error "No yes/no parameter on the current line")
+        (replace-match
+         (if yn
+             (if (> (prefix-numeric-value yn) 0)
+                 "yes"
+               "no")
+           (if (equal (downcase (match-string 1)) "yes")
+               "no"
+             "yes"))
+         t t nil 1)))))
 
 (defun smb-param-y ()
   "Set a yes/no parameter to yes."
@@ -355,19 +355,19 @@ to \"yes\" otherwise toggle it."
   (save-excursion
     (smb-forward-section)
     (let ((limit (point))
-	  (re (concat "^[ \t]*" pname "[ \t]*=[ \t]*\\([^ \t\n]+\\)")))
+          (re (concat "^[ \t]*" pname "[ \t]*=[ \t]*\\([^ \t\n]+\\)")))
       (smb-backward-section)
       (if (re-search-forward re limit t)
-	  (replace-match (if (equal (match-string 1) "yes")
-			     "no"
-			   "yes")
-			 nil nil nil 1)
-	(goto-char limit)
-	(beginning-of-line)
-	(re-search-backward "[^ \t\n]" nil t)
-	(end-of-line)
-	(insert (concat "\n" pname " = yes"))
-	(smb-indent-line)))))
+          (replace-match (if (equal (match-string 1) "yes")
+                             "no"
+                           "yes")
+                         nil nil nil 1)
+        (goto-char limit)
+        (beginning-of-line)
+        (re-search-backward "[^ \t\n]" nil t)
+        (end-of-line)
+        (insert (concat "\n" pname " = yes"))
+        (smb-indent-line)))))
 
 (defun smb-cot-read-only ()
   "Toggle current section's read only setting."
@@ -398,13 +398,13 @@ and fetch the manpage if it doesn't exist yet."
   (if (buffer-live-p smb-manpage-buffer)
       (set-buffer smb-manpage-buffer)
     (setq smb-manpage-buffer
-	  (get-buffer-create "*SMB Mode manual page*"))
+          (get-buffer-create "*SMB Mode manual page*"))
     (set-buffer smb-manpage-buffer)
     (message "Please wait: fetching the smb.conf manpage...")
     (if (stringp smb-manual-file)
-	(insert-file smb-manual-file)
+        (insert-file smb-manual-file)
       (call-process "man" nil t nil
-		    "smb.conf")
+                    "smb.conf")
       (smb-cleanup-manpage))
     (view-mode 1)))
 
@@ -416,21 +416,21 @@ manual page. Call smb-select-manpage to ensure the manpage exists."
     (save-excursion
       (end-of-line)
       (let ((limit (point)))
-	(beginning-of-line)
-	;; find the current option
-	(if (not (re-search-forward smb-parameq-regex limit t))
-	    (error "No parameter under cursor")
-	  ;; and if found, open up the manpage...
-	  (setq parameter (match-string 1))
-	  (smb-select-manpage)
-	  ;; find the parameter
-	  (goto-char (point-min))
-	  (let ((srch (concat "^ *" parameter " ?([A-Za-z])")))
-	    (if (not (re-search-forward srch nil t))
-		(error "\"%s\" not found in manpage" parameter)
-	      (display-buffer smb-manpage-buffer)
-	      (set-window-start (get-buffer-window smb-manpage-buffer)
-				(match-beginning 0)))))))))
+        (beginning-of-line)
+        ;; find the current option
+        (if (not (re-search-forward smb-parameq-regex limit t))
+            (error "No parameter under cursor")
+          ;; and if found, open up the manpage...
+          (setq parameter (match-string 1))
+          (smb-select-manpage)
+          ;; find the parameter
+          (goto-char (point-min))
+          (let ((srch (concat "^ *" parameter " ?([A-Za-z])")))
+            (if (not (re-search-forward srch nil t))
+                (error "\"%s\" not found in manpage" parameter)
+              (display-buffer smb-manpage-buffer)
+              (set-window-start (get-buffer-window smb-manpage-buffer)
+                                (match-beginning 0)))))))))
 
 (defun smb-complete-param ()
   "Complete the parameter on the current line."
@@ -440,30 +440,30 @@ manual page. Call smb-select-manpage to ensure the manpage exists."
     (let ((limit (point)))
       (beginning-of-line)
       (if (not (re-search-forward smb-paramnoeq-regex limit t))
-	  (error "No parameter under cursor")
-	(smb-make-complete-alist) ; builds it if it doesn't exist
-	(let* ((ms (match-beginning 1))
-	       (me (match-end 1))
-	       (matchlist (all-completions (match-string 1)
-					   smb-complete-alist)))
-	  (if (not matchlist)
-		(error "No parameter \"%s\"" (match-string 1))
-	    (let ((common (try-completion (match-string 1)
-					  smb-complete-alist)))
-	      (if (stringp common)
-		  (progn
-		    (delete-region ms me)
-		    (insert common)))
-	      (if (> (length matchlist) 1)
-		  (let ((msg nil))
-		    (while matchlist
-		      (setq msg (if msg
-				    (concat msg ";" (car matchlist))
-				  (concat (number-to-string (length matchlist))
-					  " matches:" (car matchlist))))
-		      (setq matchlist (cdr matchlist)))
-		    (error msg))
-		(message "Complete!")))))))))
+          (error "No parameter under cursor")
+        (smb-make-complete-alist) ; builds it if it doesn't exist
+        (let* ((ms (match-beginning 1))
+               (me (match-end 1))
+               (matchlist (all-completions (match-string 1)
+                                           smb-complete-alist)))
+          (if (not matchlist)
+              (error "No parameter \"%s\"" (match-string 1))
+            (let ((common (try-completion (match-string 1)
+                                          smb-complete-alist)))
+              (if (stringp common)
+                  (progn
+                    (delete-region ms me)
+                    (insert common)))
+              (if (> (length matchlist) 1)
+                  (let ((msg nil))
+                    (while matchlist
+                      (setq msg (if msg
+                                    (concat msg ";" (car matchlist))
+                                  (concat (number-to-string (length matchlist))
+                                          " matches:" (car matchlist))))
+                      (setq matchlist (cdr matchlist)))
+                    (error msg))
+                (message "Complete!")))))))))
 
 (defun smb-make-complete-alist ()
   "Build the parameter completion alist from the manual page."
@@ -473,35 +473,35 @@ manual page. Call smb-select-manpage to ensure the manpage exists."
     (message "Please wait: building completion list from manual page...")
     (save-match-data
       (save-excursion
-	(smb-select-manpage)
-	(save-restriction
-	  (widen)
-	  (goto-char (point-min))
-	  (while (re-search-forward "^ *\\([^ \n].*[^ ]\\) ?([a-zA-Z])" nil t)
-	    (setq smb-complete-alist (cons `(,(match-string 1)) smb-complete-alist))))))))
+        (smb-select-manpage)
+        (save-restriction
+          (widen)
+          (goto-char (point-min))
+          (while (re-search-forward "^ *\\([^ \n].*[^ ]\\) ?([a-zA-Z])" nil t)
+            (setq smb-complete-alist (cons `(,(match-string 1)) smb-complete-alist))))))))
 
 (defun smb-run-testparm ()
   "Run the buffer contents through \"testparm\" and display output."
   (interactive)
-  ; make a temp filename and get a buffer
+  ;; make a temp filename and get a buffer
   (let ((fname (make-temp-name "smbtmp"))
-	(buffer (get-buffer-create "*SMB testparm results*")))
+        (buffer (get-buffer-create "*SMB testparm results*")))
     (save-restriction
-      ; undo a narrow (if any)
+      ;; undo a narrow (if any)
       (widen)
-      ; write the buffer to the temp file
+      ;; write the buffer to the temp file
       (write-region (point-min) (point-max) fname)
-      ; switch to the new buffer and erase it
+      ;; switch to the new buffer and erase it
       (save-excursion
-	(set-buffer buffer)
-	(erase-buffer)
-	;run testparm on this file, and output to the buffer up there
-	(call-process "testparm" nil buffer nil fname)
-	; remove the temp file
-	(delete-file fname)
-	; and finally display the results
-	(goto-char (point-min))
-	(display-buffer buffer)))))
+        (set-buffer buffer)
+        (erase-buffer)
+        ;; run testparm on this file, and output to the buffer up there
+        (call-process "testparm" nil buffer nil fname)
+        ;; remove the temp file
+        (delete-file fname)
+        ;; and finally display the results
+        (goto-char (point-min))
+        (display-buffer buffer)))))
 
 ;; font stuff
 (defvar smb-font-lock-keywords
@@ -526,8 +526,8 @@ current section or shows it in the minibuffer.
 The variable smb-indent controls indent level.
 
 [section-headers] jam left.
-   setting = settings indent
-   ;comments indent the same as the previous line
+setting = settings indent
+                                        ;comments indent the same as the previous line
 
 Mode specific commands:
 \\{smb-mode-map}"
