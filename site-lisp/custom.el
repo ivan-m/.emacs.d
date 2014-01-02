@@ -100,6 +100,8 @@
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/saveplace")
  '(scroll-bar-mode (quote left))
+ '(shm-auto-insert-skeletons t)
+ '(shm-use-hdevtools t)
  '(show-paren-mode t)
  '(show-paren-style (quote parenthesis))
  '(size-indication-mode t)
