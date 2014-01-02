@@ -377,10 +377,10 @@ point."
 (define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
 
 ;; Move the code below the current nesting left one.
-(define-key haskell-mode-map (kbd "M-<left>") 'haskell-move-left)
+(define-key haskell-mode-map (kbd "C-,") 'haskell-move-left)
 
 ;; Move the code below the current nesting right one.
-(define-key haskell-mode-map (kbd "M-<right>") 'haskell-move-right)
+(define-key haskell-mode-map (kbd "C-.") 'haskell-move-right)
 
 (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
