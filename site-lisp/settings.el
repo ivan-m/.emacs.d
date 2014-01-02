@@ -246,28 +246,12 @@ specs, then the override spec."
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; scratch buffer
 
-;; If the *scratch* buffer is killed, recreate it automatically
-;; FROM: Morten Welind
-;;http://www.geocrawler.com/archives/3/338/1994/6/0/1877802/
-(save-excursion
-  (set-buffer (get-buffer-create "*scratch*"))
-  (lisp-interaction-mode)
-  (make-local-variable 'kill-buffer-query-functions)
-  (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer))
-
-(defun kill-scratch-buffer ()
-  ;; The next line is just in case someone calls this manually
-  (set-buffer (get-buffer-create "*scratch*"))
-  ;; Kill the current (*scratch*) buffer
-  (remove-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
-  (kill-buffer (current-buffer))
-  ;; Make a brand new *scratch* buffer
-  (set-buffer (get-buffer-create "*scratch*"))
-  (lisp-interaction-mode)
-  (make-local-variable 'kill-buffer-query-functions)
-  (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
-  ;; Since we killed it, don't let caller do that.
-  nil)
+;; bury *scratch* buffer instead of kill it
+(defadvice kill-buffer (around kill-buffer-around-advice activate)
+  (let ((buffer-to-kill (ad-get-arg 0)))
+    (if (equal buffer-to-kill "*scratch*")
+        (bury-buffer)
+      ad-do-it)))
 
 (defun refill-paragraphs-to-be-one-line ()
   "fill individual paragraphs with large fill column"
