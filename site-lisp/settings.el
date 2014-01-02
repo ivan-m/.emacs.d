@@ -42,38 +42,6 @@ specs, then the override spec."
 ;; (global-set-key (kbd "C-c <up>")    'windmove-up)
 ;; (global-set-key (kbd "C-c <down>")  'windmove-down)
 
-(defun toggle-fullscreen (&optional f)
-  (interactive)
-  (let ((current-value (frame-parameter nil 'fullscreen)))
-    (set-frame-parameter nil 'fullscreen
-                         (if (equal 'fullboth current-value)
-                             (if (boundp 'old-fullscreen) old-fullscreen nil)
-                           (progn (setq old-fullscreen current-value)
-                                  'fullboth)))))
-
-(global-set-key [f11] 'toggle-fullscreen)
-
-(defun fullscreen (&optional f)
-  (interactive)
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                         '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                         '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-
-
-;; increase the frame size to cover the screen mostly
-(defun enlarge-frame ()
-  "Enlarge the selected frame to fill a sizeable portion of the screen,
-   based on the current screen resolution"
-  (interactive)
-  ;; Set the frame size
-  ;; set the new width, with a little space on the sides
-  (setq lframe-width (- (/ (x-display-pixel-width) (frame-char-width)) 20))
-  ;; set the new height, allowing for title bars
-  (setq lframe-height (- (/ (x-display-pixel-height) (frame-char-height)) 5))
-  ;; apply to the selected frame
-  (set-frame-size (selected-frame) lframe-width lframe-height))
-
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
   "Save buffers, Quit, and Shutdown (kill) server"
