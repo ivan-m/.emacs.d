@@ -228,16 +228,16 @@ specs, then the override spec."
 
 ; From http://exherbo.org/docs/emacs.html
 (eval-after-load "diff"
-  (progn
-    (require 'skeleton)
-    (define-skeleton insert-exherbo-patch-header-skeleton
-      "Inserts the standard Exherbo header for patches"
-      nil
-      "Source: " exheres-skeleton-realname "\n"
-      "Upstream: \n"
-      "Reason: \n")
-    (require 'diff-mode)
-    (define-key diff-mode-map "\C-c\C-p" 'insert-exherbo-patch-header-skeleton)))
+  '(progn
+     (require 'skeleton)
+     (define-skeleton insert-exherbo-patch-header-skeleton
+       "Inserts the standard Exherbo header for patches"
+       nil
+       "Source: " exheres-skeleton-realname "\n"
+       "Upstream: \n"
+       "Reason: \n")
+     (require 'diff-mode)
+     (define-key diff-mode-map "\C-c\C-p" 'insert-exherbo-patch-header-skeleton)))
 
 ;; (setq lpr-command "gtklp")
 ;; (setq-default ps-print-header nil)
