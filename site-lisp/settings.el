@@ -180,6 +180,9 @@ specs, then the override spec."
              (just-one-space 0)
              (backward-char 1))))
 
+;; Need to use next-line and previous-line here as they remember which
+;; column you were in (and forward-line doesn't).
+
 (defun sfp-page-down ()
   (interactive)
   (setq this-command 'next-line)
