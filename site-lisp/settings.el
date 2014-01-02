@@ -171,7 +171,8 @@ specs, then the override spec."
 
 (fset 'yes-or-no-p 'y-or-n-p) ; will allow you to type just "y" instead of "yes" when you exit.
 
-(setq desktop-dirname user-emacs-directory)
+(eval-after-load 'desktop
+    '(setq desktop-dirname user-emacs-directory))
 
 (defadvice kill-line (before check-position activate)
   (if (and (eolp) (not (bolp)))
