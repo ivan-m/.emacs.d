@@ -7,6 +7,7 @@
 ;; Last updated: 16-Dec-1998
 ;; Copyright (C) 1998-2006 Johnny Weare
 ;; Copyright (C) 1998 Fraser McCrossan
+;; Tweaked by Ivan Lazar Miljenovic to stop byte-compilation from complaining.
 ;; Portions copied from the "man.el" package by Barry A. Warsaw
 ;; <bwarsaw@cen.com> and others which is Copyright (C) 1993, 1994, 1996,
 ;; 1997 Free Software Foundation, Inc.
@@ -264,11 +265,11 @@ Otherwise, indent by value of smb-indent."
 (defun smb-new-section (newname)
   "Insert a new copy of the current section after the current section."
   (interactive "*MCopy this section as name: ")
-  (next-line 1) ;; hack to make sure if point on section header, doesn't use
+  (forward-line 1) ;; hack to make sure if point on section header, doesn't use
   ;; previous section
   (smb-backward-section)
   (beginning-of-line)
-  (next-line 1)
+  (forward-line 1)
   (let ((beg (point)))
     (smb-forward-section)
     (beginning-of-line)
@@ -279,7 +280,7 @@ Otherwise, indent by value of smb-indent."
   "Select the current section, then execute the region function \"function\"
 on it."
   `(save-excursion
-     (next-line 1) ;; hack to make sure if point on section header, doesn't use
+     (forward-line 1) ;; hack to make sure if point on section header, doesn't use
      ;; previous section
      (smb-backward-section)
      (beginning-of-line)
@@ -402,7 +403,7 @@ and fetch the manpage if it doesn't exist yet."
     (set-buffer smb-manpage-buffer)
     (message "Please wait: fetching the smb.conf manpage...")
     (if (stringp smb-manual-file)
-        (insert-file smb-manual-file)
+        (insert-file-contents smb-manual-file)
       (call-process "man" nil t nil
                     "smb.conf")
       (smb-cleanup-manpage))
@@ -492,16 +493,16 @@ manual page. Call smb-select-manpage to ensure the manpage exists."
       ;; write the buffer to the temp file
       (write-region (point-min) (point-max) fname)
       ;; switch to the new buffer and erase it
-      (save-excursion
-        (set-buffer buffer)
-        (erase-buffer)
-        ;; run testparm on this file, and output to the buffer up there
-        (call-process "testparm" nil buffer nil fname)
-        ;; remove the temp file
-        (delete-file fname)
-        ;; and finally display the results
-        (goto-char (point-min))
-        (display-buffer buffer)))))
+      (with-current-buffer buffer
+        (save-excursion
+          (erase-buffer)
+          ;; run testparm on this file, and output to the buffer up there
+          (call-process "testparm" nil buffer nil fname)
+          ;; remove the temp file
+          (delete-file fname)
+          ;; and finally display the results
+          (goto-char (point-min))
+          (display-buffer buffer))))))
 
 ;; font stuff
 (defvar smb-font-lock-keywords
