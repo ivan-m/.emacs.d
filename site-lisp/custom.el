@@ -91,7 +91,6 @@
  '(org-agenda-window-setup (quote other-window))
  '(preview-auto-cache-preamble t)
  '(preview-default-option-list (quote ("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels")))
- '(recentf-mode t)
  '(recentf-save-file "~/.emacs.d/recentf")
  '(rw-hunspell-default-dictionary "en_AU")
  '(rw-hunspell-dicpath-list (quote ("/usr/share/myspell")))

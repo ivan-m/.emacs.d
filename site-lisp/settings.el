@@ -162,6 +162,12 @@ specs, then the override spec."
 (defun tramp-set-auto-save ()
   (auto-save-mode -1))
 
+; Doesn't seem to like being customized.
+(require 'recentf)
+(recentf-mode 1)
+; Save recent list when idle for five minutes.
+(run-with-idle-timer (* 5 60) t 'recentf-save-list)
+
 (require 'notifications)
 
 (require 'undohist)
