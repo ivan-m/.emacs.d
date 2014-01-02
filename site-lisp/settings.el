@@ -286,3 +286,9 @@ specs, then the override spec."
 ; being used, so force it again.
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-10"))
+
+(eval-after-load "flyspell"
+  '(progn
+     (define-key flyspell-mode-map (kbd "C-.") nil)
+    ; '(define-key flyspell-mode-map (kbd "C-M-i") nil)
+     (define-key flyspell-mode-map (kbd "C-,") nil)))
