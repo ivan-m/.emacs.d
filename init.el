@@ -14,6 +14,23 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
+(defun init-compile-dir (dir)
+  ;; Byte-compile a directory when starting emacs.
+  (let ((byte-compile-warnings '(not
+                                 free-vars
+                                 unresolved
+                                 callargs
+                                 redefine
+                                 obsolete
+                                 noruntime
+                                 cl-functions
+                                 interactive-only
+                                 make-local
+                                 mapcar
+                                 constants
+                                 suspicious)))
+    (byte-recompile-directory dir 0)))
+
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Loading existing packages. Need to do this here as byte-compilation
 ; depends on some packages being available/loaded.
@@ -40,14 +57,12 @@
 
 (add-to-list 'load-path shm-loc)
 
-(let ((byte-compile-warnings nil))
-  (byte-recompile-directory shm-loc 0))
+(init-compile-dir shm-loc)
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Byte-compile settings.
 
-(let ((byte-compile-warnings nil))
-  (byte-recompile-directory site-lisp-dir 0))
+(init-compile-dir site-lisp-dir)
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Actually get things going.
