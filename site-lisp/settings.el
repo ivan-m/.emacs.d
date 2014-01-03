@@ -232,11 +232,6 @@ specs, then the override spec."
 (require 'rw-hunspell)
 (setq ispell-program-name "hunspell")
 
-; Using the Daemon seems to prevent the specified default face from
-; being used, so force it again.
-(add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-10"))
-
 (eval-after-load "flyspell"
   '(progn
      (define-key flyspell-mode-map (kbd "C-.") nil)
