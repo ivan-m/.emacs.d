@@ -54,6 +54,7 @@ specs, then the override spec."
 ;    (global-unset-key "\C-z")) ; iconify-or-deiconify-frame (C-x C-z)
 ; Starting as a daemon seems to mean that the window-system check fails
 (global-unset-key "\C-z")
+(global-unset-key (kbd "C-x C-z"))
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Loading packages
