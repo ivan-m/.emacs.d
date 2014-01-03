@@ -58,60 +58,6 @@ specs, then the override spec."
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Loading packages
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(defvar my-packages
-  '(alect-themes
-    auctex
-    auto-complete
-    auto-highlight-symbol
-    bbdb
-    csv-mode
-    darcsum
-    desktop
-    dynamic-fonts
-    exec-path-from-shell
-    flycheck-color-mode-line
-    flycheck-hdevtools
-    flycheck-ledger
-    ghc
-    ghci-completion
-    git-commit-mode
-    git-rebase-mode
-    graphviz-dot-mode
-    haskell-mode
-    helm
-    ido-at-point
-    ido-hacks
-    ido-ubiquitous
-    imenu-anywhere ;; uses ido, works better than idomenu
-    ledger-mode
-    lorem-ipsum
-    magit
-    markdown-mode
-    markdown-mode+
-    org
-    org-pandoc
-    pandoc-mode
-    rainbow-delimiters
-    rw-hunspell
-    rw-ispell
-    rw-language-and-country-codes
-    smex
-    unicode-fonts
-    )
-  )
-
-; If a package isn't already installed (but is available), install it.
-(dolist (p my-packages)
-  (when (and (not (package-installed-p p))
-             (assoc p package-archive-contents))
-    (condition-case err
-        (package-install p)
-      (error
-       (message "%s" (error-message-string err))))))
-
 (load "ido-settings")
 (load "helm-settings")
 (load "darcsum-settings")
