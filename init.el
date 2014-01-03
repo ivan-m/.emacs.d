@@ -107,12 +107,22 @@
 ; load manually.
 
 (defconst shm-loc
-  (expand-file-name "structured-haskell-mode/elisp"
+  (expand-file-name "structured-haskell-mode"
                     user-emacs-directory))
 
-(add-to-list 'load-path shm-loc)
+(defconst shm-elisp
+  (expand-file-name "elisp" shm-loc))
 
-(init-compile-dir shm-loc)
+(when (not (file-directory-p shm-loc))
+  (shell-command
+   (format "pushd %s ;
+            git clone https://github.com/chrisdone/structured-haskell-mode.git ;
+            popd"
+           user-emacs-directory)))
+
+(add-to-list 'load-path shm-elisp)
+
+(init-compile-dir shm-elisp)
 
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Byte-compile settings.
