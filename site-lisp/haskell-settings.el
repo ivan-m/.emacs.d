@@ -1,5 +1,4 @@
 (require 'haskell-mode)
-(require 'haskell-simple-indent)
 (require 'haskell-interactive-mode)
 (require 'haskell-checkers)
 
@@ -96,7 +95,6 @@ See URL `http://www.haskell.org/ghc/'."
 
 (defun haskell-hook ()
   (structured-haskell-mode 1)
-  (turn-on-haskell-simple-indent)
 
   (capitalized-words-mode)
 
@@ -340,8 +338,6 @@ point."
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Keybindings
 
-(define-key haskell-mode-map (kbd "<return>") 'haskell-simple-indent-newline-same-col)
-(define-key haskell-mode-map (kbd "C-<return>") 'haskell-simple-indent-newline-indent)
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
 (define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload-file)
 (define-key haskell-mode-map [f5] 'haskell-process-load-or-reload)
