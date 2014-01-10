@@ -43,6 +43,7 @@
  '(font-utils-less-feedback t)
  '(global-auto-highlight-symbol-mode t)
  '(global-flycheck-mode t nil (flycheck))
+ '(global-whitespace-mode t)
  '(haskell-interactive-mode-eval-mode (quote haskell-mode))
  '(haskell-literate-default (quote bird))
  '(haskell-notify-p t)
@@ -118,6 +119,7 @@
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(use-dialog-box nil)
  '(wdired-allow-to-change-permissions t)
+ '(whitespace-style (quote (face tabs trailing empty)))
  '(woman-imenu t)
  '(woman-use-own-frame nil))
 

@@ -107,11 +107,6 @@ specs, then the override spec."
 
 (setq require-final-newline 't)
 
-(require 'whitespace)
-(setq-default whitespace-style '(face empty tabs lines-tail trailing))
-(setq-default whitespace-line-column 80)
-(global-whitespace-mode 1)
-
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
