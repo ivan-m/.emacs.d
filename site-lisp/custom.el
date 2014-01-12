@@ -85,6 +85,7 @@
  '(ido-use-virtual-buffers t)
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
+ '(inhibit-default-init t)
  '(ispell-highlight-p t)
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
