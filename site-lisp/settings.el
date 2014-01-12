@@ -25,8 +25,8 @@ specs, then the override spec."
         (face-spec-set-2 face frame (face-default-spec face))))
     (face-spec-set-2 face frame (get face 'face-override-spec))))
 
-
-(setq frame-title-format "Emacs : %b %+%+ %f")
+(setq frame-title-format "%b %+%+ %f"
+      icon-title-format frame-title-format)
 (setq default-directory "~/")
 
 ;(add-hook 'server-switch-hook 'raise-frame)
