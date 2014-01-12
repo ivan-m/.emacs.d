@@ -95,17 +95,9 @@ specs, then the override spec."
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Global settings
 
-(auto-fill-mode)
+(turn-on-auto-fill)
 
 (global-set-key (kbd "C-x a r") 'align-regexp)
-
-; Mainly programming settings
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
-(line-number-mode t)
-(transient-mark-mode 1)
-
-(setq require-final-newline 't)
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
@@ -114,7 +106,9 @@ specs, then the override spec."
 (fset 'yes-or-no-p 'y-or-n-p) ; will allow you to type just "y" instead of "yes" when you exit.
 
 (eval-after-load 'desktop
-    '(setq desktop-dirname user-emacs-directory))
+  '(setq desktop-dirname user-emacs-directory))
+
+(add-hook 'after-save-hook 'backup-each-save)
 
 (defadvice kill-line (before check-position activate)
   (if (and (eolp) (not (bolp)))
@@ -143,8 +137,6 @@ specs, then the override spec."
 (global-set-key [prior] 'sfp-page-up)
 
 (autoload 'align-cols "align-cols" "Align text in the region." t)
-
-(auto-image-file-mode t)
 
 ;'Woman' offers completion better than 'man'.
 (defalias 'man 'woman)
@@ -226,7 +218,8 @@ specs, then the override spec."
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)
 (require 'rw-hunspell)
-(setq ispell-program-name "hunspell")
+; Seems to be auto-detecting it for now...
+;(setq ispell-program-name "hunspell")
 
 (eval-after-load "flyspell"
   '(progn
