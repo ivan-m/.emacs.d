@@ -63,6 +63,7 @@
     dynamic-fonts
     exec-path-from-shell
     flycheck-color-mode-line
+    flycheck-haskell
     flycheck-hdevtools
     flycheck-ledger
     ghc
