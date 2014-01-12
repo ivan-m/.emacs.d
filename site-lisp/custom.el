@@ -22,7 +22,7 @@
  '(completion-ignored-extensions (quote (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(custom-enabled-themes (quote (alect-dark)))
  '(custom-safe-themes (quote ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "abfb5aa2ffb629678d90a5883a1902f63dfa6270447d3c0da6130c1250e5cb46" default)))
- '(default-frame-alist (quote ((font . "DejaVu Sans Mono-10") (vertical-scroll-bars . left))))
+ '(default-frame-alist (quote ((font . "DejaVu Sans Mono-10"))))
  '(delete-selection-mode t)
  '(desktop-base-file-name "desktop")
  '(desktop-base-lock-name "desktop.lock")
@@ -128,7 +128,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil :family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 113 :width normal))))
  '(woman-bold ((t (:inherit bold :foreground "#00aff5"))) t)
  '(woman-italic ((t (:inherit italic :foreground "#3cb370"))) t))
 
