@@ -40,7 +40,6 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(exheres-skeleton-realname "Ivan Lazar Miljenovic <Ivan.Miljenovic@gmail.com>" t)
  '(flycheck-check-syntax-automatically (quote (save)))
- '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
  '(flycheck-mode-hook (quote (flycheck-color-mode-line-mode)))
  '(flyspell-issue-welcome-flag nil)
  '(font-utils-less-feedback t)

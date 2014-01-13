@@ -140,3 +140,7 @@
 (load "settings")
 
 (load custom-file)
+
+;; Local Variables:
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:
