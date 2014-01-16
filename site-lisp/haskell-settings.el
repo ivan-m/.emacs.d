@@ -32,8 +32,6 @@
 ;;     (cache)))
 
 (add-hook 'haskell-mode-hook 'haskell-hook)
-;(add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook)
-;(add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
 
 (defun haskell-hook ()
   (structured-haskell-mode 1)
