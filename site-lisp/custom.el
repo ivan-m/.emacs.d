@@ -75,6 +75,7 @@
  '(ido-hacks-mode t)
  '(ido-ignore-directories (quote ("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs")))
  '(ido-ignore-files (quote ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "_darcs/")))
+ '(ido-max-work-file-list 100)
  '(ido-mode (quote both) nil (ido))
  '(ido-read-file-name-non-ido (quote (TeX-master-file-ask)))
  '(ido-rotate-file-list-default t)
