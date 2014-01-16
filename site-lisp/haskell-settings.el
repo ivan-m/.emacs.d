@@ -300,11 +300,6 @@ point."
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
 (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
 
-;; Contextually do clever things on the space key, in particular:
-;;   1. Complete imports, letting you choose the module name.
-;;   2. Show the type of the symbol after the space.
-(define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
-
 ;; Jump to the imports. Keep tapping to jump between import
 ;; groups. C-u f8 to jump back again.
 (define-key haskell-mode-map [f8] 'haskell-navigate-imports)
@@ -323,7 +318,6 @@ point."
 (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
 (define-key haskell-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
-(define-key haskell-mode-map (kbd "C-c C-u") 'haskell-insert-undefined)
 
 (define-key haskell-mode-map (kbd "M-u") 'update-shm)
 
