@@ -4,6 +4,15 @@
 
 (require 'shm)
 
+(defun update-shm ()
+  ;; Update and re-load shm.el from structured-haskell-mode.
+  (interactive)
+
+  (shell-command
+   (format "pushd %s ; git pull --ff ; popd" shm-loc))
+
+  (byte-recompile-file (expand-file-name "shm.el" shm-elisp) nil 0 t))
+
 ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; Make flycheck aware of sandboxes.
 
@@ -316,6 +325,7 @@ point."
 (define-key haskell-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
 (define-key haskell-mode-map (kbd "C-c C-u") 'haskell-insert-undefined)
 
+(define-key haskell-mode-map (kbd "M-u") 'update-shm)
 
 ; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
