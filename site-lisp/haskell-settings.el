@@ -13,17 +13,17 @@
 
   (byte-recompile-file (expand-file-name "shm.el" shm-elisp) nil 0 t))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Make flycheck aware of sandboxes.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Make flycheck aware of sandboxes.
 
 (eval-after-load 'flycheck
   '(progn
      (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
      (require 'flycheck-hdevtools)))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-; Need to find out how to do this without a require.
+;; Need to find out how to do this without a require.
 ;; (require 'auto-complete)
 ;; (ac-define-source ghc-mod
 ;;   '((depends ghc)
@@ -40,7 +40,7 @@
 
   (turn-on-haskell-decl-scan)
 
-  ;(ghc-init)
+  ;; (ghc-init)
 
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
@@ -49,12 +49,35 @@
 
   (auto-insert-mode 1)
 
-  ;(setq ac-sources '(ac-source-words-in-same-mode-buffers
-  ;                   ac-source-dictionary
-  ;                   ac-source-ghc-mod))
+  (set-tab-stop-width 2)
+
+  ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
+  ;;                    ac-source-dictionary
+  ;;                    ac-source-ghc-mod))
   )
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; From http://www.emacswiki.org/emacs/TabStopList
+(defun set-tab-stop-width (width)
+  "Set all tab stops to WIDTH in current buffer.
+
+    This updates `tab-stop-list', but not `tab-width'.
+
+    By default, `indent-for-tab-command' uses tabs to indent, see
+    `indent-tabs-mode'."
+  (interactive "nTab width: ")
+  (let* ((max-col (car (last tab-stop-list)))
+         ;; If width is not a factor of max-col,
+         ;; then max-col could be reduced with each call.
+         (n-tab-stops (/ max-col width)))
+    (set (make-local-variable 'tab-stop-list)
+         (mapcar (lambda (x) (* width x))
+                 (number-sequence 1 n-tab-stops)))
+    ;; So preserve max-col, by adding to end.
+    (unless (zerop (% max-col width))
+      (setcdr (last tab-stop-list)
+              (list max-col)))))
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ;; Based upon http://www.serpentine.com/blog/2007/10/09/using-emacs-to-insert-scc-annotations-in-haskell-code/
 
@@ -98,9 +121,9 @@ point."
           (kill-region (match-beginning 0) (match-end 0))
         (error "No SCC at point")))))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-; https://github.com/chrisdone/chrisdone-emacs/blob/master/config/haskell.el
+;; https://github.com/chrisdone/chrisdone-emacs/blob/master/config/haskell.el
 
 (defun haskell-insert-doc ()
   "Insert the documentation syntax."
@@ -140,12 +163,12 @@ point."
         (rename-buffer "*who-calls*")
         (switch-to-buffer-other-window buffer)))))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (require 'skeleton)
 (require 'autoinsert)
 
-; Skeletons
+;; Skeletons
 (define-skeleton haskell-module-skeleton
   "Haskell hs file header"
   "Brief description: "
@@ -164,10 +187,10 @@ point."
 
 (add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
 
-; code block support in latex haskell
+;; code block support in latex haskell
 
-; (require 'markdown-code-mode)
-; (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-code-mode))
+;; (require 'markdown-code-mode)
+;; (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-code-mode))
 
 ;; (add-hook 'literate-haskell-mode-hook
 ;;           (lambda ()
@@ -252,11 +275,11 @@ point."
 (autoload 'markdown-code-mode "markdown-code-mode" "" t)
 (add-to-list 'auto-mode-alist '("\\.lhs" . markdown-code-mode))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ;; Based upon https://github.com/paul7/dev-conf/blob/master/.emacs-haskell
 (defvar cabal-use-sandbox t)
-; (setq-default haskell-program-name "ghci")
+;; (setq-default haskell-program-name "ghci")
 (defun cabal-toggle-sandboxing-local ()
   (interactive)
   (set (make-local-variable 'cabal-use-sandbox) (not cabal-use-sandbox))
@@ -275,8 +298,8 @@ point."
                             'cabal-repl
                           'ghci)))))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Keybindings
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Keybindings
 
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
 (define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload-file)
@@ -319,15 +342,15 @@ point."
 
 (define-key haskell-mode-map (kbd "M-u") 'update-shm)
 
-; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
+;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'haskell-process-cabal)
 (define-key haskell-interactive-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
-;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
+;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
 
 
 (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-;(define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell)
+;;(define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell)

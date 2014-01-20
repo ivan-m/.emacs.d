@@ -1,7 +1,5 @@
-;(add-to-list 'load-path "~/.emacs.d/helm/")
-
-; (require 'helm)
-; (require 'helm-config)
+;; (require 'helm)
+;; (require 'helm-config)
 ;; (require 'helm-match-plugin) ; Optional
 ;; (require 'helm-man)
 ;; (require 'helm-elisp)

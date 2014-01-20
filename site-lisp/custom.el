@@ -137,4 +137,4 @@
  '(woman-bold ((t (:inherit bold :foreground "#00aff5"))) t)
  '(woman-italic ((t (:inherit italic :foreground "#3cb370"))) t))
 
-; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))
+;; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))

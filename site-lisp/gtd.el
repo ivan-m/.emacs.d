@@ -1,7 +1,7 @@
 (require 'org-install)
 
-;(require 'org-export)
-;(require 'org-e-latex)
+;;(require 'org-export)
+;;(require 'org-e-latex)
 
 (defun orgtbl-to-booktabs (table params)
   "Convert the orgtbl-mode TABLE to LaTeX.
@@ -42,7 +42,7 @@ this function is called."
     (orgtbl-to-generic table (org-combine-plists params2 params))))
 
 
-; Font scres up in --daemon mode
+;; Font screws up in --daemon mode
 (defun org-column-view-uses-fixed-width-face ()
   ;; copy from org-faces.el
   (when (fboundp 'set-face-attribute)
@@ -55,12 +55,12 @@ this function is called."
 (when (and (fboundp 'daemonp) (daemonp))
   (add-hook 'org-mode-hook 'org-column-view-uses-fixed-width-face))
 
-; So C-k doesn't kill whole sub-trees.
+;; So C-k doesn't kill whole sub-trees.
 (setq org-ctrl-k-protect-subtree t)
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
-;(global-set-key "\C-cc" 'org-capture) ; clashes with haskell-emacs settings
+;; (global-set-key "\C-cc" 'org-capture) ; clashes with haskell-emacs settings
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (global-set-key "\C-cv" 'cfw:open-org-calendar)
@@ -89,14 +89,14 @@ this function is called."
                 (org-show-subtree)))))
 
 ;; Done by site file
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-calfw")
-;(require 'calfw)
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-calfw")
+;; (require 'calfw)
 
-;(require 'calfw-org)
+;;(require 'calfw-org)
 
-; Google calendar integration: down sync only!
-;(require 'calfw-ical)
-;(cfw:open-ical-calendar "https://www.google.com/calendar/ical/ivan.miljenovic%40gmail.com/private-fabd13d01b77518b0d051b81ff77b537/basic.ics")
+;; Google calendar integration: down sync only!
+;;(require 'calfw-ical)
+;;(cfw:open-ical-calendar "https://www.google.com/calendar/ical/ivan.miljenovic%40gmail.com/private-fabd13d01b77518b0d051b81ff77b537/basic.ics")
 
 
 ;; (defun my-open-calendar ()

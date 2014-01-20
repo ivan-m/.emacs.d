@@ -1,8 +1,8 @@
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Specifying paths.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Specifying paths.
 
-; covered by site-start?
-;(load "/usr/share/emacs/site-lisp/site-exherbo")
+;; covered by site-start?
+;; (load "/usr/share/emacs/site-lisp/site-exherbo")
 
 (defconst site-lisp-dir
   (expand-file-name "site-lisp" user-emacs-directory))
@@ -31,9 +31,9 @@
                                  suspicious)))
     (byte-recompile-directory dir 0)))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Loading existing packages. Need to do this here as byte-compilation
-; depends on some packages being available/loaded.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Loading existing packages. Need to do this here as byte-compilation
+;; depends on some packages being available/loaded.
 
 (require 'package)
 
@@ -94,7 +94,7 @@
     )
   )
 
-; If a package isn't already installed (but is available), install it.
+;; If a package isn't already installed (but is available), install it.
 (dolist (p my-packages)
   (when (and (not (package-installed-p p))
              (assoc p package-archive-contents))
@@ -103,9 +103,9 @@
       (error
        (message "%s" (error-message-string err))))))
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Until structured-haskell-mode gets available via package.el,
-; load manually.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Until structured-haskell-mode gets available via package.el,
+;; load manually.
 
 (defconst shm-loc
   (expand-file-name "structured-haskell-mode"
@@ -125,18 +125,18 @@
 
 (init-compile-dir shm-elisp)
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Byte-compile settings.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Byte-compile settings.
 
 (init-compile-dir site-lisp-dir)
 
-; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; Actually get things going.
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; Actually get things going.
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" site-lisp-dir))
 
-; Load this first as it needs to load items for settings, etc.
+;; Load this first as it needs to load items for settings, etc.
 (load "settings")
 
 (load custom-file)

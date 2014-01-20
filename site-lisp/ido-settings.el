@@ -17,7 +17,7 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "<menu>") 'smex)
 
-; speed smex up
+;; speed smex up
 (defun smex-update-after-load (unused)
   (when (boundp 'smex-cache)
     (smex-update)))
@@ -26,7 +26,7 @@
 ;; This is your old M-x.
 (global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
-; Still needed?
+;; Still needed?
 (eval-after-load "icomplete" '(progn (require 'icomplete+)))
 
 (defun my-icompleting-read(prompt choices)
@@ -45,7 +45,8 @@
   (condition-case nil (imenu-add-menubar-index) (error nil)))
 (add-hook 'font-lock-mode-hook 'try-to-add-imenu)
 
-(global-set-key (kbd "C-c i") 'ido-imenu-anywhere)
+;;(global-set-key (kbd "C-c i") 'ido-imenu-anywhere)
+(global-set-key (kbd "C-c i") 'imenu)
 
 
 (defun recentf-ido-find-file ()

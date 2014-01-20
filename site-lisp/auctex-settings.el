@@ -39,6 +39,6 @@
 
 ;; Check TeX-style-private for beamer customisations
 
-; xdvik
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
-;(require 'xdvi-search)
+;; xdvik
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
+;; (require 'xdvi-search)
