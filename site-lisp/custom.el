@@ -65,6 +65,7 @@
  '(icomplete-mode t)
  '(ido-all-frames t)
  '(ido-auto-merge-work-directories-length -1)
+ '(ido-case-fold t)
  '(ido-confirm-unique-completion t)
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
