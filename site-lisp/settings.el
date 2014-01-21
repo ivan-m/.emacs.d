@@ -141,6 +141,12 @@ specs, then the override spec."
 ;; 'Woman' offers completion better than 'man'.
 (defalias 'man 'woman)
 
+;; Don't have the indicators from these minor modes appear in the
+;; modeline.
+(diminish 'global-whitespace-mode)
+(diminish 'flyspell-mode)
+(diminish 'auto-highlight-symbol-mode)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Small config
 

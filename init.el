@@ -60,6 +60,7 @@
     csv-mode
     darcsum
     desktop
+    diminish
     dynamic-fonts
     exec-path-from-shell
     flycheck-color-mode-line
