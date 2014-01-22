@@ -9,9 +9,9 @@
   (interactive)
 
   (shell-command
-   (format "pushd %s ; git pull --ff ; popd" shm-loc))
+   (format "pushd %s ; git pull --ff > /dev/null ; cd elisp ; make > /dev/null ; popd" shm-loc) nil)
 
-  (byte-recompile-file (expand-file-name "shm.el" shm-elisp) nil 0 t))
+  (load "shm" t nil nil t))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Make flycheck aware of sandboxes.
