@@ -143,9 +143,14 @@ specs, then the override spec."
 
 ;; Don't have the indicators from these minor modes appear in the
 ;; modeline.
-(diminish 'global-whitespace-mode)
-(diminish 'flyspell-mode)
-(diminish 'auto-highlight-symbol-mode)
+(eval-after-load "whitespace"
+  '(diminish 'global-whitespace-mode))
+(eval-after-load "flyspell"
+  '(diminish 'flyspell-mode))
+(eval-after-load "auto-highlight-symbol"
+  '(diminish 'auto-highlight-symbol-mode))
+(eval-after-load "cap-words"
+  '(diminish 'capitalized-words-mode))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Small config
