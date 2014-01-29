@@ -91,6 +91,7 @@
     rw-ispell
     rw-language-and-country-codes
     smex
+    undohist
     unicode-fonts
     )
   )
