@@ -72,6 +72,7 @@
     graphviz-dot-mode
     haskell-mode
     helm
+    htmlize
     ido-at-point
     ido-hacks
     ido-ubiquitous
