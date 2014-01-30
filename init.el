@@ -1,9 +1,6 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Specifying paths.
 
-;; covered by site-start?
-;; (load "/usr/share/emacs/site-lisp/site-exherbo")
-
 (defconst site-lisp-dir
   (expand-file-name "site-lisp" user-emacs-directory))
 
