@@ -152,6 +152,9 @@ specs, then the override spec."
 (eval-after-load "cap-words"
   '(diminish 'capitalized-words-mode))
 
+(global-set-key (kbd "C->") 'goto-last-change)
+(global-set-key (kbd "C-<") 'goto-last-change-reverse)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Small config
 

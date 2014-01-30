@@ -71,6 +71,7 @@
     ghci-completion
     git-commit-mode
     git-rebase-mode
+    goto-chg
     graphviz-dot-mode
     haskell-mode
     helm
