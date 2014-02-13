@@ -89,6 +89,7 @@
     rw-hunspell
     rw-ispell
     rw-language-and-country-codes
+    shm
     smex
     undohist
     unicode-fonts
@@ -103,28 +104,6 @@
         (package-install p)
       (error
        (message "%s" (error-message-string err))))))
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-;; Until structured-haskell-mode gets available via package.el,
-;; load manually.
-
-(defconst shm-loc
-  (expand-file-name "structured-haskell-mode"
-                    user-emacs-directory))
-
-(defconst shm-elisp
-  (expand-file-name "elisp" shm-loc))
-
-(when (not (file-directory-p shm-loc))
-  (shell-command
-   (format "pushd %s ;
-            git clone https://github.com/chrisdone/structured-haskell-mode.git ;
-            popd"
-           user-emacs-directory)))
-
-(add-to-list 'load-path shm-elisp)
-
-(init-compile-dir shm-elisp)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Byte-compile settings.
