@@ -234,8 +234,6 @@ specs, then the override spec."
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)
 (require 'rw-hunspell)
-;; Seems to be auto-detecting it for now...
-;; (setq ispell-program-name "hunspell")
 
 (eval-after-load "flyspell"
   '(progn
