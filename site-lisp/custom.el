@@ -95,7 +95,6 @@
  '(magit-diff-use-overlays nil)
  '(markdown-code-modes (quote (("haskell" . literate-haskell-mode) ("dot" . graphviz-dot-mode) ("bash" . sh-mode))))
  '(markdown-command "pandoc -Ss")
- '(markdown-enable-math t)
  '(markdown-italic-underscore t)
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-skip-unavailable-files t)
