@@ -135,7 +135,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(woman-bold ((t (:inherit bold :foreground "#00aff5"))) t)
- '(woman-italic ((t (:inherit italic :foreground "#3cb370"))) t))
+ '(woman-bold ((t (:inherit bold :foreground "#00aff5"))))
+ '(woman-italic ((t (:inherit italic :foreground "#3cb370")))))
 
 ;; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))
