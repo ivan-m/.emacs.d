@@ -240,3 +240,5 @@ specs, then the override spec."
      (define-key flyspell-mode-map (kbd "C-.") nil)
      ;; '(define-key flyspell-mode-map (kbd "C-M-i") nil)
      (define-key flyspell-mode-map (kbd "C-,") nil)))
+
+(unicode-fonts-setup)
