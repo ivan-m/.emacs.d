@@ -242,3 +242,5 @@ specs, then the override spec."
      (define-key flyspell-mode-map (kbd "C-,") nil)))
 
 (unicode-fonts-setup)
+
+(set-fontset-font t 'unicode "Symbola" nil 'prepend)
