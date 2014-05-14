@@ -99,6 +99,8 @@
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-skip-unavailable-files t)
  '(org-agenda-window-setup (quote other-window))
+ '(paradox-automatically-star nil)
+ '(paradox-homepage-button-string "⌂")
  '(preview-auto-cache-preamble t)
  '(preview-default-option-list (quote ("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels")))
  '(recentf-max-saved-items 1000)

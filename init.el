@@ -84,6 +84,7 @@
     org
     org-pandoc
     pandoc-mode
+    paradox
     rainbow-delimiters
     rw-hunspell
     rw-ispell
