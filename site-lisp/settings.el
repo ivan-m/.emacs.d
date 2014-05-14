@@ -241,6 +241,17 @@ specs, then the override spec."
      ;; '(define-key flyspell-mode-map (kbd "C-M-i") nil)
      (define-key flyspell-mode-map (kbd "C-,") nil)))
 
-(unicode-fonts-setup)
-
 (set-fontset-font t 'unicode "Symbola" nil 'prepend)
+
+;; Taken from https://github.com/rolandwalker/unicode-fonts/issues/3
+(defun my/init-fonts (&optional frame)
+  (when (display-graphic-p frame)
+    (when frame (select-frame frame))
+    (unicode-fonts-setup)
+    (remove-hook 'after-make-frame-functions 'my/init-fonts)))
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (if initial-window-system
+                (my/init-fonts)
+              (add-hook 'after-make-frame-functions 'my/init-fonts))))
