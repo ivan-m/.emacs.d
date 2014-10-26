@@ -5,7 +5,8 @@
 (setq auto-mode-alist
       (cons '("\\.txt" . markdown-mode)
       (cons '("\\.md" . markdown-mode)
-      (cons '("\\.text" . markdown-mode) auto-mode-alist))))
+      (cons '("\\.text" . markdown-mode)
+      (cons '("[cC]hange\\.?[lL]og?\\'" . markdown-mode) auto-mode-alist)))))
 
 ;;(load "pandoc-mode")
 ;;(pandoc-mode-autoloads)
