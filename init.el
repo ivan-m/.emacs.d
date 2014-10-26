@@ -91,7 +91,6 @@
     rw-language-and-country-codes
     shm
     smex
-    undohist
     unicode-fonts
     )
   )
