@@ -6,9 +6,7 @@
 ;; Make flycheck aware of sandboxes.
 
 (eval-after-load 'flycheck
-  '(progn
-     (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
-     (require 'flycheck-hdevtools)))
+  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
