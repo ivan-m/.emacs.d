@@ -14,3 +14,4 @@
 
 (add-hook 'markdown-mode-hook 'turn-on-pandoc)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'turn-on-orgtbl)
