@@ -71,6 +71,7 @@
     graphviz-dot-mode
     haskell-mode
     helm
+    hindent
     htmlize
     ido-at-point
     ido-hacks
@@ -79,10 +80,13 @@
     ledger-mode
     lorem-ipsum
     magit
+    magit-filenotify
+    magit-gh-pulls
     markdown-mode
     markdown-mode+
     org
     org-pandoc
+    outline-magic
     pandoc-mode
     paradox
     rainbow-delimiters
@@ -92,6 +96,7 @@
     shm
     smex
     unicode-fonts
+    zoom-frm
     )
   )
 

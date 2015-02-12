@@ -89,6 +89,8 @@ specs, then the override spec."
 (setq auto-mode-alist (append '(("smb\\.conf$" . smb-mode))
                               auto-mode-alist))
 
+(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Global settings
 
@@ -135,6 +137,16 @@ specs, then the override spec."
 
 (autoload 'align-cols "align-cols" "Align text in the region." t)
 
+
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+                    (vector (list 'control
+                                  mouse-wheel-down-event))
+                  [C-mouse-wheel])    ; Emacs 20, 21
+                'zoom-in)
+(when (boundp 'mouse-wheel-up-event) ; Emacs 22+
+  (global-set-key (vector (list 'control mouse-wheel-up-event))
+                  'zoom-out))
+
 ;; 'Woman' offers completion better than 'man'.
 (defalias 'man 'woman)
 
@@ -151,6 +163,11 @@ specs, then the override spec."
 
 (global-set-key (kbd "C->") 'goto-last-change)
 (global-set-key (kbd "C-<") 'goto-last-change-reverse)
+
+(eval-after-load 'outline
+  '(progn
+    (require 'outline-magic)
+    (define-key outline-minor-mode-map (kbd "<C-tab>") 'outline-cycle)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Small config
