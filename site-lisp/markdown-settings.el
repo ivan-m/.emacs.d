@@ -8,10 +8,8 @@
       (cons '("\\.text" . markdown-mode)
       (cons '("[cC]hange\\.?[lL]og?\\'" . markdown-mode) auto-mode-alist)))))
 
-;;(load "pandoc-mode")
-;;(pandoc-mode-autoloads)
 (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
 
-(add-hook 'markdown-mode-hook 'turn-on-pandoc)
+(add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
