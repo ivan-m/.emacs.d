@@ -170,16 +170,29 @@ point."
 (require 'skeleton)
 (require 'autoinsert)
 
+(defun haskell-guess-license ()
+  "Guess the license of this project.
+If there is no valid .cabal file to get the license field from,
+return nil."
+  (interactive)
+  (when buffer-file-name
+    (let ((cabal-file (haskell-cabal-find-file (file-name-directory buffer-file-name))))
+      (when (and cabal-file (file-readable-p cabal-file))
+        (with-temp-buffer
+          (insert-file-contents cabal-file)
+          (haskell-cabal-get-setting "license"))))))
+
 ;; Skeletons
 (define-skeleton haskell-module-skeleton
   "Haskell hs file header"
   "Brief description: "
   "{- \|\n"
   '(setq module-name (haskell-guess-module-name))
+  '(setq project-license (haskell-guess-license))
   "   Module      : " module-name "\n"
   "   Description : " str | (concat "The \"" module-name "\" module") "\n"
   "   Copyright   : (c) Ivan Lazar Miljenovic\n"
-  "   License     : 3-Clause BSD-style\n"
+  "   License     : " project-license | "BSD-style (see the file LICENSE)" "\n"
   "   Maintainer  : Ivan.Miljenovic@gmail.com\n"
   "\n"
   "   " _ "\n"
