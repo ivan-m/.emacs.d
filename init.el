@@ -51,7 +51,6 @@
     flycheck-hdevtools
     flycheck-ledger
     ghc
-    ghci-completion
     git-commit-mode
     git-rebase-mode
     goto-chg
