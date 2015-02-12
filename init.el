@@ -12,20 +12,7 @@
 
 (defun init-compile-dir (dir)
   ;; Byte-compile a directory when starting emacs.
-  (let ((byte-compile-warnings '(not
-                                 free-vars
-                                 unresolved
-                                 callargs
-                                 redefine
-                                 obsolete
-                                 noruntime
-                                 cl-functions
-                                 interactive-only
-                                 make-local
-                                 mapcar
-                                 constants
-                                 suspicious)))
-    (byte-recompile-directory dir 0)))
+  (with-no-warnings (byte-recompile-directory dir 0)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
