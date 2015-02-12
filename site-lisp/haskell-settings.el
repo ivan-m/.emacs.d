@@ -25,24 +25,37 @@
 (defun haskell-hook ()
   (structured-haskell-mode 1)
 
+  (electric-indent-local-mode -1)
+
   (capitalized-words-mode)
 
   (turn-on-haskell-decl-scan)
 
+  #'hindent-mode
+
   ;; (ghc-init)
+
+  (auto-insert-mode 1)
 
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
 
-  (flyspell-prog-mode)
-
-  (auto-insert-mode 1)
-
-  (set-tab-stop-width 2)
+  (lambda ()
+    (when (buffer-file-name)
+      (haskell-file-hook)))
 
   ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
   ;;                    ac-source-dictionary
   ;;                    ac-source-ghc-mod))
+  )
+
+(defun haskell-file-hook ()
+
+  (flyspell-prog-mode)
+
+  (set-tab-stop-width 2)
+
+  (haskell-outline-hook)
   )
 
 ;; From http://www.emacswiki.org/emacs/TabStopList
