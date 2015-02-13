@@ -6,12 +6,9 @@
 (exec-path-from-shell-initialize)
 
 ;; From https://github.com/alezost/alect-themes#emacs-2431-and-earlier
-(when (and (version<= "24" emacs-version)
-           (version< emacs-version "24.4"))
-  (defun face-spec-recalc (face frame)
-    "Reset the face attributes of FACE on FRAME according to its specs.
-This applies the defface/custom spec first, then the custom theme
-specs, then the override spec."
+(when (version< emacs-version "24.3.50")
+  (defun face-spec-recalc-new (face frame)
+    "Improved version of `face-spec-recalc'."
     (while (get face 'face-alias)
       (setq face (get face 'face-alias)))
     (face-spec-reset-face face frame)
@@ -23,7 +20,17 @@ specs, then the override spec."
           (dolist (spec (reverse theme-faces))
             (face-spec-set-2 face frame (cadr spec)))
         (face-spec-set-2 face frame (face-default-spec face))))
-    (face-spec-set-2 face frame (get face 'face-override-spec))))
+    (face-spec-set-2 face frame (get face 'face-override-spec)))
+
+  (defadvice face-spec-recalc (around new-recalc (face frame) activate)
+    "Use `face-spec-recalc-new' instead."
+    (face-spec-recalc-new face frame)))
+
+(defadvice custom-theme-set-variables
+    (around fix-inhibit-bug activate)
+  "Allow setting of undefined variables in themes."
+  (let (custom--inhibit-theme-enable)
+    ad-do-it))
 
 (setq frame-title-format "%b %+%+ %f"
       icon-title-format frame-title-format)
