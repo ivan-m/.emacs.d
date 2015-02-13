@@ -110,6 +110,17 @@
 
 (load custom-file)
 
+;; When using emacs --daemon, it seems that the cursor color isn't
+;; set.  As such, use this to set it manually (needs to be set after
+;; customize).
+;;
+;; Unfortunately, there doesn't seem to be any way of making this work
+;; for all themes, and the theme-specific cursor color needs to be
+;; used.
+
+(add-to-list 'default-frame-alist
+             `(cursor-color . ,(alect-get-color 'dark 'cursor)))
+
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
