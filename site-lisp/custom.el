@@ -32,7 +32,7 @@
  '(custom-enabled-themes (quote (alect-dark)))
  '(custom-safe-themes
    (quote
-    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "abfb5aa2ffb629678d90a5883a1902f63dfa6270447d3c0da6130c1250e5cb46" default)))
+    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default)))
  '(default-frame-alist (quote ((font . "DejaVu Sans Mono-10"))))
  '(delete-old-versions t)
  '(delete-selection-mode t)
