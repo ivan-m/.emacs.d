@@ -266,6 +266,6 @@ specs, then the override spec."
 
 (add-hook 'after-init-hook
           (lambda ()
-            (if initial-window-system
+            (if (display-graphic-p)
                 (my/init-fonts)
               (add-hook 'after-make-frame-functions 'my/init-fonts))))
