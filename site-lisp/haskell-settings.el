@@ -167,29 +167,6 @@ return nil."
 (add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-;; Based upon https://github.com/paul7/dev-conf/blob/master/.emacs-haskell
-(defvar cabal-use-sandbox t)
-;; (setq-default haskell-program-name "ghci")
-(defun cabal-toggle-sandboxing-local ()
-  (interactive)
-  (set (make-local-variable 'cabal-use-sandbox) (not cabal-use-sandbox))
-  (message (format "This buffer haskell-process-type is ``%s''"
-                   (set (make-local-variable 'haskell-process-type)
-                        (if cabal-use-sandbox
-                            'cabal-repl
-                          'ghci)))))
-
-(defun cabal-toggle-sandboxing ()
-  (interactive)
-  (setq cabal-use-sandbox (not cabal-use-sandbox))
-  (message (format "haskell-process-type is ``%s''"
-                   (setq haskell-process-type
-                        (if cabal-use-sandbox
-                            'cabal-repl
-                          'ghci)))))
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Keybindings
 
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
@@ -229,12 +206,10 @@ return nil."
 
 (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
-(define-key haskell-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
 
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'haskell-process-cabal)
-(define-key haskell-interactive-mode-map (kbd "C-c C-y") 'cabal-toggle-sandboxing-local)
 ;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
 
 
