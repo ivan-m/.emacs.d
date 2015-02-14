@@ -51,6 +51,8 @@
 
   (flyspell-prog-mode)
 
+  (flycheck-mode 1)
+
   (set-tab-stop-width 2)
 
   (haskell-outline-hook)

@@ -55,7 +55,6 @@
  '(flyspell-issue-welcome-flag nil)
  '(font-utils-less-feedback t)
  '(global-auto-highlight-symbol-mode t)
- '(global-flycheck-mode t nil (flycheck))
  '(global-whitespace-mode t)
  '(haskell-ask-also-kill-buffers nil)
  '(haskell-interactive-mode-eval-mode (quote haskell-mode))
