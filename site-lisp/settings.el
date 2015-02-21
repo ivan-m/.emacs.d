@@ -167,6 +167,8 @@
   '(diminish 'auto-highlight-symbol-mode))
 (eval-after-load "cap-words"
   '(diminish 'capitalized-words-mode))
+;; Doesn't seem to have a dedicated file for it
+(diminish 'auto-fill-function)
 
 (global-set-key (kbd "C->") 'goto-last-change)
 (global-set-key (kbd "C-<") 'goto-last-change-reverse)
