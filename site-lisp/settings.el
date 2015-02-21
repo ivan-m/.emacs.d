@@ -256,6 +256,9 @@
 (require 'rw-ispell)
 (require 'rw-hunspell)
 
+
+(add-hook 'after-init-hook 'rw-hunspell-setup)
+
 (eval-after-load "flyspell"
   '(progn
      (define-key flyspell-mode-map (kbd "C-.") nil)
