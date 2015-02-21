@@ -138,7 +138,8 @@
  '(rw-hunspell-use-rw-ispell t)
  '(safe-local-variable-values
    (quote
-    ((eval defun cell-to-list
+    ((flycheck-disabled-checkers emacs-lisp-checkdoc)
+     (eval defun cell-to-list
            (s)
            (concat "["
                    (mapconcat
