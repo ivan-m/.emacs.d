@@ -133,7 +133,7 @@
  '(recentf-save-file "~/.emacs.d/recentf")
  '(require-final-newline t)
  '(rw-hunspell-default-dictionary "en_AU_dictionaries")
- '(rw-hunspell-dicpath-list (quote ("~/.emacs.d/dictionaries" "/usr/share/hunspell")))
+ '(rw-hunspell-dicpath-list (quote ("~/.emacs.d/dictionaries")))
  '(rw-hunspell-make-dictionary-menu t)
  '(rw-hunspell-use-rw-ispell t)
  '(safe-local-variable-values
