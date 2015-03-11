@@ -39,6 +39,7 @@
     auctex
     auto-complete
     auto-highlight-symbol
+    auto-package-update
     bbdb
     csv-mode
     darcsum
@@ -93,6 +94,8 @@
         (package-install p)
       (error
        (message "%s" (error-message-string err))))))
+
+(auto-package-update-maybe)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Byte-compile settings.
