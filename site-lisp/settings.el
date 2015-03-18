@@ -223,13 +223,6 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; scratch buffer
 
-;; bury *scratch* buffer instead of kill it
-(defadvice kill-buffer (around kill-buffer-around-advice activate)
-  (let ((buffer-to-kill (ad-get-arg 0)))
-    (if (equal buffer-to-kill "*scratch*")
-        (bury-buffer)
-      ad-do-it)))
-
 (defun refill-paragraphs-to-be-one-line ()
   "fill individual paragraphs with large fill column"
   (interactive)

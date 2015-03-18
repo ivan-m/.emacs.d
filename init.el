@@ -82,6 +82,7 @@
     shm
     smex
     unicode-fonts
+    unkillable-scratch
     zoom-frm
     )
   )

@@ -272,6 +272,7 @@
    (quote
     (chinese-simplified chinese-traditional low-quality-glyphs microsoft-only multicolor non-free)))
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
+ '(unkillable-scratch t)
  '(use-dialog-box nil)
  '(user-mail-address "Ivan.Miljenovic@gmail.com")
  '(wdired-allow-to-change-permissions t)
