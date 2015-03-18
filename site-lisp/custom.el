@@ -22,6 +22,7 @@
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
  '(browse-url-browser-function (quote eww-browse-url))
+ '(bury-successful-compilation t)
  '(calendar-christian-all-holidays-flag t)
  '(calendar-holidays nil)
  '(column-number-mode t)
