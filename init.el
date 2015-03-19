@@ -76,6 +76,8 @@
     outline-magic
     pandoc-mode
     paradox
+    paredit
+    paredit-menu
     rainbow-delimiters
     rw-hunspell
     rw-ispell
