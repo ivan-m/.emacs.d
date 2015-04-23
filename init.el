@@ -41,6 +41,7 @@
     auto-highlight-symbol
     auto-package-update
     bbdb
+    bury-successful-compilation
     csv-mode
     darcsum
     desktop

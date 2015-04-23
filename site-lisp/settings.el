@@ -200,6 +200,8 @@
 (add-hook 'fundamental-mode-hook 'turn-on-orgtbl)
 (add-hook 'csv-mode-hook 'turn-on-orgtbl)
 
+(bury-successful-compilation 1)
+
 ;; IIRC, this will need to be here otherwise exheres-skeleton-realname isn't evaluated until after exheres-mode is loaded.
 
 ;; (setq exheres-skeleton-realname "Ivan Lazar Miljenovic <Ivan.Miljenovic@gmail.com>")
