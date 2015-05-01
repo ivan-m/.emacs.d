@@ -72,7 +72,6 @@
  '(haskell-process-suggest-language-pragmas t)
  '(haskell-process-suggest-no-warn-orphans t)
  '(haskell-process-suggest-overloaded-strings t)
- '(haskell-process-suggest-remove-import-lines t)
  '(haskell-stylish-on-save t)
  '(haskell-tags-on-save t)
  '(history-delete-duplicates t)
