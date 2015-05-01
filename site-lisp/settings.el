@@ -190,7 +190,7 @@
                   'zoom-out))
 
 ;; 'Woman' offers completion better than 'man'.
-(defalias 'man 'woman)
+; (defalias 'man 'woman)
 
 ;; Don't have the indicators from these minor modes appear in the
 ;; modeline.
