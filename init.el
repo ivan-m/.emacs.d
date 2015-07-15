@@ -99,7 +99,7 @@
       (error
        (message "%s" (error-message-string err))))))
 
-(auto-package-update-maybe)
+;; (auto-package-update-maybe)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Byte-compile settings.
