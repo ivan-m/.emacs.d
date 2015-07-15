@@ -109,6 +109,7 @@
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
  '(magit-completing-read-function (quote magit-ido-completing-read))
+ '(magit-delete-by-moving-to-trash nil)
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(markdown-code-modes

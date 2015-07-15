@@ -27,7 +27,8 @@
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
 
 
@@ -52,8 +53,6 @@
     flycheck-haskell
     flycheck-ledger
     ghc
-    git-commit-mode
-    git-rebase-mode
     goto-chg
     graphviz-dot-mode
     haskell-mode
@@ -67,8 +66,6 @@
     ledger-mode
     lorem-ipsum
     magit
-    magit-filenotify
-    magit-gh-pulls
     markdown-mode
     markdown-mode+
     org

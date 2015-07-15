@@ -96,8 +96,17 @@
 (setq auto-mode-alist (append '(("smb\\.conf$" . smb-mode))
                               auto-mode-alist))
 
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
-(setq magit-last-seen-setup-instructions "1.4.0")
+(defadvice Info-follow-nearest-node (around gitman activate)
+  "When encountering a cross reference to the `gitman' info
+manual, then instead of following that cross reference show
+the actual manpage using the function `man'."
+  (let ((node (Info-get-token
+               (point) "\\*note[ \n\t]+"
+               "\\*note[ \n\t]+\\([^:]*\\):\\(:\\|[ \n\t]*(\\)?")))
+    (if (and node (string-match "^(gitman)\\(.+\\)" node))
+        (progn (require 'man)
+               (man (match-string 1 node)))
+      ad-do-it)))
 
 ;; http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
 (defun endless/add-PR-fetch ()
