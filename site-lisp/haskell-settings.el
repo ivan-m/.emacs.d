@@ -38,9 +38,8 @@
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
 
-  (lambda ()
-    (when (buffer-file-name)
-      (haskell-file-hook)))
+  (when (buffer-file-name)
+    (haskell-file-hook))
 
   ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
   ;;                    ac-source-dictionary
