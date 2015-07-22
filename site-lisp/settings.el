@@ -211,6 +211,8 @@ the actual manpage using the function `man'."
   '(diminish 'auto-highlight-symbol-mode))
 (eval-after-load "cap-words"
   '(diminish 'capitalized-words-mode))
+(eval-after-load "mmm-mode"
+  '(diminish 'mmm-mode))
 ;; Doesn't seem to have a dedicated file for it
 (diminish 'auto-fill-function)
 

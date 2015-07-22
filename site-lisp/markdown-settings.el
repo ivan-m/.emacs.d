@@ -13,3 +13,7 @@
 (add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
+
+(require 'mmm-mode)
+(require 'mmm-pandoc)
+(add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-simple-indent)

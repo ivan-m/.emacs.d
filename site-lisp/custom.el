@@ -120,6 +120,8 @@
  '(markdown-command "pandoc -Ss")
  '(markdown-indent-on-enter nil)
  '(markdown-italic-underscore t)
+ '(mmm-global-mode (quote maybe) nil (mmm-mode))
+ '(mmm-parse-when-idle t)
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-skip-unavailable-files t)
  '(org-agenda-window-setup (quote other-window))

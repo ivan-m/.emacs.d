@@ -83,6 +83,7 @@
     smex
     unicode-fonts
     unkillable-scratch
+    yaml-mode
     zoom-frm
     )
   )
