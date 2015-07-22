@@ -68,6 +68,7 @@
     magit
     markdown-mode
     markdown-mode+
+    mmm-mode
     org
     org-pandoc
     outline-magic
