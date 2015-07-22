@@ -12,7 +12,7 @@
 
 (add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
-(add-hook 'markdown-mode-hook 'turn-on-orgtbl)
+;; (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
 
 (require 'mmm-mode)
 (require 'mmm-pandoc)
