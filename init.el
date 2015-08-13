@@ -48,6 +48,7 @@
     desktop
     diminish
     dynamic-fonts
+    ebal
     exec-path-from-shell
     flycheck-color-mode-line
     flycheck-haskell
