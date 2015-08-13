@@ -1,0 +1,15 @@
+*.elc
+/elpa
+/var
+/backups
+/auto-save-list
+/emacs.desktop
+/ido.last
+/recentf
+/
+/session.*
+\#*
+/saveplace
+*.*.lock
+*~
+/.emacs.desktop
