@@ -1,6 +1,7 @@
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 (require 'haskell-checkers)
+(require 'hs-lint)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Make flycheck aware of sandboxes.
