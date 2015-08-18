@@ -91,6 +91,12 @@
   (string-equal system-type "gnu/linux")
   )
 
+(if (system-type-is-darwin)
+    (progn
+      (global-set-key [s-left] 'beginning-of-line)
+      (global-set-key [s-right] 'end-of-line)
+      (server-start)))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading packages
 
