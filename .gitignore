@@ -13,3 +13,4 @@
 *.*.lock
 *~
 /.emacs.desktop
+/smex-items
