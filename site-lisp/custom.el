@@ -89,7 +89,6 @@
  '(ido-enable-last-directory-history t)
  '(ido-enable-tramp-completion nil)
  '(ido-everywhere t)
- '(ido-hacks-mode t)
  '(ido-ignore-directories (quote ("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs")))
  '(ido-ignore-files
    (quote

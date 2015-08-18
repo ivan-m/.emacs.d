@@ -61,7 +61,6 @@
     hindent
     htmlize
     ido-at-point
-    ido-hacks
     ido-ubiquitous
     imenu-anywhere ;; uses ido, works better than idomenu
     ledger-mode
