@@ -5,9 +5,10 @@
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
 
-(setq interprogram-cut-function 'x-select-text)
-;;(setf interprogram-paste-function 'x-cut-buffer-or-selection-value)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+(if (system-type-is-gnu)
+    (progn
+      (setq interprogram-cut-function 'x-select-text)
+      (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)))
 
 ;; You need an emacs with bug #902 fixed for this to work properly. It has now been fixed in CVS HEAD.
 ;; it makes "highlight/middlebutton" style (X11 primary selection based) copy-paste work as expected
