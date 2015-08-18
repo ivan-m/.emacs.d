@@ -93,6 +93,7 @@
 
 (if (system-type-is-darwin)
     (progn
+      (setenv "DICTIONARY" "en_AU")
       (global-set-key [s-left] 'beginning-of-line)
       (global-set-key [s-right] 'end-of-line)
       (server-start)))
@@ -331,6 +332,12 @@ the actual manpage using the function `man'."
 ;; Localisation
 
 (set-language-environment "UTF-8")
+
+(if (system-type-is-darwin)
+    (setq ispell-program-name "/usr/local/bin/hunspell"))
+
+(if (system-type-is-gnu)
+    (setq ispell-program-name "hunspell"))
 
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)

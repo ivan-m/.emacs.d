@@ -105,7 +105,6 @@
  '(indent-tabs-mode nil)
  '(inhibit-default-init t)
  '(ispell-highlight-p t)
- '(ispell-program-name "hunspell")
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
  '(magit-completing-read-function (quote magit-ido-completing-read))
