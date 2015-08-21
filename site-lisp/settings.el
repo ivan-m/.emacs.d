@@ -94,8 +94,12 @@
 (if (system-type-is-darwin)
     (progn
       (setenv "DICTIONARY" "en_AU")
+      (setenv "LANG" "en_AU")
       (global-set-key [s-left] 'beginning-of-line)
       (global-set-key [s-right] 'end-of-line)
+      (global-unset-key [?\s-q])
+      (setq mac-option-modifier 'super)
+      (setq mac-command-modifier 'meta)
       (server-start)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
