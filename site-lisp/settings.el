@@ -165,13 +165,14 @@ the actual manpage using the function `man'."
   "Visit the current branch's PR on Github."
   (interactive)
   (browse-url
-   (format "https://github.com/%s/compare/%s"
-     (replace-regexp-in-string
-      "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
-      (magit-get "remote"
-                 (magit-get-current-remote)
-                 "url"))
-     (magit-get-current-branch))))
+   (format "https://github.com/%s/pull/new/%s"
+           (replace-regexp-in-string
+            "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+            (magit-get "remote"
+                       (magit-get-remote)
+                       "url"))
+           (cdr (or (magit-get-remote-branch)
+                    (user-error "No remote branch"))))))
 
 (eval-after-load 'magit
   '(define-key magit-mode-map "V"
