@@ -145,7 +145,7 @@ point."
 ;; Build the Cabal project.
 (define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;; Interactively choose the Cabal command to run.
-(define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(define-key haskell-mode-map (kbd "C-c c") 'ebal-execute)
 
 ;; Get the type and info of the symbol at point, print it in the
 ;; message buffer.
@@ -170,14 +170,16 @@ point."
 (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
 
+(define-key shm-map (kbd "<s-backspace>") 'shm/delete)
+
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
-(define-key haskell-interactive-mode-map (kbd "C-z c") 'haskell-process-cabal)
+(define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
 ;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
 
 
 (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(define-key haskell-cabal-mode-map (kbd "C-c c") 'ebal-execute)
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell)
