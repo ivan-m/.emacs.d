@@ -133,7 +133,7 @@ point."
 ;; Keybindings
 
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
-(define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload-file)
+(define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-load-or-reload)
 (define-key haskell-mode-map [f5] 'haskell-process-load-or-reload)
 
 ;; Switch to the REPL.
