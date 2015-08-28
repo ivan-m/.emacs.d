@@ -82,6 +82,8 @@
     rw-language-and-country-codes
     shm
     smex
+    sql-indent
+    sqlup-mode
     unicode-fonts
     unkillable-scratch
     yaml-mode
