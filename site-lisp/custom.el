@@ -92,7 +92,7 @@
  '(ido-ignore-directories (quote ("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs")))
  '(ido-ignore-files
    (quote
-    ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "_darcs/" "\\.DS_Store")))
+    ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "_darcs/" "\\`\\.DS_Store")))
  '(ido-max-work-file-list 100)
  '(ido-mode (quote both) nil (ido))
  '(ido-read-file-name-non-ido (quote (TeX-master-file-ask)))
