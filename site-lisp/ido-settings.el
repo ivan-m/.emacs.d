@@ -16,6 +16,8 @@
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "<menu>") 'smex)
+(if (system-type-is-darwin)
+    (global-set-key (kbd "s-SPC") 'smex))
 
 ;; speed smex up
 (defun smex-update-after-load (unused)

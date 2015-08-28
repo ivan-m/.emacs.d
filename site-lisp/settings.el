@@ -100,6 +100,8 @@
       (global-unset-key [?\s-q])
       (setq mac-option-modifier 'super)
       (setq mac-command-modifier 'meta)
+      (global-set-key (kbd "<home>") 'beginning-of-line)
+      (global-set-key (kbd "<end>") 'end-of-line)
       (server-start)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,6 +114,7 @@
 (load "auctex-settings")
 (load "haskell-settings")
 (load "clipboard-settings")
+(load "sql-settings")
 (load "gtd")
 
 (require 'tramp)
@@ -164,7 +167,7 @@ the actual manpage using the function `man'."
 
 (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
 
-;; http://endlessparentheses.com/easily-create-github-prs-from-magit.html?source=rss
+;; http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html
 (defun endless/visit-pull-request-url ()
   "Visit the current branch's PR on Github."
   (interactive)
