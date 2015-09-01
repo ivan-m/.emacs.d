@@ -170,7 +170,8 @@ point."
 (define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
 
-(define-key shm-map (kbd "<s-backspace>") 'shm/delete)
+(if (system-type-is-darwin)
+    (define-key shm-map (kbd "<s-backspace>") 'shm/delete))
 
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
