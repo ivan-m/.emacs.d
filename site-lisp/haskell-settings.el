@@ -54,6 +54,12 @@
   (flycheck-mode 1)
   )
 
+(add-hook 'haskell-cabal-mode-hook 'cabal-hook)
+
+(defun cabal-hook ()
+  (electric-indent-local-mode -1)
+  )
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (defun toggle-scc-at-point (&optional arg)
