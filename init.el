@@ -66,6 +66,7 @@
     ledger-mode
     lorem-ipsum
     magit
+    magit-filenotify
     markdown-mode
     markdown-mode+
     mmm-mode

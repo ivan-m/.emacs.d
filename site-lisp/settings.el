@@ -185,6 +185,9 @@ the actual manpage using the function `man'."
   '(define-key magit-mode-map "V"
      #'endless/visit-pull-request-url))
 
+(if (system-type-is-gnu)
+    (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Global settings
 
