@@ -271,6 +271,9 @@ the actual manpage using the function `man'."
   '(diminish 'capitalized-words-mode))
 (eval-after-load "mmm-mode"
   '(diminish 'mmm-mode))
+(eval-after-load "haskell"
+  '(diminish 'interactive-haskell-mode))
+
 ;; Doesn't seem to have a dedicated file for it
 (diminish 'auto-fill-function)
 

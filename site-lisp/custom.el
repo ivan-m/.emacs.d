@@ -59,6 +59,33 @@
  '(global-auto-highlight-symbol-mode t)
  '(global-whitespace-mode t)
  '(haskell-ask-also-kill-buffers nil)
+ '(haskell-import-mapping
+   (quote
+    (("Data.Text" . "import qualified Data.Text as T
+import Data.Text (Text)
+")
+     ("Data.Text.Lazy" . "import qualified Data.Text.Lazy as LT
+")
+     ("Data.ByteString" . "import qualified Data.ByteString as S
+import Data.ByteString (ByteString)
+")
+     ("Data.ByteString.Lazy" . "import qualified Data.ByteString.Lazy as L
+")
+     ("Data.Map" . "import qualified Data.Map.Strict as M
+import Data.Map.Strict (Map)
+")
+     ("Data.Map.Strict" . "import qualified Data.Map.Strict as M
+import Data.Map.Strict (Map)
+")
+     ("Data.Set" . "import qualified Data.Set as S
+import Data.Set (Set)
+")
+     ("Data.Vector" . "import qualified Data.Vector as V
+import Data.Vector (Vector)
+")
+     ("Data.HashMap" . "import qualified Data.HashMap.Strict as HM
+import Data.HashMap.Strict(HashMap)
+"))))
  '(haskell-interactive-mode-eval-mode (quote haskell-mode))
  '(haskell-interactive-mode-hide-multi-line-errors t)
  '(haskell-literate-default (quote bird))

@@ -22,6 +22,8 @@
 (add-hook 'haskell-mode-hook 'haskell-hook)
 
 (defun haskell-hook ()
+  (interactive-haskell-mode 1)
+
   (structured-haskell-mode 1)
 
   (electric-indent-local-mode -1)
@@ -59,6 +61,8 @@
 (defun cabal-hook ()
   (electric-indent-local-mode -1)
   )
+
+(add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -138,6 +142,25 @@ point."
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Keybindings
 
+(defun shm-contextual-space ()
+  "Do contextual space first, and run shm/space if no change in
+the cursor position happened."
+  (interactive)
+  (if (looking-back "import")
+      (call-interactively 'haskell-mode-contextual-space)
+    (progn
+      (let ((ident (haskell-ident-at-point)))
+        (when ident
+          (and interactive-haskell-mode
+               (haskell-process-do-try-type ident))))
+      (call-interactively 'shm/space))))
+
+(defun shm-repl-tab ()
+  "TAB completion or jumping."
+  (interactive)
+  (unless (shm/jump-to-slot)
+    (call-interactively 'haskell-interactive-mode-tab)))
+
 (define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-or-reload)
 (define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-load-or-reload)
 (define-key haskell-mode-map [f5] 'haskell-process-load-or-reload)
@@ -179,9 +202,13 @@ point."
 (if (system-type-is-darwin)
     (define-key shm-map (kbd "<s-backspace>") 'shm/delete))
 
+(define-key shm-map (kbd "SPC") 'shm-contextual-space)
+
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
+(define-key shm-repl-map (kbd "TAB") 'shm-repl-tab)
+
 ;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
 
 
