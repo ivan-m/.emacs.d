@@ -2,6 +2,7 @@
 (require 'haskell-interactive-mode)
 (require 'haskell-checkers)
 (require 'hs-lint)
+(require 'shm-case-split)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Make flycheck aware of sandboxes.
