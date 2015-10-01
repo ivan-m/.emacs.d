@@ -194,7 +194,7 @@ the actual manpage using the function `man'."
                     (user-error "No remote branch"))))))
 
 (eval-after-load 'magit
-  '(define-key magit-mode-map "V"
+  '(define-key magit-mode-map "O"
      #'endless/visit-pull-request-url))
 
 (if (system-type-is-gnu)
