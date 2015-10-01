@@ -42,7 +42,13 @@
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
 
   (when (buffer-file-name)
-    (haskell-file-hook))
+    (haskell-file-hook)
+
+    (when (equal (file-name-extension (buffer-file-name)) "lhs")
+      (haskell-literate-hook)
+      )
+
+    )
 
   ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
   ;;                    ac-source-dictionary
@@ -54,6 +60,12 @@
   (flyspell-prog-mode)
 
   (flycheck-mode 1)
+  )
+
+(defun haskell-literate-hook ()
+  (structured-haskell-mode 0)
+  (haskell-indent-mode 1)
+  (flycheck-mode 0)
   )
 
 (add-hook 'haskell-cabal-mode-hook 'cabal-hook)
