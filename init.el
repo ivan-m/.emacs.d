@@ -42,10 +42,12 @@
     auto-highlight-symbol
     auto-package-update
     bbdb
+    bug-reference-github
     bury-successful-compilation
     csv-mode
     darcsum
     desktop
+    diff-hl
     diminish
     dynamic-fonts
     ebal
