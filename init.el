@@ -72,6 +72,8 @@
     markdown-mode
     markdown-mode+
     mmm-mode
+    nix-mode
+    nixos-options
     org
     org-pandoc
     outline-magic
