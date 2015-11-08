@@ -1,6 +1,6 @@
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
-(require 'haskell-checkers)
+;; (require 'haskell-checkers)
 (require 'hs-lint)
 (require 'shm-case-split)
 
