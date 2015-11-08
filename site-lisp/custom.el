@@ -66,7 +66,7 @@ import Data.Text (Text)
 ")
      ("Data.Text.Lazy" . "import qualified Data.Text.Lazy as LT
 ")
-     ("Data.ByteString" . "import qualified Data.ByteString as S
+     ("Data.ByteString" . "import qualified Data.ByteString as B
 import Data.ByteString (ByteString)
 ")
      ("Data.ByteString.Lazy" . "import qualified Data.ByteString.Lazy as L
