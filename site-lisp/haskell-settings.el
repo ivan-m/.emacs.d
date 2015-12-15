@@ -227,3 +227,9 @@ the cursor position happened."
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell)
+
+(push '(configure "--enable-tests" "--enable-benchmarks")
+      ebal-global-option-alist)
+
+(push '(install "--only-dependencies" "--enable-tests" "--enable-benchmarks")
+      ebal-global-option-alist)
