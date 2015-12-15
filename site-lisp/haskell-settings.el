@@ -174,9 +174,9 @@ the cursor position happened."
   (unless (shm/jump-to-slot)
     (call-interactively 'haskell-interactive-mode-tab)))
 
-(define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-or-reload)
-(define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-load-or-reload)
-(define-key haskell-mode-map [f5] 'haskell-process-load-or-reload)
+(define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
+(define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload)
+(define-key haskell-mode-map [f5] 'haskell-process-load-file)
 
 ;; Switch to the REPL.
 (define-key haskell-mode-map [?\C-c ?\C-z] 'haskell-interactive-switch)
