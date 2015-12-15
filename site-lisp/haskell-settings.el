@@ -185,7 +185,6 @@ the cursor position happened."
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 
 ;; Build the Cabal project.
-(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;; Interactively choose the Cabal command to run.
 (define-key haskell-mode-map (kbd "C-c c") 'ebal-execute)
 
@@ -218,14 +217,12 @@ the cursor position happened."
 (define-key shm-map (kbd "SPC") 'shm-contextual-space)
 
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
-(define-key haskell-interactive-mode-map (kbd "C-z C-c") 'haskell-process-cabal-build)
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
 (define-key shm-repl-map (kbd "TAB") 'shm-repl-tab)
 
 ;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
 
 
-(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 (define-key haskell-cabal-mode-map (kbd "C-c c") 'ebal-execute)
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
