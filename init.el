@@ -44,11 +44,13 @@
     bbdb
     bug-reference-github
     bury-successful-compilation
+    cider
     csv-mode
     darcsum
     desktop
     diff-hl
     diminish
+    diredful
     dynamic-fonts
     ebal
     exec-path-from-shell

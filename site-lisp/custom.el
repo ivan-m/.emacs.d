@@ -43,6 +43,7 @@
  '(desktop-save t)
  '(desktop-save-mode nil)
  '(diary-show-holidays-flag nil)
+ '(dired-listing-switches "-alh")
  '(dynamic-fonts-preferred-monospace-fonts
    (quote
     ("DejaVu Sans Mono" "Monaco" "Consolas" "Menlo" "Droid Sans Mono Pro" "Droid Sans Mono" "Inconsolata" "Source Code Pro" "Lucida Console" "Envy Code R" "Andale Mono" "Lucida Sans Typewriter" "monoOne" "Lucida Typewriter" "Panic Sans" "Bitstream Vera Sans Mono" "HyperFont" "PT Mono" "Ti92Pluspc" "Excalibur Monospace" "Courier New" "Courier" "Cousine" "Fira Mono" "Lekton" "Ubuntu Mono" "Liberation Mono" "BPmono" "Free Mono" "Anonymous Pro" "ProFont" "ProFontWindows" "Latin Modern Mono" "Code 2002" "ProggyCleanTT" "ProggyTinyTT")))
