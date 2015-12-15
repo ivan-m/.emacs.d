@@ -169,7 +169,27 @@ import Data.HashMap.Strict(HashMap)
  '(rw-hunspell-use-rw-ispell t)
  '(safe-local-variable-values
    (quote
-    ((flycheck-disabled-checkers emacs-lisp-checkdoc)
+    ((haskell-process-args-stack-ghci "--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")
+     (haskell-process-args-stack-ghci
+      (quote
+       ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")))
+     (haskell-process-args-stack-ghci quote
+                                      ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone"))
+     (haskell-process-args-stack-ghci quote
+                                      (quote
+                                       ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")))
+     (haskell-process-args-stack-ghci "--ghc-options=-ferror-spans" "--flag prometheus:-phone")
+     (haskell-process-args-stack-ghci quote
+                                      (quote
+                                       ("--ghc-options=-ferror-spans" "--flag prometheus:-phone")))
+     (ebal-operation-mode . stack)
+     (eval exec-path-from-shell-copy-env "ALIAS_DATA_DIRECTORY")
+     (eval exec-path-from-shell-copy-env "ALIAS_WORK_DIRECTORY")
+     (eval
+      (exec-path-from-shell-copy-env "ALIAS_DATA_DIRECTORY"))
+     (eval
+      (exec-path-from-shell-copy-env "ALIAS_WORK_DIRECTORY"))
+     (flycheck-disabled-checkers emacs-lisp-checkdoc)
      (eval defun cell-to-list
            (s)
            (concat "["
