@@ -308,6 +308,7 @@ import Data.HashMap.Strict(HashMap)
  '(user-mail-address "Ivan.Miljenovic@gmail.com")
  '(wdired-allow-to-change-permissions t)
  '(whitespace-style (quote (face tabs trailing empty)))
+ '(woman-fill-frame t)
  '(woman-imenu t)
  '(woman-use-own-frame nil))
 
@@ -317,7 +318,7 @@ import Data.HashMap.Strict(HashMap)
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(font-lock-type-face ((t (:foreground "#be59d8"))))
- '(woman-bold ((t (:inherit bold :foreground "#00aff5"))) t)
- '(woman-italic ((t (:inherit italic :foreground "#3cb370"))) t))
+ '(woman-bold ((t (:inherit bold :foreground "#00aff5"))))
+ '(woman-italic ((t (:inherit italic :foreground "#3cb370")))))
 
 ;; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))
