@@ -45,6 +45,7 @@
     bug-reference-github
     bury-successful-compilation
     cider
+    clojure-cheatsheet
     csv-mode
     darcsum
     desktop
@@ -91,6 +92,7 @@
     smex
     sql-indent
     sqlup-mode
+    typed-clojure-mode
     unicode-fonts
     unkillable-scratch
     yaml-mode
