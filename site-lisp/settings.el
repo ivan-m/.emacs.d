@@ -127,7 +127,7 @@
 (load "haskell-settings")
 (load "clipboard-settings")
 (load "sql-settings")
-(load "gtd")
+(load "orgmode-settings")
 
 (require 'tramp)
 (defun tramp-set-auto-save ()
