@@ -110,3 +110,7 @@ this function is called."
 ;;     (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
 ;;     (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
 ;;    )))
+
+;; From http://stackoverflow.com/a/24173780
+(setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
