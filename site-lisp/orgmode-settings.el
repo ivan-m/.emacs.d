@@ -4,7 +4,7 @@
   '(progn
      (require 'org-element) ;; to get org-element--set-regexps
      ;; From http://stackoverflow.com/questions/24169333/how-can-i-emphasize-or-verbatim-quote-a-comma-in-org-mode/24173780
-     (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
+     (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,")
      (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
      ;;(custom-set-variables `(org-emphasis-alist ',org-emphasis-alist)) ;; doesn't seem to be needed
      (org-element--set-regexps)))
