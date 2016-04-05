@@ -43,6 +43,7 @@
  '(desktop-save t)
  '(desktop-save-mode nil)
  '(diary-show-holidays-flag nil)
+ '(dired-dwim-target t)
  '(dired-listing-switches "-alh")
  '(dynamic-fonts-preferred-monospace-fonts
    (quote
@@ -154,6 +155,7 @@ import Data.HashMap.Strict(HashMap)
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-skip-unavailable-files t)
  '(org-agenda-window-setup (quote other-window))
+ '(org-completion-use-ido t)
  '(paradox-automatically-star nil)
  '(paradox-github-token t)
  '(paradox-homepage-button-string "⌂")
