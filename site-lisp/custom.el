@@ -225,6 +225,7 @@ import Data.HashMap.Strict(HashMap)
  '(size-indication-mode t)
  '(smex-auto-update nil)
  '(smex-save-file "~/.emacs.d/smex-items")
+ '(sql-product (quote postgres))
  '(tab-width 4)
  '(text-mode-hook
    (quote
