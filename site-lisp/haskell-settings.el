@@ -148,19 +148,6 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Keybindings
 
-(defun shm-contextual-space ()
-  "Do contextual space first, and run shm/space if no change in
-the cursor position happened."
-  (interactive)
-  (if (looking-back "import")
-      (call-interactively 'haskell-mode-contextual-space)
-    (progn
-      (let ((ident (haskell-ident-at-point)))
-        (when ident
-          (and interactive-haskell-mode
-               (haskell-process-do-try-type ident))))
-      (call-interactively 'shm/space))))
-
 (defun shm-repl-tab ()
   "TAB completion or jumping."
   (interactive)
@@ -208,7 +195,7 @@ the cursor position happened."
 (if (system-type-is-darwin)
     (define-key shm-map (kbd "<s-backspace>") 'shm/delete))
 
-(define-key shm-map (kbd "SPC") 'shm-contextual-space)
+(define-key shm-map (kbd "SPC") 'shm/space)
 
 ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
