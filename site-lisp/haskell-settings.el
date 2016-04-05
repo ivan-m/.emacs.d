@@ -79,13 +79,6 @@
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-(defun toggle-scc-at-point (&optional arg)
-  "Insert or kill (with universal-argument) an SCC annotation at
-point."
-  (interactive "P")
-  (if (equal arg nil)
-      (haskell-mode-insert-scc-at-point)
-    (haskell-mode-kill-scc-at-point)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -208,7 +201,7 @@ the cursor position happened."
 ;; Move the code below the current nesting right one.
 (define-key haskell-mode-map (kbd "C-.") 'haskell-move-right)
 
-(define-key haskell-mode-map (kbd "C-c C-s") 'toggle-scc-at-point)
+(define-key haskell-mode-map (kbd "C-c C-s") 'haskell-mode-toggle-scc-at-point)
 (define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
 
 (if (system-type-is-darwin)
