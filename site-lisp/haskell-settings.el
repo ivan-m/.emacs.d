@@ -180,6 +180,7 @@ the cursor position happened."
 ;; Build the Cabal project.
 ;; Interactively choose the Cabal command to run.
 (define-key haskell-mode-map (kbd "C-c c") 'ebal-execute)
+(define-key haskell-mode-map (kbd "C-c C-c") nil)
 
 ;; Get the type and info of the symbol at point, print it in the
 ;; message buffer.
