@@ -20,6 +20,11 @@
 ;;     (symbol . "s")
 ;;     (cache)))
 
+;; (with-eval-after-load 'company
+;;   (progn
+;;     (push 'company-ghci company-backends)
+;;     (push 'company-ghc company-backends)))
+
 (add-hook 'haskell-mode-hook 'haskell-hook)
 
 (defun haskell-hook ()
@@ -34,8 +39,6 @@
   (turn-on-haskell-decl-scan)
 
   #'hindent-mode
-
-  ;; (ghc-init)
 
   (auto-insert-mode 1)
 
@@ -61,6 +64,10 @@
   (flyspell-prog-mode)
 
   (flycheck-mode 1)
+
+  ;; (ghc-init)
+
+  (company-mode 1)
   )
 
 (defun haskell-literate-hook ()
@@ -75,10 +82,13 @@
   (electric-indent-local-mode -1)
   )
 
-(add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode)
+(add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
 
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(defun haskell-interactive-hook ()
+  (structured-haskell-repl-mode)
 
+  (company-mode 1)
+  )
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
