@@ -20,10 +20,13 @@
 ;;     (symbol . "s")
 ;;     (cache)))
 
-;; (with-eval-after-load 'company
-;;   (progn
-;;     (push 'company-ghci company-backends)
-;;     (push 'company-ghc company-backends)))
+(with-eval-after-load 'company
+  (progn
+    (push 'company-ghci company-backends)
+    ;; (push 'company-ghc company-backends)
+    (push 'company-capf company-backends)
+    (push 'company-dabbrev-code company-backends)
+    ))
 
 (add-hook 'haskell-mode-hook 'haskell-hook)
 

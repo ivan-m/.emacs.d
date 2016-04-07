@@ -47,6 +47,9 @@
     bury-successful-compilation
     cider
     clojure-cheatsheet
+    company
+    company-cabal
+    company-ghci
     csv-mode
     darcsum
     desktop
