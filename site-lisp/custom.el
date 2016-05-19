@@ -122,6 +122,12 @@ import Data.HashMap.Strict(HashMap)
  '(ido-ignore-files
    (quote
     ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\`_darcs/" "\\`\\.DS_Store" "\\`cabal\\.sandbox\\.config" "\\`\\.cabal-sandbox/")))
+ '(ido-make-file-list-hook
+   (quote
+    ((lambda nil
+       (define-key ido-file-dir-completion-map
+         (kbd "SPC")
+         (quote self-insert-command))))))
  '(ido-max-work-file-list 100)
  '(ido-mode (quote both) nil (ido))
  '(ido-read-file-name-non-ido (quote (TeX-master-file-ask)))
