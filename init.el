@@ -50,6 +50,7 @@
     company
     company-cabal
     company-ghci
+    crux
     csv-mode
     darcsum
     desktop
