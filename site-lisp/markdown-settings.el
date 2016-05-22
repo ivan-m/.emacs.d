@@ -16,4 +16,4 @@
 
 (require 'mmm-mode)
 (require 'mmm-pandoc)
-(add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-simple-indent)
+(add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent)
