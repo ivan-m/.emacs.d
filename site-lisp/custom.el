@@ -317,6 +317,7 @@ import Data.HashMap.Strict(HashMap)
    (quote
     (turn-on-auto-fill table-recognize text-mode-hook-identify)))
  '(tool-bar-mode nil)
+ '(tramp-default-method "ssh")
  '(truncate-lines t)
  '(unicode-fonts-block-font-mapping
    (quote

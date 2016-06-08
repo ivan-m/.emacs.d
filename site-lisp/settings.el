@@ -140,6 +140,9 @@
 
 ;; Doesn't seem to like being customized.
 (require 'recentf)
+;; Needs to be done before it's started: https://www.emacswiki.org/emacs/RecentFiles#toc12
+(add-to-list 'recentf-exclude "^/ssh:.*")
+(setq recentf-auto-cleanup 'never)
 (recentf-mode 1)
 ;; Save recent list when idle for five minutes.
 (run-with-idle-timer (* 5 60) t 'recentf-save-list)
