@@ -140,15 +140,19 @@
 (require 'skeleton)
 (require 'autoinsert)
 
-(defun haskell-guess-module-name ()
-  (haskell-guess-module-name-from-file-name (buffer-file-name)))
+(defun my-haskell-guess-module-name ()
+  (interactive)
+  (let ((guessed (haskell-guess-module-name-from-file-name (buffer-file-name))))
+    (if (eq "" guessed)
+        nil
+      guessed)))
 
 ;; Skeletons
 (define-skeleton haskell-module-skeleton
   "Haskell hs file header"
   "Brief description (leave blank for default): "
   "{- \|\n"
-  "   Module      : " (setq v1 (or (haskell-guess-module-name) "Main")) "\n"
+  "   Module      : " (setq v1 (or (my-haskell-guess-module-name) "Main")) "\n"
   "   Description : " str | (concat "The \\\"" v1 "\\\" module") "\n"
   "   Copyright   : " (haskell-cabal-get-field "copyright") | (concat "(c) " user-full-name) "\n"
   "   License     : " (haskell-cabal-get-field "license") | "BSD-style (see the file LICENSE)" "\n"
