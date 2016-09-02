@@ -64,6 +64,7 @@
     flycheck-haskell
     flycheck-ledger
     ghc
+    github-notifier
     goto-chg
     graphviz-dot-mode
     haskell-mode
