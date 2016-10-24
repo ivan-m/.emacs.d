@@ -52,10 +52,9 @@
     (haskell-file-hook)
 
     (when (equal (file-name-extension (buffer-file-name)) "lhs")
-      (haskell-literate-hook)
-      )
+      (haskell-literate-hook)))
 
-    )
+  (setq process-connection-type nil)
 
   ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
   ;;                    ac-source-dictionary
