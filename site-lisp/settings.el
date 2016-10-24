@@ -114,9 +114,13 @@
       (setq mac-command-modifier 'meta)
       (global-set-key (kbd "<home>") 'beginning-of-line)
       (global-set-key (kbd "<end>") 'end-of-line)
+      (setq default-frame-alist (quote ((font . "Menlo-11"))))
       (require 'server)
       (unless (server-running-p)
         (server-start))))
+
+(if (system-type-is-gnu)
+    (setq default-frame-alist (quote ((font . "DejaVu Sans Mono-10")))))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading packages

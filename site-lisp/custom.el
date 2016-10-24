@@ -106,7 +106,6 @@
  '(custom-safe-themes
    (quote
     ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default)))
- '(default-frame-alist (quote ((font . "DejaVu Sans Mono-10"))))
  '(delete-old-versions t)
  '(delete-selection-mode t)
  '(desktop-base-file-name "desktop")
