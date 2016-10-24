@@ -202,10 +202,9 @@ the actual manpage using the function `man'."
            (replace-regexp-in-string
             "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
             (magit-get "remote"
-                       (magit-get-remote)
+                       (magit-get-push-remote)
                        "url"))
-           (cdr (or (magit-get-remote-branch)
-                    (user-error "No remote branch"))))))
+           (magit-get-current-branch))))
 
 (eval-after-load 'magit
   '(define-key magit-mode-map "O"
