@@ -114,7 +114,9 @@
       (setq mac-command-modifier 'meta)
       (global-set-key (kbd "<home>") 'beginning-of-line)
       (global-set-key (kbd "<end>") 'end-of-line)
-      (server-start)))
+      (require 'server)
+      (unless (server-running-p)
+        (server-start))))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading packages
