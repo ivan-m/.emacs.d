@@ -216,6 +216,7 @@ import Data.HashMap.Strict(HashMap)
  '(magit-completing-read-function (quote magit-ido-completing-read))
  '(magit-delete-by-moving-to-trash nil)
  '(magit-diff-use-overlays nil)
+ '(magit-merge-arguments (quote ("--no-ff")))
  '(magit-push-always-verify nil)
  '(magit-use-overlays nil)
  '(markdown-code-modes
