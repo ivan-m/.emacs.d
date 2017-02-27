@@ -438,7 +438,6 @@ _h_   _l_   _o_k        _y_ank
 (require 'rw-ispell)
 (require 'rw-hunspell)
 
-
 (add-hook 'after-init-hook 'rw-hunspell-setup)
 
 (eval-after-load "flyspell"
