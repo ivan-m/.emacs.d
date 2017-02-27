@@ -115,6 +115,7 @@
       (global-set-key (kbd "<home>") 'beginning-of-line)
       (global-set-key (kbd "<end>") 'end-of-line)
       (setq default-frame-alist (quote ((font . "Menlo-11"))))
+      (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy"))
       (require 'server)
       (unless (server-running-p)
         (server-start))))
