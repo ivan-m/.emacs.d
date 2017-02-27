@@ -30,8 +30,12 @@
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
 
+(when (boundp 'package-pinned-packages)
+  (setq package-pinned-packages
+        '((ensime . "melpa-stable"))))
+
+(package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))
