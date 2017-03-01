@@ -139,7 +139,7 @@
 ;; Load this first as it needs to load items for settings, etc.
 (load "settings")
 
-(load custom-file)
+(load custom-file :noerror)
 
 ;; When using emacs --daemon, it seems that the cursor color isn't
 ;; set.  As such, use this to set it manually (needs to be set after
