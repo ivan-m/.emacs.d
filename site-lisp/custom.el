@@ -53,7 +53,7 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(exheres-skeleton-realname "Ivan Lazar Miljenovic <Ivan.Miljenovic@gmail.com>" t)
  '(flycheck-check-syntax-automatically (quote (save)))
- '(flycheck-mode-hook (quote (flycheck-color-mode-line-mode)))
+ '(flycheck-mode-hook (quote (flycheck-color-mode-line-mode)) t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-issue-welcome-flag nil)
  '(font-utils-less-feedback t)
