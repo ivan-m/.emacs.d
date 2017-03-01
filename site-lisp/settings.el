@@ -132,6 +132,7 @@
 (load "markdown-settings")
 (load "auctex-settings")
 (load "haskell-settings")
+(load "scala-settings")
 (load "clipboard-settings")
 (load "sql-settings")
 (load "orgmode-settings")
