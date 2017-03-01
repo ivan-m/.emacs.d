@@ -37,6 +37,10 @@
 
 (package-initialize)
 
+;; I don't want package-selected-packages saved anywhere, so re-define
+;; this function to prevent it.
+(defun package--save-selected-packages (&rest opt) nil)
+
 (when (not package-archive-contents)
   (package-refresh-contents))
 
