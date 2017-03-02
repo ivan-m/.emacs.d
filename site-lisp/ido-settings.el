@@ -14,11 +14,6 @@
   (setq ido-ignore-directories '("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs"))
   (setq ido-ignore-files
         '("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\`_darcs/" "\\`\\.DS_Store" "\\`cabal\\.sandbox\\.config" "\\`\\.cabal-sandbox/"))
-  (setq ido-make-file-list-hook
-        (lambda nil
-          (define-key ido-file-dir-completion-map
-            (kbd "SPC")
-            'self-insert-command)))
   (setq ido-max-work-file-list 100)
   (setq ido-read-file-name-non-ido '(TeX-master-file-ask))
   (setq ido-rotate-file-list-default t)
@@ -33,7 +28,9 @@
 
   :bind (("C-x C-r" . recentf-ido-find-file)
          :map ido-completion-map
-         ([tab] . ido-complete))
+         ([tab] . ido-complete)
+         :map ido-file-dir-completion-map
+         ("SPC" . self-insert-command))
   :config
   (ido-mode 1)
   (ido-everywhere 1)
@@ -86,6 +83,8 @@
   (icomplete-mode 1))
 
 (req-package imenu
+  :init
+  (setq imenu-auto-rescan t)
   :commands
   imenu
   :bind ("C-c i" . imenu)
