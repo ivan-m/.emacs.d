@@ -1,62 +1,97 @@
-(require 'ido)
-(eval-after-load "ido" '(require 'ido-hacks))
+(eval-when-compile (require 'req-package))
 
-(defun find-alternate-file-with-sudo ()
-  "Re-open with sudo."
-  (interactive)
-  (find-alternate-file (concat "/sudo::" (buffer-file-name))))
+(req-package ido
+  :init
+  (setq ido-all-frames t)
+  (setq ido-auto-merge-work-directories-length -1)
+  (setq ido-case-fold t)
+  (setq ido-confirm-unique-completion t)
+  (setq ido-default-buffer-method 'selected-window)
+  (setq ido-default-file-method 'selected-window)
+  (setq ido-enable-flex-matching t)
+  (setq ido-enable-last-directory-history t)
+  (setq ido-enable-tramp-completion nil)
+  (setq ido-ignore-directories '("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs"))
+  (setq ido-ignore-files
+        '("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\`_darcs/" "\\`\\.DS_Store" "\\`cabal\\.sandbox\\.config" "\\`\\.cabal-sandbox/"))
+  (setq ido-make-file-list-hook
+        (lambda nil
+          (define-key ido-file-dir-completion-map
+            (kbd "SPC")
+            'self-insert-command)))
+  (setq ido-max-work-file-list 100)
+  (setq ido-read-file-name-non-ido '(TeX-master-file-ask))
+  (setq ido-rotate-file-list-default t)
+  (setq ido-save-directory-list-file "~/.emacs.d/ido.last")
+  (setq ido-use-filename-at-point 'guess)
+  (setq ido-use-virtual-buffers t)
 
-(crux-reopen-as-root-mode)
+  :commands
+  ido-completing-read
+  ido-completion-map
+  ido-complete
 
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "<menu>") 'smex)
-(if (system-type-is-darwin)
-    (global-set-key (kbd "s-SPC") 'smex))
+  :bind (("C-x C-r" . recentf-ido-find-file)
+         :map ido-completion-map
+         ([tab] . ido-complete))
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
 
-;; speed smex up
-(defun smex-update-after-load (unused)
-  (when (boundp 'smex-cache)
-    (smex-update)))
-(add-hook 'after-load-functions 'smex-update-after-load)
+  (defun recentf-ido-find-file ()
+    "Find a recent file using Ido."
+    (interactive)
+    (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+      (when file
+        (find-file file)))))
 
-;; This is your old M-x.
-(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+(req-package ido-at-point
+  :require ido)
 
-;; Still needed?
-(eval-after-load "icomplete" '(progn (require 'icomplete+)))
+(req-package ido-hacks
+  :defer t
+  :require ido)
 
-(defun my-icompleting-read(prompt choices)
-  (let ((ido-make-buffer-list-hook
-         (lambda ()
-           (setq ido-temp-list choices))))
-    (ido-read-buffer prompt)))
+(req-package ido-ubiquitous
+  :require ido
+  :config
+  (ido-ubiquitous-mode t))
 
+(req-package crux
+  :config
+  (crux-reopen-as-root-mode))
 
-(add-hook 'ido-setup-hook
-          (lambda ()
-            (define-key ido-completion-map [tab] 'ido-complete)))
+(req-package smex
+  :commands
+  smex
+  smex-major-mode-commands
+  :bind (("M-x"     . smex)
+         ("M-X"     . smex-major-mode-commands)
+         ("<menu>"  . smex)
+         ("C-c M-x" . execute-extended-command))
+  :config
+  (smex-initialize)
 
-;; from http://www.emacswiki.org/cgi-bin/wiki/ImenuMode
-(defun try-to-add-imenu ()
-  (condition-case nil (imenu-add-menubar-index) (error nil)))
-(add-hook 'font-lock-mode-hook 'try-to-add-imenu)
+  (if (system-type-is-darwin)
+      (global-set-key (kbd "s-SPC") 'smex))
 
-;;(global-set-key (kbd "C-c i") 'ido-imenu-anywhere)
-(global-set-key (kbd "C-c i") 'imenu)
+  ;; speed smex up
+  (defun smex-update-after-load (unused)
+    (when (boundp 'smex-cache)
+      (smex-update)))
+  (add-hook 'after-load-functions 'smex-update-after-load))
 
+(req-package imenu
+  :commands
+  imenu
+  :bind ("C-c i" . imenu)
+  :config
+  ;; from http://www.emacswiki.org/cgi-bin/wiki/ImenuMode
+  (defun try-to-add-imenu ()
+    (condition-case nil (imenu-add-menubar-index) (error nil)))
+  (add-hook 'font-lock-mode-hook 'try-to-add-imenu))
 
-(defun recentf-ido-find-file ()
-  "Find a recent file using Ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-    (when file
-      (find-file file))))
-
-(global-set-key "\C-x\C-r" 'recentf-ido-find-file)
-
-    ;;; integrate ido with artist-mode
+;; integrate ido with artist-mode: https://www.emacswiki.org/emacs/ArtistMode
 (defun artist-ido-select-operation (type)
   "Use ido to select a drawing operation in artist-mode"
   (interactive (list (ido-completing-read "Drawing operation: "
@@ -88,3 +123,5 @@
           (lambda ()
             (define-key artist-mode-map (kbd "C-c C-a C-o") 'artist-ido-select-operation)
             (define-key artist-mode-map (kbd "C-c C-a C-c") 'artist-ido-select-settings)))
+
+(provide 'ido-settings)
