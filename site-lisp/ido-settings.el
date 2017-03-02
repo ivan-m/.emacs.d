@@ -81,6 +81,10 @@
       (smex-update)))
   (add-hook 'after-load-functions 'smex-update-after-load))
 
+(req-package icomplete
+  :config
+  (icomplete-mode 1))
+
 (req-package imenu
   :commands
   imenu
