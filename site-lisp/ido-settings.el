@@ -17,9 +17,11 @@
   (setq ido-max-work-file-list 100)
   (setq ido-read-file-name-non-ido '(TeX-master-file-ask))
   (setq ido-rotate-file-list-default t)
-  (setq ido-save-directory-list-file "~/.emacs.d/ido.last")
+  (setq ido-save-directory-list-file (expand-file-name "ido.last" user-emacs-directory))
   (setq ido-use-filename-at-point 'guess)
   (setq ido-use-virtual-buffers t)
+
+  :requires recentf
 
   :commands
   ido-completing-read
@@ -59,6 +61,9 @@
   (crux-reopen-as-root-mode))
 
 (req-package smex
+  :init
+  (setq smex-auto-update nil)
+  (setq smex-save-file (expand-file-name "smex-items" user-emacs-directory))
   :commands
   smex
   smex-major-mode-commands

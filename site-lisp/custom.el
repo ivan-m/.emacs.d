@@ -8,58 +8,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(LaTeX-verbatim-environments (quote ("verbatim" "verbatim*" "comment")))
- '(Man-notify-method (quote pushy))
  '(TeX-PDF-mode t)
- '(ac-use-fuzzy t)
- '(after-save-hook
-   (quote
-    (executable-make-buffer-file-executable-if-script-p)))
- '(ahs-case-fold-search nil)
- '(ahs-modes
-   (quote
-    (actionscript-mode apache-mode bat-generic-mode c++-mode c-mode csharp-mode css-mode dos-mode emacs-lisp-mode html-mode ini-generic-mode java-mode javascript-mode js-mode lisp-interaction-mode lua-mode latex-mode makefile-mode makefile-gmake-mode markdown-mode moccur-edit-mode nxml-mode nxhtml-mode outline-mode perl-mode cperl-mode php-mode python-mode rc-generic-mode reg-generic-mode ruby-mode sgml-mode sh-mode squirrel-mode text-mode tcl-mode visual-basic-mode haskell-mode)))
- '(apropos-do-all t)
- '(auto-image-file-mode t)
- '(backup-by-copying t)
- '(backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
- '(bury-successful-compilation t)
  '(calendar-christian-all-holidays-flag t)
- '(column-number-mode t)
- '(compilation-message-face (quote default))
- '(completion-ignored-extensions
-   (quote
-    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
- '(custom-enabled-themes (quote (alect-dark)))
- '(custom-safe-themes
-   (quote
-    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default)))
- '(delete-old-versions t)
- '(delete-selection-mode t)
- '(desktop-base-file-name "desktop")
- '(desktop-base-lock-name "desktop.lock")
- '(desktop-file-name-format (quote tilde))
- '(desktop-save t)
- '(desktop-save-mode nil)
  '(diary-show-holidays-flag nil)
- '(dired-dwim-target t)
- '(dired-listing-switches "-alh")
- '(dynamic-fonts-preferred-monospace-fonts
-   (quote
-    ("DejaVu Sans Mono" "Monaco" "Consolas" "Menlo" "Droid Sans Mono Pro" "Droid Sans Mono" "Inconsolata" "Source Code Pro" "Lucida Console" "Envy Code R" "Andale Mono" "Lucida Sans Typewriter" "monoOne" "Lucida Typewriter" "Panic Sans" "Bitstream Vera Sans Mono" "HyperFont" "PT Mono" "Ti92Pluspc" "Excalibur Monospace" "Courier New" "Courier" "Cousine" "Fira Mono" "Lekton" "Ubuntu Mono" "Liberation Mono" "BPmono" "Free Mono" "Anonymous Pro" "ProFont" "ProFontWindows" "Latin Modern Mono" "Code 2002" "ProggyCleanTT" "ProggyTinyTT")))
- '(dynamic-fonts-preferred-monospace-point-size 10)
- '(dynamic-fonts-preferred-proportional-point-size 10)
  '(ebal-completing-read-function (quote ebal-ido-completing-read))
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(ensime-graphical-tooltips t)
- '(exheres-skeleton-realname "Ivan Lazar Miljenovic <Ivan.Miljenovic@gmail.com>" t)
- '(flycheck-check-syntax-automatically (quote (save)))
- '(flycheck-mode-hook (quote (flycheck-color-mode-line-mode)) t)
- '(flyspell-issue-message-flag nil)
- '(flyspell-issue-welcome-flag nil)
- '(font-utils-less-feedback t)
- '(global-auto-highlight-symbol-mode t)
- '(global-whitespace-mode t)
  '(haskell-ask-also-kill-buffers nil)
  '(haskell-import-mapping
    (quote
@@ -103,8 +56,6 @@ import Data.HashMap.Strict(HashMap)
  '(haskell-process-suggest-overloaded-strings t)
  '(haskell-stylish-on-save t)
  '(haskell-tags-on-save t)
- '(history-delete-duplicates t)
- '(history-length 1000)
  '(holiday-other-holidays
    (quote
     ((holiday-fixed 1 1 "New Year's Day")
@@ -179,17 +130,8 @@ import Data.HashMap.Strict(HashMap)
                                (float 60))
                             calendar-daylight-time-zone-name))))))
  '(hs-checkers-replace-with-suggestions t)
- '(indent-tabs-mode nil)
- '(inhibit-default-init t)
- '(ispell-highlight-p t)
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
- '(magit-completing-read-function (quote magit-ido-completing-read))
- '(magit-delete-by-moving-to-trash nil)
- '(magit-diff-use-overlays nil)
- '(magit-merge-arguments (quote ("--no-ff")))
- '(magit-push-always-verify nil)
- '(magit-use-overlays nil)
  '(markdown-code-modes
    (quote
     (("haskell" . literate-haskell-mode)
@@ -212,36 +154,9 @@ import Data.HashMap.Strict(HashMap)
  '(preview-default-option-list
    (quote
     ("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels")))
- '(recentf-max-saved-items 1000)
- '(recentf-save-file "~/.emacs.d/recentf")
- '(require-final-newline t)
- '(rw-hunspell-default-dictionary "en_AU_dictionaries")
- '(rw-hunspell-dicpath-list (quote ("~/.emacs.d/dictionaries")))
- '(rw-hunspell-make-dictionary-menu t)
- '(rw-hunspell-use-rw-ispell t)
  '(safe-local-variable-values
    (quote
-    ((haskell-process-args-stack-ghci "--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")
-     (haskell-process-args-stack-ghci
-      (quote
-       ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")))
-     (haskell-process-args-stack-ghci quote
-                                      ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone"))
-     (haskell-process-args-stack-ghci quote
-                                      (quote
-                                       ("--ghc-options=-ferror-spans" "--flag" "prometheus:-phone")))
-     (haskell-process-args-stack-ghci "--ghc-options=-ferror-spans" "--flag prometheus:-phone")
-     (haskell-process-args-stack-ghci quote
-                                      (quote
-                                       ("--ghc-options=-ferror-spans" "--flag prometheus:-phone")))
-     (ebal-operation-mode . stack)
-     (eval exec-path-from-shell-copy-env "ALIAS_DATA_DIRECTORY")
-     (eval exec-path-from-shell-copy-env "ALIAS_WORK_DIRECTORY")
-     (eval
-      (exec-path-from-shell-copy-env "ALIAS_DATA_DIRECTORY"))
-     (eval
-      (exec-path-from-shell-copy-env "ALIAS_WORK_DIRECTORY"))
-     (flycheck-disabled-checkers emacs-lisp-checkdoc)
+    ((flycheck-disabled-checkers emacs-lisp-checkdoc)
      (eval defun cell-to-list
            (s)
            (concat "["
@@ -265,135 +180,7 @@ import Data.HashMap.Strict(HashMap)
            (s)
            (concat "\"" s "\""))
      (eval turn-on-orgtbl))))
- '(save-place t nil (saveplace))
- '(save-place-file "~/.emacs.d/saveplace")
  '(scala-indent:indent-value-expression t)
- '(scroll-bar-mode (quote left))
  '(shm-auto-insert-skeletons t)
  '(shm-indent-point-after-adding-where-clause t)
- '(shm-use-hdevtools t)
- '(show-paren-mode t)
- '(show-paren-style (quote parenthesis))
- '(size-indication-mode t)
- '(smex-auto-update nil)
- '(smex-save-file "~/.emacs.d/smex-items")
- '(sql-product (quote postgres))
- '(tab-width 4)
- '(text-mode-hook
-   (quote
-    (turn-on-auto-fill table-recognize text-mode-hook-identify)))
- '(tool-bar-mode nil)
- '(tramp-default-method "ssh")
- '(truncate-lines t)
- '(unicode-fonts-block-font-mapping
-   (quote
-    (("Alchemical Symbols"
-      ("Symbola"))
-     ("Alphabetic Presentation Forms"
-      ("DejaVu Sans:width=condensed" "FreeMono"))
-     ("Arrows"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Block Elements"
-      ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans:width=condensed" "Symbola"))
-     ("Box Drawing"
-      ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans" "Symbola"))
-     ("Combining Diacritical Marks Supplement"
-      ("FreeSerif" "DejaVu Sans:width=condensed"))
-     ("Combining Diacritical Marks for Symbols"
-      ("Cambria Math" "Symbola"))
-     ("Combining Diacritical Marks"
-      ("DejaVu Sans:width=condensed" "DejaVu Sans Mono" "FreeMono"))
-     ("Combining Half Marks"
-      ("Symbola"))
-     ("Control Pictures"
-      ("Symbola" "FreeMono"))
-     ("Currency Symbols"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Cyrillic Supplement"
-      ("DejaVu Sans:width=condensed" "Symbola"))
-     ("Cyrillic"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Dingbats"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-     ("Emoticons"
-      ("Symbola"))
-     ("General Punctuation"
-      ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Geometric Shapes"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Gothic"
-      ("FreeSerif"))
-     ("Greek Extended"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "FreeMono"))
-     ("Greek and Coptic"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-     ("IPA Extensions"
-      ("DejaVu Sans Mono" "Symbola" "FreeMono"))
-     ("Latin Extended-C"
-      ("DejaVu Sans:width=condensed"))
-     ("Latin Extended-D"
-      ("FreeMono" "DejaVu Sans Mono" "DejaVu Sans:width=condensed"))
-     ("Letterlike Symbols"
-      ("DejaVu Sans:width=condensed" "Symbola"))
-     ("Mathematical Alphanumeric Symbols"
-      ("Symbola"))
-     ("Mathematical Operators"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Miscellaneous Mathematical Symbols-A"
-      ("Symbola"))
-     ("Miscellaneous Mathematical Symbols-B"
-      ("Symbola"))
-     ("Miscellaneous Symbols and Pictographs"
-      ("Symbola"))
-     ("Miscellaneous Symbols and Arrows"
-      ("Symbola"))
-     ("Miscellaneous Symbols"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-     ("Miscellaneous Technical"
-      ("Symbola"))
-     ("Musical Symbols"
-      ("Symbola"))
-     ("Number Forms"
-      ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Optical Character Recognition"
-      ("Symbola" "FreeMono"))
-     ("Playing Cards"
-      ("DejaVu Sans:width=condensed" "Symbola"))
-     ("Specials"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Superscripts and Subscripts"
-      ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Supplemental Arrows-A"
-      ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-     ("Supplemental Arrows-B"
-      ("Symbola"))
-     ("Supplemental Mathematical Operators"
-      ("Symbola"))
-     ("Supplemental Punctuation"
-      ("DejaVu Sans Mono" "Symbola"))
-     ("Transport and Map Symbols"
-      ("Symbola")))))
- '(unicode-fonts-existence-checks (quote first))
- '(unicode-fonts-skip-font-groups
-   (quote
-    (chinese-simplified chinese-traditional low-quality-glyphs microsoft-only multicolor non-free)))
- '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
- '(unkillable-scratch t)
- '(use-dialog-box nil)
- '(user-mail-address "Ivan.Miljenovic@gmail.com")
- '(wdired-allow-to-change-permissions t)
- '(whitespace-style (quote (face tabs trailing empty)))
- '(woman-fill-frame t)
- '(woman-imenu t)
- '(woman-use-own-frame nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-lock-type-face ((t (:foreground "#be59d8"))))
- '(woman-bold ((t (:inherit bold :foreground "#00aff5"))))
- '(woman-italic ((t (:inherit italic :foreground "#3cb370")))))
-
-;; '(TeX-view-program-list (quote (("okular" "okular -unique %o#src:%n%b"))))
+ '(shm-use-hdevtools t))

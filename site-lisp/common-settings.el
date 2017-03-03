@@ -3,12 +3,39 @@
     (require 'req-package)
     (require 'cl)))
 
-(setq inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
+(setq user-full-name "Ivan Lazar Miljenovic"
+      user-mail-address "Ivan.Miljenovic@gmail.com"
 
-(setq frame-title-format "%b %+%+ %f"
-      icon-title-format frame-title-format)
-(setq default-directory "~/")
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message t
+      inhibit-default-init t
+
+      frame-title-format "%b %+%+ %f"
+      icon-title-format frame-title-format
+      column-number-mode t
+      scoll-bar-mode 'left
+      size-indication-mode t
+      tool-bar-mode nil
+      use-dialog-box nil
+
+      default-directory "~/"
+
+      tab-width 4
+      truncate-lines t
+      indent-tabs-mode nil
+      after-save-hook 'executable-make-buffer-file-executable-if-script-p
+      require-final-newline t
+
+      apropos-do-all t
+      history-length 1000
+      history-delete-duplicates t
+
+      bury-successful-compilation t
+      compilation-message-face 'default
+
+      text-mode-hook '(turn-on-auto-fill table-recognize text-mode-hook-identify))
+
+(add-to-list 'completion-ignored-extensions ".hi")
 
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
@@ -84,7 +111,6 @@
 
 ;; defadvice
 
-
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
   (cl-flet ((process-list ())) ad-do-it))
@@ -124,6 +150,12 @@ the actual manpage using the function `man'."
         (progn (require 'man)
                (man (match-string 1 node)))
       ad-do-it)))
+
+(defadvice custom-theme-set-variables
+    (around fix-inhibit-bug activate)
+  "Allow setting of undefined variables in themes."
+  (let (custom--inhibit-theme-enable)
+    ad-do-it))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -179,6 +211,20 @@ the actual manpage using the function `man'."
 (req-package bind-key
   :ensure t)
 
+(req-package alect-themes
+  :config
+  ;; When using emacs --daemon, it seems that the cursor color isn't
+  ;; set.  As such, use this to set it manually (needs to be set after
+  ;; customize).
+  ;;
+  ;; Unfortunately, there doesn't seem to be any way of making this work
+  ;; for all themes, and the theme-specific cursor color needs to be
+  ;; used.
+  (add-to-list 'default-frame-alist
+               `(cursor-color . ,(alect-get-color 'dark 'cursor)))
+  (load-theme 'alect-dark t)
+  (set-face-attribute 'font-lock-type-face nil :foreground "#be59d8"))
+
 (req-package windmove
   :init (defun ignore-error-wrapper (fn)
           "Funtion return new function that ignore errors.
@@ -194,6 +240,8 @@ the actual manpage using the function `man'."
          ([S-down]  . (ignore-error-wrapper 'windmove-down))))
 
 (req-package tramp
+  :init
+  (setq tramp-default-method "ssh")
   :config
   (setq backup-enable-predicate
          (lambda (name)
@@ -205,8 +253,13 @@ the actual manpage using the function `man'."
 
 (req-package recentf
   :init
+  (setq recentf-max-saved-items 1000)
+  (setq recentf-save-file (expand-file-name "recentf" user-emacs-directory))
   ;; Needs to be done before it's started: https://www.emacswiki.org/emacs/RecentFiles#toc12
   (add-to-list 'recentf-exclude "^/ssh:.*")
+  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+  (add-to-list 'recentf-exclude ".*-autoloads\\.el\\'")
+  (add-to-list 'recentf-exclude "[/\\]\\.elpa/")
   (setq recentf-auto-cleanup 'never)
   :config
   (recentf-mode 1)
@@ -227,9 +280,22 @@ the actual manpage using the function `man'."
   :command align-cols)
 
 (req-package whitespace
-  :diminish global-whitespace-mode)
+  :init
+  (setq whitespace-style '(face tabs trailing empty))
+  :diminish global-whitespace-mode
+  :config
+  (global-whitespace-mode 1))
+
+(req-package flycheck
+  :init
+  (setq flycheck-check-syntax-automatically 'save)
+  :config
+  (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
 (req-package flyspell
+  :init
+  (setq flyspell-issue-message-flag nil)
+  (setq flyspell-issue-welcome-flag nil)
   :diminish flyspell-mode
   :config
   (define-key flyspell-mode-map (kbd "C-.") nil)
@@ -237,7 +303,12 @@ the actual manpage using the function `man'."
   (define-key flyspell-mode-map (kbd "C-,") nil))
 
 (req-package auto-highlight-symbol
-  :diminish auto-highlight-symbol-mode)
+  :init
+  (setq ahs-case-fold-search nil)
+  :diminish auto-highlight-symbol-mode
+  :config
+  ;;(add-to-list 'ahs-modes 'haskell-mode)
+  (global-auto-highlight-symbol-mode 1))
 
 (req-package cap-words
   :diminish capitalized-words-mode)
@@ -311,18 +382,124 @@ _h_   _l_   _o_k        _y_ank
   :config org
   (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
-(req-package rw-hunspell
-  :require
-  rw-language-and-country-codes
-  rw-ispell
+(req-package ispell
   :init
-  (set-language-environment "UTF-8")
+  (setq ispell-highlight-p t)
   (setq ispell-program-name (if (system-type-is-darwin)
                                 "/usr/local/bin/hunspell"
-                              "hunspell"))
+                              "hunspell")))
+
+(req-package rw-hunspell
+  :init
+  (set-language-environment "UTF-8")
+  (setq rw-hunspell-default-dictionary "en_AU_dictionaries")
+  (setq rw-hunspell-dicpath-list '((expand-file-name "dictionaries" user-emacs-directory)))
+  (setq rw-hunspell-make-dictionary-menu t)
+  (setq rw-hunspell-use-rw-ispell t)
+  :require
+  ispell
+  rw-language-and-country-codes
+  rw-ispell
+  :config
   (add-hook 'after-init-hook 'rw-hunspell-setup))
 
+(req-package font-utils
+  :init
+  (font-utils-less-feedback t))
+
 (req-package unicode-fonts
+  :requires font-utils
+  :init
+  (setq unicode-fonts-block-font-mapping
+        '(("Alchemical Symbols"
+           ("Symbola"))
+          ("Alphabetic Presentation Forms"
+           ("DejaVu Sans:width=condensed" "FreeMono"))
+          ("Arrows"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Block Elements"
+           ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans:width=condensed" "Symbola"))
+          ("Box Drawing"
+           ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans" "Symbola"))
+          ("Combining Diacritical Marks Supplement"
+           ("FreeSerif" "DejaVu Sans:width=condensed"))
+          ("Combining Diacritical Marks for Symbols"
+           ("Cambria Math" "Symbola"))
+          ("Combining Diacritical Marks"
+           ("DejaVu Sans:width=condensed" "DejaVu Sans Mono" "FreeMono"))
+          ("Combining Half Marks"
+           ("Symbola"))
+          ("Control Pictures"
+           ("Symbola" "FreeMono"))
+          ("Currency Symbols"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Cyrillic Supplement"
+           ("DejaVu Sans:width=condensed" "Symbola"))
+          ("Cyrillic"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Dingbats"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+          ("Emoticons"
+           ("Symbola"))
+          ("General Punctuation"
+           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Geometric Shapes"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Gothic"
+           ("FreeSerif"))
+          ("Greek Extended"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "FreeMono"))
+          ("Greek and Coptic"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+          ("IPA Extensions"
+           ("DejaVu Sans Mono" "Symbola" "FreeMono"))
+          ("Latin Extended-C"
+           ("DejaVu Sans:width=condensed"))
+          ("Latin Extended-D"
+           ("FreeMono" "DejaVu Sans Mono" "DejaVu Sans:width=condensed"))
+          ("Letterlike Symbols"
+           ("DejaVu Sans:width=condensed" "Symbola"))
+          ("Mathematical Alphanumeric Symbols"
+           ("Symbola"))
+          ("Mathematical Operators"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Miscellaneous Mathematical Symbols-A"
+           ("Symbola"))
+          ("Miscellaneous Mathematical Symbols-B"
+           ("Symbola"))
+          ("Miscellaneous Symbols and Pictographs"
+           ("Symbola"))
+          ("Miscellaneous Symbols and Arrows"
+           ("Symbola"))
+          ("Miscellaneous Symbols"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+          ("Miscellaneous Technical"
+           ("Symbola"))
+          ("Musical Symbols"
+           ("Symbola"))
+          ("Number Forms"
+           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Optical Character Recognition"
+           ("Symbola" "FreeMono"))
+          ("Playing Cards"
+           ("DejaVu Sans:width=condensed" "Symbola"))
+          ("Specials"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Superscripts and Subscripts"
+           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Supplemental Arrows-A"
+           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+          ("Supplemental Arrows-B"
+           ("Symbola"))
+          ("Supplemental Mathematical Operators"
+           ("Symbola"))
+          ("Supplemental Punctuation"
+           ("DejaVu Sans Mono" "Symbola"))
+          ("Transport and Map Symbols"
+           ("Symbola"))))
+  (setq unicode-fonts-existence-checks 'first)
+  (setq unicode-fonts-skip-font-groups
+        '(chinese-simplified chinese-traditional low-quality-glyphs microsoft-only multicolor non-free))
   :config
   ;; Taken from https://github.com/rolandwalker/unicode-fonts/issues/3
   (defun my/init-fonts (&optional frame)
@@ -343,6 +520,81 @@ _h_   _l_   _o_k        _y_ank
   aa2u-rectangle
   aa2u-mark-as-text
   aa2u-mark-rectangle-as-text)
+
+(req-package paren
+  :init
+  (setq show-paren-style 'mixed)
+  :config
+  (show-paren-mode 1))
+
+(req-package saveplace
+  :init
+  (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
+  :config
+  (save-place-mode 1))
+
+(req-package sql
+  :init
+  (setq sql-product 'postgres)
+  :commands
+  sql-mode
+  :mode ("\\.sql$" . sql-mode))
+
+(req-package uniquify
+  :init
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
+
+(req-package image-file
+  :config
+  (auto-image-file-mode 1))
+
+(req-package files
+  :init
+  (setq backup-by-copying t)
+  (setq backup-directory-alist '((expand-file-name "backups" user-emacs-directory)))
+  (setq delete-old-versions t))
+
+(req-package delsel
+  :config
+  (delete-selection-mode 1))
+
+(req-package dired
+  :init
+  (setq dired-dwim-target t)
+  (setq dired-listing-switches "-alh")
+  (setq wdired-allow-to-change-permissions t))
+
+(req-package unkillable-scratch
+  :config
+  (unkillable-scratch 1))
+
+(req-package man
+  :init
+  (setq Man-notify-method 'pushy))
+
+(req-package woman
+  :init
+  (setq woman-fill-frame t)
+  (setq woman-imenu t)
+  (setq woman-use-own-frame nil)
+  (set-face-attribute 'woman-italic nil :inherit italic :foreground "#3cb370")
+  (set-face-attribute 'woman-bold nil :inherit bold :foreground "#00aff5")
+  :commands
+  woman)
+
+(req-package compile
+  :init
+  (setq compilation-message-face 'default))
+
+(req-package bury-successful-compilation
+  :config
+  (bury-succesful-compilation 1))
+
+(req-package ediff
+  :init
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
