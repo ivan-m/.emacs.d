@@ -203,13 +203,11 @@ the actual manpage using the function `man'."
       (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy"))))
 
 (req-package diminish
-  :ensure t
   :config
   ;; Doesn't seem to have a dedicated file for it
   (diminish 'auto-fill-function))
 
-(req-package bind-key
-  :ensure t)
+(req-package bind-key)
 
 (req-package alect-themes
   :config

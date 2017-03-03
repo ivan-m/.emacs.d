@@ -51,6 +51,8 @@
 (try-install 'req-package)
 (require 'req-package)
 
+(setq use-package-always-ensure t)
+
 ;; Load all packages from site-lisp-dir
 (req-package load-dir
   :force true
