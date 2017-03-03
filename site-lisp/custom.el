@@ -13,49 +13,6 @@
  '(diary-show-holidays-flag nil)
  '(ebal-completing-read-function (quote ebal-ido-completing-read))
  '(ensime-graphical-tooltips t)
- '(haskell-ask-also-kill-buffers nil)
- '(haskell-import-mapping
-   (quote
-    (("Data.Text" . "import qualified Data.Text as T
-import Data.Text (Text)
-")
-     ("Data.Text.Lazy" . "import qualified Data.Text.Lazy as LT
-")
-     ("Data.ByteString" . "import qualified Data.ByteString as B
-import Data.ByteString (ByteString)
-")
-     ("Data.ByteString.Lazy" . "import qualified Data.ByteString.Lazy as L
-")
-     ("Data.Map" . "import qualified Data.Map.Strict as M
-import Data.Map.Strict (Map)
-")
-     ("Data.Map.Strict" . "import qualified Data.Map.Strict as M
-import Data.Map.Strict (Map)
-")
-     ("Data.Set" . "import qualified Data.Set as S
-import Data.Set (Set)
-")
-     ("Data.Vector" . "import qualified Data.Vector as V
-import Data.Vector (Vector)
-")
-     ("Data.HashMap" . "import qualified Data.HashMap.Strict as HM
-import Data.HashMap.Strict(HashMap)
-"))))
- '(haskell-interactive-mode-eval-mode (quote haskell-mode))
- '(haskell-interactive-mode-hide-multi-line-errors t)
- '(haskell-literate-default (quote bird))
- '(haskell-notify-p t)
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-check-cabal-config-on-load t)
- '(haskell-process-load-or-reload-prompt t)
- '(haskell-process-log t)
- '(haskell-process-prompt-restart-on-cabal-change t)
- '(haskell-process-suggest-haskell-docs-imports t)
- '(haskell-process-suggest-language-pragmas t)
- '(haskell-process-suggest-no-warn-orphans t)
- '(haskell-process-suggest-overloaded-strings t)
- '(haskell-stylish-on-save t)
- '(haskell-tags-on-save t)
  '(holiday-other-holidays
    (quote
     ((holiday-fixed 1 1 "New Year's Day")

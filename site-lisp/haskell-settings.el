@@ -1,3 +1,85 @@
+(req-package haskell-mode
+  :init
+  (setq haskell-ask-also-kill-buffers nil)
+  (setq haskell-interactive-mode-eval-mode 'haskell-mode)
+  (setq haskell-interactive-mode-hide-multi-line-errors t)
+  (setq haskell-literate-default bird)
+  (setq haskell-notify-p t)
+  (setq haskell-process-auto-import-loaded-modules t)
+  (setq haskell-process-check-cabal-config-on-load t)
+  (setq haskell-process-load-or-reload-prompt t)
+  (setq haskell-process-log t)
+  (setq haskell-process-prompt-restart-on-cabal-change t)
+  (setq haskell-process-suggest-haskell-docs-imports t)
+  (setq haskell-process-suggest-language-pragmas t)
+  (setq haskell-process-suggest-no-warn-orphans t)
+  (setq haskell-process-suggest-overloaded-strings t)
+  (setq haskell-stylish-on-save t)
+  :commands
+  haskell-mode
+  literate-haskell-mode
+  haskell-cabal-mode
+  haskell-c2hs-mode
+  ghci-script-mode
+  ghc-core-mode
+  :interpreter
+  (("runhaskell" . haskell-mode)
+   ("runghc" . haskell-mode))
+  :mode
+  (("\\.hsc\\'" . haskell-mode)
+   ("\\.l[gh]s\\'" . literate-haskell-mode)
+   ("\\.[gh]s\\'" . haskell-mode)
+   ("\\.cabal\\'" . haskell-cabal-mode)
+   ("\\.chs\\'" . haskell-c2hs-mode)
+   ("\\.ghci\\'" . ghci-script-mode)
+   ("\\.dump-simpl\\'" . ghc-core-mode)
+   ("\\.hcr\\'" . ghc-core-mode)
+   ("\\.jl\\'" . julia-mode)
+   ("\\.hs\\'" . haskell-mode))
+  :bind (:map haskell-mode-map
+         ([?\C-c ?\C-l] . 'haskell-process-load-file)
+         ([?\C-c ?\C-r] . 'haskell-process-reload)
+         ([f5] . 'haskell-process-load-file)
+
+         ;; Switch to the REPL.
+         (define-key haskell-mode-map [?\C-c ?\C-z] 'haskell-interactive-switch)
+         ;; "Bring" the REPL, hiding all other windows apart from the source
+         ;; and the REPL.
+         ("C-`" . 'haskell-interactive-bring)
+
+         ;; Build the Cabal project.
+         ;; Interactively choose the Cabal command to run.
+         ("C-c C-c" . nil)
+
+         ;; Get the type and info of the symbol at point, print it in the
+         ;; message buffer.
+         ("C-c C-t" . 'haskell-process-do-type)
+         ("C-c C-i" . 'haskell-process-do-info)
+
+         ;; Jump to the imports. Keep tapping to jump between import
+         ;; groups. C-u f8 to jump back again.
+         (define-key haskell-mode-map [f8] 'haskell-navigate-imports)
+
+         ;; Jump to the definition of the current symbol.
+         ("M-." . 'haskell-mode-tag-find)
+
+         ("M-," . 'haskell-who-calls)
+
+         ;; Move the code below the current nesting left one.
+         ("C-," . 'haskell-move-left)
+
+         ;; Move the code below the current nesting right one.
+         ("C-." . 'haskell-move-right)
+
+         ("C-c C-s" . 'haskell-mode-toggle-scc-at-point)
+         ("C-c l" . 'hs-lint)
+
+         :map cabal-mode-map
+         ("C-`" . 'haskell-interactive-bring)
+         ("C-c C-z" . 'haskell-interactive-switch)))
+
+  ;; ("C-c c" . 'ebal-execute)
+
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 ;; (require 'haskell-checkers)
@@ -173,44 +255,6 @@
   (unless (shm/jump-to-slot)
     (call-interactively 'haskell-interactive-mode-tab)))
 
-(define-key haskell-mode-map [?\C-c ?\C-l] 'haskell-process-load-file)
-(define-key haskell-mode-map [?\C-c ?\C-r] 'haskell-process-reload)
-(define-key haskell-mode-map [f5] 'haskell-process-load-file)
-
-;; Switch to the REPL.
-(define-key haskell-mode-map [?\C-c ?\C-z] 'haskell-interactive-switch)
-;; "Bring" the REPL, hiding all other windows apart from the source
-;; and the REPL.
-(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
-
-;; Build the Cabal project.
-;; Interactively choose the Cabal command to run.
-(define-key haskell-mode-map (kbd "C-c c") 'ebal-execute)
-(define-key haskell-mode-map (kbd "C-c C-c") nil)
-
-;; Get the type and info of the symbol at point, print it in the
-;; message buffer.
-(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
-(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
-
-;; Jump to the imports. Keep tapping to jump between import
-;; groups. C-u f8 to jump back again.
-(define-key haskell-mode-map [f8] 'haskell-navigate-imports)
-
-;; Jump to the definition of the current symbol.
-(define-key haskell-mode-map (kbd "M-.") 'haskell-mode-tag-find)
-
-(define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
-
-;; Move the code below the current nesting left one.
-(define-key haskell-mode-map (kbd "C-,") 'haskell-move-left)
-
-;; Move the code below the current nesting right one.
-(define-key haskell-mode-map (kbd "C-.") 'haskell-move-right)
-
-(define-key haskell-mode-map (kbd "C-c C-s") 'haskell-mode-toggle-scc-at-point)
-(define-key haskell-mode-map (kbd "C-c l") 'hs-lint)
-
 (if (system-type-is-darwin)
     (define-key shm-map (kbd "<s-backspace>") 'shm/delete))
 
@@ -220,13 +264,9 @@
 (define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
 (define-key shm-repl-map (kbd "TAB") 'shm-repl-tab)
 
-;;(define-key haskell-interactive-mode-map (kbd "C-c C-l") 'switch-to-haskell)
-
 
 (define-key haskell-cabal-mode-map (kbd "C-c c") 'ebal-execute)
-(define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
-(define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-;;(define-key haskell-cabal-mode-map (kbd "C-c C-l") 'switch-to-haskell)
+
 
 (push '(configure "--enable-tests" "--enable-benchmarks")
       ebal-global-option-alist)
