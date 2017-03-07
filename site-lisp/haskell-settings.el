@@ -1,4 +1,34 @@
+(req-package shm
+  :init
+  (setq ebal-completing-read-function 'ebal-ido-completing-read)
+  :bind (:map shm-map
+         ("SPC" . shm/space)
+         :map shm-repl-map)
+  :functions system-type-is-darwin
+  :config
+  (require 'shm-case-split)
+  (if (system-type-is-darwin)
+      (define-key shm-map (kbd "<s-backspace>") 'shm/delete)))
+
+(req-package ebal
+  :config
+  (push '(configure "--enable-tests" "--enable-benchmarks")
+        ebal-global-option-alist)
+
+  (push '(install "--only-dependencies" "--enable-tests" "--enable-benchmarks")
+        ebal-global-option-alist))
+
+(req-package hindent
+  :commands hindent-mode)
+
 (req-package haskell-mode
+  :require
+  shm
+  ebal
+  hs-lint
+  hindent
+  skeleton
+  autoinsert
   :init
   (setq haskell-ask-also-kill-buffers nil)
   (setq haskell-interactive-mode-eval-mode 'haskell-mode)
@@ -22,6 +52,7 @@
   haskell-c2hs-mode
   ghci-script-mode
   ghc-core-mode
+  company
   :interpreter
   (("runhaskell" . haskell-mode)
    ("runghc" . haskell-mode))
@@ -34,242 +65,180 @@
    ("\\.ghci\\'" . ghci-script-mode)
    ("\\.dump-simpl\\'" . ghc-core-mode)
    ("\\.hcr\\'" . ghc-core-mode)
-   ("\\.jl\\'" . julia-mode)
    ("\\.hs\\'" . haskell-mode))
   :bind (:map haskell-mode-map
-         ([?\C-c ?\C-l] . 'haskell-process-load-file)
-         ([?\C-c ?\C-r] . 'haskell-process-reload)
-         ([f5] . 'haskell-process-load-file)
+         ("C-c C-l" . haskell-process-load-file)
+         ("C-c C-r" . haskell-process-reload)
+         ([f5] . haskell-process-load-file)
 
          ;; Switch to the REPL.
-         (define-key haskell-mode-map [?\C-c ?\C-z] 'haskell-interactive-switch)
+         (define-key haskell-mode-map [?\C-c ?\C-z] haskell-interactive-switch)
          ;; "Bring" the REPL, hiding all other windows apart from the source
          ;; and the REPL.
-         ("C-`" . 'haskell-interactive-bring)
+         ("C-`" . haskell-interactive-bring)
 
          ;; Build the Cabal project.
          ;; Interactively choose the Cabal command to run.
          ("C-c C-c" . nil)
+         ("C-c c" . ebal-execute)
 
          ;; Get the type and info of the symbol at point, print it in the
          ;; message buffer.
-         ("C-c C-t" . 'haskell-process-do-type)
-         ("C-c C-i" . 'haskell-process-do-info)
+         ("C-c C-t" . haskell-process-do-type)
+         ("C-c C-i" . haskell-process-do-info)
 
          ;; Jump to the imports. Keep tapping to jump between import
          ;; groups. C-u f8 to jump back again.
-         (define-key haskell-mode-map [f8] 'haskell-navigate-imports)
+         ([f8] . haskell-navigate-imports)
 
          ;; Jump to the definition of the current symbol.
-         ("M-." . 'haskell-mode-tag-find)
+         ("M-." . haskell-mode-tag-find)
 
-         ("M-," . 'haskell-who-calls)
+         ("M-," . haskell-who-calls)
 
          ;; Move the code below the current nesting left one.
-         ("C-," . 'haskell-move-left)
+         ("C-," . haskell-move-left)
 
          ;; Move the code below the current nesting right one.
-         ("C-." . 'haskell-move-right)
+         ("C-." . haskell-move-right)
 
-         ("C-c C-s" . 'haskell-mode-toggle-scc-at-point)
-         ("C-c l" . 'hs-lint)
+         ("C-c C-s" . haskell-mode-toggle-scc-at-point)
+         ("C-c l" . hs-lint)
 
          :map cabal-mode-map
-         ("C-`" . 'haskell-interactive-bring)
-         ("C-c C-z" . 'haskell-interactive-switch)))
+         ("C-`" . haskell-interactive-bring)
+         ("C-c C-z" . haskell-interactive-switch)
+         ("C-c c" . ebal-execute)
 
-  ;; ("C-c c" . 'ebal-execute)
+         :map haskell-interactive-mode-map
+         ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
+         ("C-z c" . ebal-execute)
 
-(require 'haskell-mode)
-(require 'haskell-interactive-mode)
-;; (require 'haskell-checkers)
-(require 'hs-lint)
-(require 'shm-case-split)
+         :map shm-repl-map
+         ("TAB" . shm-repl-tab))
 
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-;; Make flycheck aware of sandboxes.
+  :config
+  (require 'haskell-interactive-mode)
 
-(eval-after-load 'flycheck
+  (add-hook 'haskell-mode-hook 'haskell-hook)
+
+  (defun haskell-hook ()
+    (interactive-haskell-mode 1)
+    (structured-haskell-mode 1)
+    (electric-indent-local-mode -1)
+    (capitalized-words-mode)
+    (turn-on-haskell-decl-scan)
+    #'hindent-mode
+    (auto-insert-mode 1)
+    (font-lock-add-keywords nil
+                            '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
+
+    (when (buffer-file-name)
+      (haskell-file-hook)
+      (when (equal (file-name-extension (buffer-file-name)) "lhs")
+        (haskell-literate-hook)))
+
+    (setq process-connection-type nil))
+
+  (defun haskell-file-hook ()
+    (flyspell-prog-mode)
+    (flycheck-mode 1)
+    (company-mode 1))
+
+  (push 'company-ghci company-backends)
+
+  (defun haskell-literate-hook ()
+    (structured-haskell-mode 0)
+    (haskell-indent-mode 1)
+    (flycheck-mode 0))
+
+  (add-hook 'haskell-cabal-mode-hook 'cabal-hook)
+
+  (defun cabal-hook ()
+    (electric-indent-local-mode -1))
+
+  (add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
+
+  (defun haskell-interactive-hook ()
+    (structured-haskell-repl-mode)
+    (company-mode 1))
+
+  (defun haskell-insert-doc ()
+    "Insert the documentation syntax."
+    (interactive)
+    (insert "-- | "))
+
+  (defun haskell-insert-undefined ()
+    "Insert undefined."
+    (interactive)
+    (if (and (boundp 'structured-haskell-mode)
+             structured-haskell-mode)
+        (shm-insert-string "undefined")
+      (insert "undefined")))
+
+  (defun haskell-move-right ()
+    (interactive)
+    (haskell-move-nested 1))
+
+  (defun haskell-move-left ()
+    (interactive)
+    (haskell-move-nested -1))
+
+  (defun haskell-who-calls (&optional prompt)
+    "Grep the codebase to see who uses the symbol at point."
+    (interactive "P")
+    (let ((sym (if prompt
+                   (read-from-minibuffer "Look for: ")
+                 (haskell-ident-at-point))))
+      (let ((existing (get-buffer "*who-calls*")))
+        (when existing
+          (kill-buffer existing)))
+      (let ((buffer
+             (grep-find (format "cd %s && find . -name '*.hs' -exec grep -inH -e %s {} +"
+                                (haskell-session-current-dir (haskell-session))
+                                sym))))
+        (with-current-buffer buffer
+          (rename-buffer "*who-calls*")
+          (switch-to-buffer-other-window buffer)))))
+
+  (defun my-haskell-guess-module-name ()
+    (interactive)
+    (let ((guessed (haskell-guess-module-name-from-file-name (buffer-file-name))))
+      (if (eq "" guessed)
+          nil
+        guessed)))
+
+  ;; Skeletons
+  (define-skeleton haskell-module-skeleton
+    "Haskell hs file header"
+    "Brief description (leave blank for default): "
+    "{- \|\n"
+    "   Module      : " (setq v1 (or (my-haskell-guess-module-name) "Main")) "\n"
+    "   Description : " str | (concat "The \\\"" v1 "\\\" module") "\n"
+    "   Copyright   : " (haskell-cabal-get-field "copyright") | (concat "(c) " user-full-name) "\n"
+    "   License     : " (haskell-cabal-get-field "license") | "BSD-style (see the file LICENSE)" "\n"
+    "   Maintainer  : " (haskell-cabal-get-field "maintainer") | user-mail-address "\n"
+    "\n"
+    "   " _ "\n"
+    "\n"
+    " -}\n"
+    "module " v1 " where\n\n")
+
+  (add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
+
+  (defun shm-repl-tab ()
+    "TAB completion or jumping."
+    (interactive)
+    (unless (shm/jump-to-slot)
+      (call-interactively 'haskell-interactive-mode-tab))))
+
+(req-package flycheck
+  :require haskell-mode
+  :config
+  ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(req-package hs-lint
+  :loader :path)
 
-;; Need to find out how to do this without a require.
-;; (require 'auto-complete)
-;; (ac-define-source ghc-mod
-;;   '((depends ghc)
-;;     (candidates . (ghc-select-completion-symbol))
-;;     (symbol . "s")
-;;     (cache)))
-
-(with-eval-after-load 'company
-  (progn
-    (push 'company-ghci company-backends)
-    ;; (push 'company-ghc company-backends)
-    (push 'company-capf company-backends)
-    (push 'company-dabbrev-code company-backends)
-    ))
-
-(add-hook 'haskell-mode-hook 'haskell-hook)
-
-(defun haskell-hook ()
-  (interactive-haskell-mode 1)
-
-  (structured-haskell-mode 1)
-
-  (electric-indent-local-mode -1)
-
-  (capitalized-words-mode)
-
-  (turn-on-haskell-decl-scan)
-
-  #'hindent-mode
-
-  (auto-insert-mode 1)
-
-  (font-lock-add-keywords nil
-                          '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
-
-  (when (buffer-file-name)
-    (haskell-file-hook)
-
-    (when (equal (file-name-extension (buffer-file-name)) "lhs")
-      (haskell-literate-hook)))
-
-  (setq process-connection-type nil)
-
-  ;; (setq ac-sources '(ac-source-words-in-same-mode-buffers
-  ;;                    ac-source-dictionary
-  ;;                    ac-source-ghc-mod))
-  )
-
-(defun haskell-file-hook ()
-
-  (flyspell-prog-mode)
-
-  (flycheck-mode 1)
-
-  ;; (ghc-init)
-
-  (company-mode 1)
-  )
-
-(defun haskell-literate-hook ()
-  (structured-haskell-mode 0)
-  (haskell-indent-mode 1)
-  (flycheck-mode 0)
-  )
-
-(add-hook 'haskell-cabal-mode-hook 'cabal-hook)
-
-(defun cabal-hook ()
-  (electric-indent-local-mode -1)
-  )
-
-(add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
-
-(defun haskell-interactive-hook ()
-  (structured-haskell-repl-mode)
-
-  (company-mode 1)
-  )
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-;; https://github.com/chrisdone/chrisdone-emacs/blob/master/config/haskell.el
-
-(defun haskell-insert-doc ()
-  "Insert the documentation syntax."
-  (interactive)
-  (insert "-- | "))
-
-(defun haskell-insert-undefined ()
-  "Insert undefined."
-  (interactive)
-  (if (and (boundp 'structured-haskell-mode)
-           structured-haskell-mode)
-      (shm-insert-string "undefined")
-    (insert "undefined")))
-
-(defun haskell-move-right ()
-  (interactive)
-  (haskell-move-nested 1))
-
-(defun haskell-move-left ()
-  (interactive)
-  (haskell-move-nested -1))
-
-(defun haskell-who-calls (&optional prompt)
-  "Grep the codebase to see who uses the symbol at point."
-  (interactive "P")
-  (let ((sym (if prompt
-                 (read-from-minibuffer "Look for: ")
-               (haskell-ident-at-point))))
-    (let ((existing (get-buffer "*who-calls*")))
-      (when existing
-        (kill-buffer existing)))
-    (let ((buffer
-           (grep-find (format "cd %s && find . -name '*.hs' -exec grep -inH -e %s {} +"
-                              (haskell-session-current-dir (haskell-session))
-                              sym))))
-      (with-current-buffer buffer
-        (rename-buffer "*who-calls*")
-        (switch-to-buffer-other-window buffer)))))
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-(require 'skeleton)
-(require 'autoinsert)
-
-(defun my-haskell-guess-module-name ()
-  (interactive)
-  (let ((guessed (haskell-guess-module-name-from-file-name (buffer-file-name))))
-    (if (eq "" guessed)
-        nil
-      guessed)))
-
-;; Skeletons
-(define-skeleton haskell-module-skeleton
-  "Haskell hs file header"
-  "Brief description (leave blank for default): "
-  "{- \|\n"
-  "   Module      : " (setq v1 (or (my-haskell-guess-module-name) "Main")) "\n"
-  "   Description : " str | (concat "The \\\"" v1 "\\\" module") "\n"
-  "   Copyright   : " (haskell-cabal-get-field "copyright") | (concat "(c) " user-full-name) "\n"
-  "   License     : " (haskell-cabal-get-field "license") | "BSD-style (see the file LICENSE)" "\n"
-  "   Maintainer  : " (haskell-cabal-get-field "maintainer") | user-mail-address "\n"
-  "\n"
-  "   " _ "\n"
-  "\n"
-  " -}\n"
-  "module " v1 " where\n\n")
-
-(add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-;; Keybindings
-
-(defun shm-repl-tab ()
-  "TAB completion or jumping."
-  (interactive)
-  (unless (shm/jump-to-slot)
-    (call-interactively 'haskell-interactive-mode-tab)))
-
-(if (system-type-is-darwin)
-    (define-key shm-map (kbd "<s-backspace>") 'shm/delete))
-
-(define-key shm-map (kbd "SPC") 'shm/space)
-
-;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
-(define-key haskell-interactive-mode-map (kbd "C-z c") 'ebal-execute)
-(define-key shm-repl-map (kbd "TAB") 'shm-repl-tab)
-
-
-(define-key haskell-cabal-mode-map (kbd "C-c c") 'ebal-execute)
-
-
-(push '(configure "--enable-tests" "--enable-benchmarks")
-      ebal-global-option-alist)
-
-(push '(install "--only-dependencies" "--enable-tests" "--enable-benchmarks")
-      ebal-global-option-alist)
+(provide 'haskell-settings)

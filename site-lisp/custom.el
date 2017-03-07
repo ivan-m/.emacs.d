@@ -11,7 +11,6 @@
  '(TeX-PDF-mode t)
  '(calendar-christian-all-holidays-flag t)
  '(diary-show-holidays-flag nil)
- '(ebal-completing-read-function (quote ebal-ido-completing-read))
  '(ensime-graphical-tooltips t)
  '(holiday-other-holidays
    (quote
@@ -86,7 +85,6 @@
                             (/ calendar-daylight-savings-ends-time
                                (float 60))
                             calendar-daylight-time-zone-name))))))
- '(hs-checkers-replace-with-suggestions t)
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
  '(markdown-code-modes
