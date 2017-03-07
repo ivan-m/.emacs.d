@@ -318,7 +318,10 @@ the actual manpage using the function `man'."
   :diminish subword-mode)
 
 (req-package company
-  :diminish (company-mode . "Co."))
+  :diminish (company-mode . "Co.")
+  :config
+  (push 'company-capf company-backends)
+  (push 'company-dabbrev-code company-backends))
 
 (req-package goto-chg
   :commands
