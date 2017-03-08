@@ -34,7 +34,10 @@
   (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent))
 
 (req-package mmm-pandoc
-  :requires mmm-mode markdown-mode
+  :loader :path
+  :requires
+  mmm-mode
+  markdown-mode
   :init
   (setq mmm-pandoc-prefer-backticks t)
   (setq mmm-parse-when-idle t))
