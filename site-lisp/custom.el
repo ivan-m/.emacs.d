@@ -9,7 +9,6 @@
  ;; If there is more than one, they won't work right.
  '(calendar-christian-all-holidays-flag t)
  '(diary-show-holidays-flag nil)
- '(ensime-graphical-tooltips t)
  '(holiday-other-holidays
    (quote
     ((holiday-fixed 1 1 "New Year's Day")
@@ -113,5 +112,4 @@
      (eval defun cell-quote
            (s)
            (concat "\"" s "\""))
-     (eval turn-on-orgtbl))))
- '(scala-indent:indent-value-expression t))
+     (eval turn-on-orgtbl)))))
