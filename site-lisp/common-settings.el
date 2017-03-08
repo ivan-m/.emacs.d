@@ -328,6 +328,7 @@ the actual manpage using the function `man'."
 
 (req-package company
   :diminish (company-mode . "Co.")
+  :commands company-mode
   :config
   (push 'company-capf company-backends)
   (push 'company-dabbrev-code company-backends))
