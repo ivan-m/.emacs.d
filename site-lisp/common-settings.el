@@ -13,7 +13,6 @@
       frame-title-format "%b %+%+ %f"
       icon-title-format frame-title-format
       column-number-mode t
-      scoll-bar-mode 'left
       size-indication-mode t
       tool-bar-mode nil
       use-dialog-box nil
@@ -27,7 +26,7 @@
       require-final-newline t
       select-enable-primary nil
       select-enable-clipboard t
-      select-active-region t
+      select-active-regions t
 
       apropos-do-all t
       history-length 1000
@@ -37,6 +36,8 @@
       compilation-message-face 'default
 
       text-mode-hook '(turn-on-auto-fill table-recognize text-mode-hook-identify))
+
+(set-scroll-bar-mode 'left)
 
 (add-to-list 'completion-ignored-extensions ".hi")
 

@@ -1,3 +1,5 @@
+(eval-when-compile (require 'req-package))
+
 (req-package scala-mode
   :requires
   ensime
