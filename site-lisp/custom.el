@@ -84,9 +84,6 @@
                             calendar-daylight-time-zone-name))))))
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
- '(paradox-automatically-star nil)
- '(paradox-github-token t)
- '(paradox-homepage-button-string "⌂")
  '(safe-local-variable-values
    (quote
     ((flycheck-disabled-checkers emacs-lisp-checkdoc)
