@@ -596,6 +596,9 @@ _h_   _l_   _o_k        _y_ank
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(req-package darcsum
+  :commands darcsum-whatsnew
+  :bind ("C-c d" . darcsum-whatsnew))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
