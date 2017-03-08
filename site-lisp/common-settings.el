@@ -600,6 +600,10 @@ _h_   _l_   _o_k        _y_ank
   :commands darcsum-whatsnew
   :bind ("C-c d" . darcsum-whatsnew))
 
+(req-package helm
+  :commands helm-mini
+  :bind ([f9] . helm-mini))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
