@@ -84,15 +84,6 @@
 ;; make mouse middle-click only paste from primary X11 selection, not clipboard and kill ring.
 (global-set-key [mouse-2] 'mouse-yank-primary)
 
-(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
-                    (vector (list 'control
-                                  mouse-wheel-down-event))
-                  [C-mouse-wheel])    ; Emacs 20, 21
-                'zoom-in)
-(when (boundp 'mouse-wheel-up-event) ; Emacs 22+
-  (global-set-key (vector (list 'control mouse-wheel-up-event))
-                  'zoom-out))
-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-save-hook 'backup-each-save)
 
@@ -627,6 +618,28 @@ _h_   _l_   _o_k        _y_ank
 (req-package nix-mode)
 
 (req-package nixos-options)
+
+(req-package zoom-frm
+  :init
+  (setq zoom-frame/buffer 'buffer)
+  :commands
+  zoom-in/out
+  zoom-in
+  zoom-out
+  :bind (:map ctl-x-map
+         ([(control ?+)] . zoom-in/out)
+         ([(control ?-)] . zoom-in/out)
+         ([(control ?=)] . zoom-in/out)
+         ([(control ?0)] . zoom-in/out))
+  :config
+  (global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+                      (vector (list 'control
+                                    mouse-wheel-down-event))
+                    [C-mouse-wheel])    ; Emacs 20, 21
+                  'zoom-in)
+  (when (boundp 'mouse-wheel-up-event) ; Emacs 22+
+    (global-set-key (vector (list 'control mouse-wheel-up-event))
+                    'zoom-out)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
