@@ -7,8 +7,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(LaTeX-verbatim-environments (quote ("verbatim" "verbatim*" "comment")))
- '(TeX-PDF-mode t)
  '(calendar-christian-all-holidays-flag t)
  '(diary-show-holidays-flag nil)
  '(ensime-graphical-tooltips t)
@@ -94,10 +92,6 @@
  '(paradox-automatically-star nil)
  '(paradox-github-token t)
  '(paradox-homepage-button-string "⌂")
- '(preview-auto-cache-preamble t)
- '(preview-default-option-list
-   (quote
-    ("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels")))
  '(safe-local-variable-values
    (quote
     ((flycheck-disabled-checkers emacs-lisp-checkdoc)
