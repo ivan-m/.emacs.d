@@ -246,8 +246,8 @@
     (unless (shm/jump-to-slot)
       (call-interactively 'haskell-interactive-mode-tab))))
 
-(req-package flycheck
-  :require haskell-mode
+(req-package flycheck-haskell
+  :require flycheck
   :config
   ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
