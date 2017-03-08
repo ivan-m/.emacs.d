@@ -25,6 +25,9 @@
       indent-tabs-mode nil
       after-save-hook 'executable-make-buffer-file-executable-if-script-p
       require-final-newline t
+      select-enable-primary nil
+      select-enable-clipboard t
+      select-active-region t
 
       apropos-do-all t
       history-length 1000
@@ -68,6 +71,18 @@
 (global-unset-key (kbd "C-x C-z"))
 
 (global-set-key (kbd "C-x a r") 'align-regexp)
+
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
+
+(if (system-type-is-gnu)
+    (progn
+      (setq interprogram-cut-function 'x-select-text)
+      (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)))
+
+;; make mouse middle-click only paste from primary X11 selection, not clipboard and kill ring.
+(global-set-key [mouse-2] 'mouse-yank-primary)
 
 (global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
                     (vector (list 'control
@@ -275,6 +290,7 @@ the actual manpage using the function `man'."
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (req-package align-cols
+  :loader :path
   :command align-cols)
 
 (req-package whitespace
