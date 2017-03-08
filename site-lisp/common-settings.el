@@ -306,6 +306,8 @@ the actual manpage using the function `man'."
   :config
   (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
+(req-package flycheck-color-mode-line)
+
 (req-package flyspell
   :init
   (setq flyspell-issue-message-flag nil)
@@ -619,6 +621,12 @@ _h_   _l_   _o_k        _y_ank
 (req-package helm
   :commands helm-mini
   :bind ([f9] . helm-mini))
+
+(req-package graphviz-dot-mode)
+
+(req-package nix-mode)
+
+(req-package nixos-options)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
