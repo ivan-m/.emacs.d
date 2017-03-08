@@ -87,17 +87,6 @@
                             calendar-daylight-time-zone-name))))))
  '(lpr-add-switches nil)
  '(lpr-command "gtklp")
- '(markdown-code-modes
-   (quote
-    (("haskell" . literate-haskell-mode)
-     ("dot" . graphviz-dot-mode)
-     ("bash" . sh-mode))))
- '(markdown-command "pandoc -Ss")
- '(markdown-indent-on-enter nil)
- '(markdown-italic-underscore t)
- '(mmm-global-mode (quote maybe) nil (mmm-mode))
- '(mmm-pandoc-prefer-backticks t)
- '(mmm-parse-when-idle t)
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-skip-unavailable-files t)
  '(org-agenda-window-setup (quote other-window))
