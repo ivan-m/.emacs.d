@@ -1,6 +1,8 @@
 (req-package shm
   :init
-  (setq ebal-completing-read-function 'ebal-ido-completing-read)
+  (setq shm-auto-insert-skeletons t)
+  (setq shm-indent-point-after-adding-where-clause t)
+  (setq shm-use-hdevtools t)
   :bind (:map shm-map
          ("SPC" . shm/space)
          :map shm-repl-map)
@@ -11,6 +13,8 @@
       (define-key shm-map (kbd "<s-backspace>") 'shm/delete)))
 
 (req-package ebal
+  :init
+  (setq ebal-completing-read-function 'ebal-ido-completing-read)
   :config
   (push '(configure "--enable-tests" "--enable-benchmarks")
         ebal-global-option-alist)

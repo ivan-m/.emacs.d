@@ -135,7 +135,4 @@
            (s)
            (concat "\"" s "\""))
      (eval turn-on-orgtbl))))
- '(scala-indent:indent-value-expression t)
- '(shm-auto-insert-skeletons t)
- '(shm-indent-point-after-adding-where-clause t)
- '(shm-use-hdevtools t))
+ '(scala-indent:indent-value-expression t))
