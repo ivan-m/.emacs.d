@@ -1,3 +1,5 @@
+(eval-when-compile (require 'req-package))
+
 (req-package shm
   :init
   (setq shm-auto-insert-skeletons t)

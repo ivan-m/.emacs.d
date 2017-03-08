@@ -1,3 +1,5 @@
+(eval-when-compile (require 'req-package))
+
 (req-package markdown-mode
   :init
   (setq markdown-command "pandoc -Ss")
