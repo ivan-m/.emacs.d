@@ -25,6 +25,16 @@
 (req-package hindent
   :commands hindent-mode)
 
+(req-package company-ghci
+  :requires company
+  :command company-ghci
+  :config (push 'company-ghci company-backends))
+
+(req-package company-cabal
+  :requires company
+  :command company-cabal
+  :config (push 'company-cabal company-backends))
+
 (req-package haskell-mode
   :require
   shm
@@ -148,8 +158,6 @@
     (flyspell-prog-mode)
     (flycheck-mode 1)
     (company-mode 1))
-
-  (push 'company-ghci company-backends)
 
   (defun haskell-literate-hook ()
     (structured-haskell-mode 0)
