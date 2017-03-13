@@ -48,6 +48,7 @@
   :require magit
   :commands magit-filenotify-mode
   :config (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
+  :functions system-type-is-gnu
   :if (system-type-is-gnu))
 
 (req-package bug-reference-github)

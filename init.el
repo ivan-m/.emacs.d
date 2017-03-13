@@ -13,11 +13,8 @@
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
 
-(load custom-file :noerror)
-
-(defun init-compile-dir (dir)
-  ;; Byte-compile a directory when starting emacs.
-  (with-no-warnings (byte-recompile-directory dir 0)))
+;; Byte-compile settings
+(with-no-warnings (byte-recompile-directory site-lisp-dir 0))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
@@ -55,21 +52,21 @@
 
 (setq use-package-always-ensure t)
 
-;; Load all packages from site-lisp-dir
-(req-package load-dir
-  :force true
-  :init
-  (setq force-load-messages nil)
-  (setq load-dir-debug nil)
-  (setq load-dir-recursive t)
-  :config
-  (load-dir-one site-lisp-dir)
-  (req-package-finish))
+(require 'common-settings)
+(require 'auctex-settings)
+(require 'haskell-settings)
+(require 'ido-settings)
+(require 'magit-settings)
+(require 'markdown-settings)
+(require 'orgmode-settings)
+(require 'scala-settings)
+
+(req-package-finish)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-;; Byte-compile settings.
+;; Now actually load the custom settings; this shouldn't be much.
 
-(init-compile-dir site-lisp-dir)
+(load custom-file :noerror)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

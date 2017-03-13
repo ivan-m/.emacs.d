@@ -77,11 +77,6 @@
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
 
-(if (system-type-is-gnu)
-    (progn
-      (setq interprogram-cut-function 'x-select-text)
-      (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)))
-
 ;; make mouse middle-click only paste from primary X11 selection, not clipboard and kill ring.
 (global-set-key [mouse-2] 'mouse-yank-primary)
 
@@ -205,7 +200,11 @@ the actual manpage using the function `man'."
         (server-start))))
 
 (if (system-type-is-gnu)
-    (setq default-frame-alist (quote ((font . "DejaVu Sans Mono-10")))))
+    (progn
+      (setq default-frame-alist (quote ((font . "DejaVu Sans Mono-10"))))
+      (setq interprogram-cut-function 'x-select-text)
+      (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)))
+
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -236,19 +235,22 @@ the actual manpage using the function `man'."
   (load-theme 'alect-dark t)
   (set-face-attribute 'font-lock-type-face nil :foreground "#be59d8"))
 
-(req-package windmove
-  :init (defun ignore-error-wrapper (fn)
-          "Funtion return new function that ignore errors.
+(use-package windmove
+  :config
+  (defun ignore-error-wrapper (fn)
+    "Funtion return new function that ignore errors.
    The function wraps a function with `ignore-errors' macro."
-          (lexical-let ((fn fn))
-            (lambda ()
-              (interactive)
-              (ignore-errors
-                (funcall fn)))))
-  :bind (([S-left]  . (ignore-error-wrapper 'windmoveleft))
-         ([S-right] . (ignore-error-wrapper 'windmove-right))
-         ([S-up]    . (ignore-error-wrapper 'windmove-up))
-         ([S-down]  . (ignore-error-wrapper 'windmove-down))))
+    (lexical-let ((fn fn))
+      (lambda ()
+        (interactive)
+        (ignore-errors
+          (funcall fn)))))
+
+  ;; As we're using a function call, we can't do this with :bind
+  (global-set-key [S-left] (ignore-error-wrapper 'windmove-left))
+  (global-set-key [S-right] (ignore-error-wrapper 'windmove-right))
+  (global-set-key [S-up] (ignore-error-wrapper 'windmove-up))
+  (global-set-key [S-down] (ignore-error-wrapper 'windmove-down)))
 
 (req-package tramp
   :init
@@ -266,13 +268,14 @@ the actual manpage using the function `man'."
   :init
   (setq recentf-max-saved-items 1000)
   (setq recentf-save-file (expand-file-name "recentf" user-emacs-directory))
+  (setq recentf-auto-cleanup 'never)
+  :config
   ;; Needs to be done before it's started: https://www.emacswiki.org/emacs/RecentFiles#toc12
   (add-to-list 'recentf-exclude "^/ssh:.*")
   (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
   (add-to-list 'recentf-exclude ".*-autoloads\\.el\\'")
   (add-to-list 'recentf-exclude "[/\\]\\.elpa/")
-  (setq recentf-auto-cleanup 'never)
-  :config
+
   (recentf-mode 1)
   ;; Save recent list when idle for five minutes.
   (run-with-idle-timer (* 5 60) t 'recentf-save-list))
@@ -282,14 +285,95 @@ the actual manpage using the function `man'."
 (req-package lorem-ipsum)
 
 (req-package generic-x
+  :loader :build-in
   :mode ("smb\\.conf$" . samba-generic-mode))
 
 (req-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(req-package align-cols
-  :loader :path
-  :command align-cols)
+(message "%s" load-path)
+
+(let*
+    ((PKG 'align-cols)
+     (ARGS
+      '(:force t :loader :path :command align-cols))
+     (SPLIT1
+      (req-package-args-extract-arg :require ARGS nil))
+     (SPLIT2
+      (req-package-args-extract-arg :loader
+                                    (cadr SPLIT1)
+                                    nil))
+     (SPLIT3
+      (req-package-args-extract-arg :init
+                                    (cadr SPLIT2)
+                                    nil))
+     (SPLIT4
+      (req-package-args-extract-arg :config
+                                    (cadr SPLIT3)
+                                    nil))
+     (SPLIT5
+      (req-package-args-extract-arg :force
+                                    (cadr SPLIT4)
+                                    nil))
+     (SPLIT6
+      (req-package-args-extract-arg :dep-init
+                                    (cadr SPLIT5)
+                                    nil))
+     (SPLIT7
+      (req-package-args-extract-arg :dep-config
+                                    (cadr SPLIT6)
+                                    nil))
+     (SPLIT8
+      (req-package-args-extract-arg :load-path
+                                    (cadr SPLIT7)
+                                    nil))
+     (DEPS
+      (-flatten
+       (car SPLIT1)))
+     (LOADER
+      (caar SPLIT2))
+     (INIT
+      (cons 'progn
+            (car SPLIT3)))
+     (PKG
+      (list PKG DEPS))
+     (CONFIG
+      (req-package-patch-config PKG
+                                (cons 'progn
+                                      (car SPLIT4))))
+     (FORCE
+      (caar SPLIT5))
+     (DEP-INIT
+      (caar SPLIT6))
+     (DEP-CONFIG
+      (caar SPLIT7))
+     (REST
+      (cadr SPLIT7))
+     (LOAD-PATH
+      (-flatten
+       (car SPLIT8)))
+     (EVAL
+      (req-package-gen-eval PKG INIT CONFIG REST)))
+  (if
+      (and LOADER
+           (not
+            (ht-get
+             (req-package-providers-get-map)
+             LOADER)))
+      (req-package--log-error "unable to find loader %s for package %s" LOADER PKG)
+    (message "%s" EVAL)
+    (message "%s" LOADER)
+    (message "%s" FORCE)
+    (if FORCE
+        (progn
+          (req-package--log-debug "package force-requested: %s %s" PKG EVAL)
+          (req-package-providers-prepare
+           (car PKG)
+           LOADER)
+          (req-package-handle-loading PKG
+                                      (lambda nil
+                                        (req-package-eval-form EVAL))))
+      (req-package-schedule PKG DEPS LOADER EVAL LOAD-PATH))))
 
 (req-package whitespace
   :init
