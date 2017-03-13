@@ -82,8 +82,6 @@
                             (/ calendar-daylight-savings-ends-time
                                (float 60))
                             calendar-daylight-time-zone-name))))))
- '(lpr-add-switches nil)
- '(lpr-command "gtklp")
  '(safe-local-variable-values
    (quote
     ((flycheck-disabled-checkers emacs-lisp-checkdoc)
