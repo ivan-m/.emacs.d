@@ -13,9 +13,6 @@
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
 
-;; Byte-compile settings
-(with-no-warnings (byte-recompile-directory site-lisp-dir 0))
-
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
 ;; depends on some packages being available/loaded.
@@ -50,18 +47,20 @@
 (try-install 'req-package)
 (require 'req-package)
 
+;; Byte-compile settings; make sure we do this after req-package is installed.
+(with-no-warnings (byte-recompile-directory site-lisp-dir 0))
+
 (setq use-package-always-ensure t)
 
-(require 'common-settings)
-(require 'auctex-settings)
-(require 'haskell-settings)
-(require 'ido-settings)
-(require 'magit-settings)
-(require 'markdown-settings)
-(require 'orgmode-settings)
-(require 'scala-settings)
-
-(req-package-finish)
+(req-package load-dir
+  :force true
+  :init
+  (setq force-load-messages nil)
+  (setq load-dir-debug nil)
+  (setq load-dir-recursive t)
+  :config
+  (load-dir-one site-lisp-dir)
+  (req-package-finish))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.
