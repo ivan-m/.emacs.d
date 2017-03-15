@@ -1,19 +1,43 @@
-;; (autoload 'markdown-mode "markdown-mode.el"
-;;   "Major mode for editing Markdown files" t)
-;;(markdown-mode-autoloads)
-;;(markdown-mode+-autoloads)
-(setq auto-mode-alist
-      (cons '("\\.txt" . markdown-mode)
-      (cons '("\\.md" . markdown-mode)
-      (cons '("\\.text" . markdown-mode)
-      (cons '("[cC]hange\\.?[lL]og?\\'" . markdown-mode) auto-mode-alist)))))
+(eval-when-compile (require 'req-package))
 
-(add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+(req-package markdown-mode
+  :init
+  (setq markdown-command "pandoc -Ss")
+  (setq markdown-indent-on-enter nil)
+  (setq markdown-italic-underscore t)
+  :commands
+  markdown-mode
+  :mode
+  (("\\.txt" . markdown-mode)
+   ("\\.md" . markdown-mode)
+   ("\\.text" . markdown-mode)
+   ("[cC]hange\\.?[lL]og?\\'" . markdown-mode)))
 
-(add-hook 'markdown-mode-hook 'pandoc-mode)
-(add-hook 'markdown-mode-hook 'flyspell-mode)
-;; (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
+(req-package markdown-mode
+  :requires flyspell
+  :config (add-hook 'markdown-mode-hook 'flyspell-mode))
 
-(require 'mmm-mode)
-(require 'mmm-pandoc)
-(add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent)
+(req-package pandoc
+  :requires
+  markdown-mode
+  :config
+  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+  (add-hook 'markdown-mode-hook 'pandoc-mode))
+
+(req-package mmm-mode
+  :init
+  (setq mmm-global-mode 'maybe)
+  (setq mmm-parse-when-idle t)
+  :commands
+  mmm-mode
+  :config
+  (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent))
+
+(eval-after-load 'mmm-mode
+  (progn
+    (setq mmm-pandoc-prefer-backticks t)
+    (setq mmm-parse-when-idle t)
+    (require 'mmm-pandoc)
+    t))
+
+(provide 'markdown-settings)

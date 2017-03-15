@@ -1,44 +1,56 @@
-;; (load "auctex.el" nil t t)
-(load "preview.el" nil t t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-(setq TeX-auto-untabify t)
-;;(list "pdfLaTeX" "pdflatex '\\nonstopmode\\input{%t}'" 'TeX-run-LaTeX nil t)
+(eval-when-compile (require 'req-package))
 
-(require 'reftex)
+(req-package auctex
+  :init
+  (setq LaTeX-verbatim-environments '("verbatim" "verbatim*" "comment"))
+  (setq TeX-PDF-mode t)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+  (setq TeX-auto-untabify t)
+  :mode
+  ("\\.tex\\'" . latex-mode)
+  :bind (:map LaTeX-mode-map
+         ("\C-c\C-t\C-x" . TeX-toggle-escape))
+  :commands
+  latex-mode
+  LaTeX-mode
+  plain-tex-mode
+  :config
+  (defun TeX-toggle-escape nil (interactive)
+         (if (string= LaTeX-command "latex") "latex -shell-escape" "latex"))
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
-(add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-(add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
+(req-package auctex
+  :require reftex
+  :config (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
-(add-hook 'LaTeX-mode-hook 'orgtbl-mode)
+(req-package latex
+  :require auctex flyspell
+  :config (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
-(setq reftex-plug-into-AUCTeX t)
+(req-package auctex
+  :require org
+  :config (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
 
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(req-package reftex
+  :init
+  (setq reftex-plug-into-AUCTeX t)
+  :commands
+  turn-on-reftex
+  :config
+  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index))
 
-(defun TeX-toggle-escape nil (interactive)
-  (if (string= LaTeX-command "latex") "latex -shell-escape" "latex"))
+(req-package preview
+  :require auctex latex
+  :init
+  (setq preview-auto-cache-preamble t)
+  (setq preview-default-option-list
+        '("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels"))
+  :commands
+  LaTeX-preview-setup
+  :config
+  (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
-(add-hook 'LaTeX-mode-hook
-          (lambda nil
-            (define-key LaTeX-mode-map "\C-c\C-t\C-x" 'TeX-toggle-escape)))
-
-
-(setq LaTeX-section-hook
-      '(LaTeX-section-heading
-        LaTeX-section-title
-        ;; LaTeX-section-toc
-        LaTeX-section-section
-        LaTeX-section-label))
-
-
-;; (setq TeX-region "tempTex")
-
-;; Check TeX-style-private for beamer customisations
-
-;; xdvik
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
-;; (require 'xdvi-search)
+(provide 'auctex-settings)
