@@ -81,7 +81,6 @@
 (global-set-key [mouse-2] 'mouse-yank-primary)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'after-save-hook 'backup-each-save)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -291,89 +290,9 @@ the actual manpage using the function `man'."
 (req-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(message "%s" load-path)
-
-(let*
-    ((PKG 'align-cols)
-     (ARGS
-      '(:force t :loader :path :command align-cols))
-     (SPLIT1
-      (req-package-args-extract-arg :require ARGS nil))
-     (SPLIT2
-      (req-package-args-extract-arg :loader
-                                    (cadr SPLIT1)
-                                    nil))
-     (SPLIT3
-      (req-package-args-extract-arg :init
-                                    (cadr SPLIT2)
-                                    nil))
-     (SPLIT4
-      (req-package-args-extract-arg :config
-                                    (cadr SPLIT3)
-                                    nil))
-     (SPLIT5
-      (req-package-args-extract-arg :force
-                                    (cadr SPLIT4)
-                                    nil))
-     (SPLIT6
-      (req-package-args-extract-arg :dep-init
-                                    (cadr SPLIT5)
-                                    nil))
-     (SPLIT7
-      (req-package-args-extract-arg :dep-config
-                                    (cadr SPLIT6)
-                                    nil))
-     (SPLIT8
-      (req-package-args-extract-arg :load-path
-                                    (cadr SPLIT7)
-                                    nil))
-     (DEPS
-      (-flatten
-       (car SPLIT1)))
-     (LOADER
-      (caar SPLIT2))
-     (INIT
-      (cons 'progn
-            (car SPLIT3)))
-     (PKG
-      (list PKG DEPS))
-     (CONFIG
-      (req-package-patch-config PKG
-                                (cons 'progn
-                                      (car SPLIT4))))
-     (FORCE
-      (caar SPLIT5))
-     (DEP-INIT
-      (caar SPLIT6))
-     (DEP-CONFIG
-      (caar SPLIT7))
-     (REST
-      (cadr SPLIT7))
-     (LOAD-PATH
-      (-flatten
-       (car SPLIT8)))
-     (EVAL
-      (req-package-gen-eval PKG INIT CONFIG REST)))
-  (if
-      (and LOADER
-           (not
-            (ht-get
-             (req-package-providers-get-map)
-             LOADER)))
-      (req-package--log-error "unable to find loader %s for package %s" LOADER PKG)
-    (message "%s" EVAL)
-    (message "%s" LOADER)
-    (message "%s" FORCE)
-    (if FORCE
-        (progn
-          (req-package--log-debug "package force-requested: %s %s" PKG EVAL)
-          (req-package-providers-prepare
-           (car PKG)
-           LOADER)
-          (req-package-handle-loading PKG
-                                      (lambda nil
-                                        (req-package-eval-form EVAL))))
-      (req-package-schedule PKG DEPS LOADER EVAL LOAD-PATH))))
+;; For some reason using req-package for this failed; since it's a
+;; file kept in the load-path it doesn't really matter.
+(autoload 'align-cols "align-cols" "Align text in the region." t)
 
 (req-package whitespace
   :init
@@ -408,8 +327,9 @@ the actual manpage using the function `man'."
   ;;(add-to-list 'ahs-modes 'haskell-mode)
   (global-auto-highlight-symbol-mode 1))
 
-(req-package cap-words
-  :diminish capitalized-words-mode)
+(req-package subword
+  :commands subword-mode
+  :diminish subword-mode)
 
 (req-package mmm-mode
   :diminish mmm-mode)
@@ -481,7 +401,8 @@ _h_   _l_   _o_k        _y_ank
   :defer t)
 
 (req-package csv-mode
-  :config org
+  :require org
+  :config
   (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
 (req-package ispell
@@ -495,7 +416,7 @@ _h_   _l_   _o_k        _y_ank
   :init
   (set-language-environment "UTF-8")
   (setq rw-hunspell-default-dictionary "en_AU_dictionaries")
-  (setq rw-hunspell-dicpath-list '((expand-file-name "dictionaries" user-emacs-directory)))
+  (setq rw-hunspell-dicpath-list (list (expand-file-name "dictionaries" user-emacs-directory)))
   (setq rw-hunspell-make-dictionary-menu t)
   (setq rw-hunspell-use-rw-ispell t)
   :require
@@ -507,10 +428,10 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package font-utils
   :init
-  (font-utils-less-feedback t))
+  (setq font-utils-less-feedback t))
 
 (req-package unicode-fonts
-  :requires font-utils
+  :require font-utils
   :init
   (setq unicode-fonts-block-font-mapping
         '(("Alchemical Symbols"
@@ -643,6 +564,7 @@ _h_   _l_   _o_k        _y_ank
   :mode ("\\.sql$" . sql-mode))
 
 (req-package uniquify
+  :loader :build-in
   :init
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
@@ -651,6 +573,7 @@ _h_   _l_   _o_k        _y_ank
   (auto-image-file-mode 1))
 
 (req-package files
+  :loader :build-in
   :init
   (setq backup-by-copying t)
   (setq backup-directory-alist '((expand-file-name "backups" user-emacs-directory)))
@@ -661,6 +584,7 @@ _h_   _l_   _o_k        _y_ank
   (delete-selection-mode 1))
 
 (req-package dired
+  :loader :build-in
   :init
   (setq dired-dwim-target t)
   (setq dired-listing-switches "-alh")
@@ -679,10 +603,11 @@ _h_   _l_   _o_k        _y_ank
   (setq woman-fill-frame t)
   (setq woman-imenu t)
   (setq woman-use-own-frame nil)
-  (set-face-attribute 'woman-italic nil :inherit italic :foreground "#3cb370")
-  (set-face-attribute 'woman-bold nil :inherit bold :foreground "#00aff5")
   :commands
-  woman)
+  woman
+  :config
+  (set-face-attribute 'woman-italic nil :inherit italic :foreground "#3cb370")
+  (set-face-attribute 'woman-bold nil :inherit bold :foreground "#00aff5"))
 
 (req-package compile
   :init
@@ -690,7 +615,7 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package bury-successful-compilation
   :config
-  (bury-succesful-compilation 1))
+  (bury-successful-compilation 1))
 
 (req-package ediff
   :init

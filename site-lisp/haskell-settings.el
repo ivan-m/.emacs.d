@@ -29,19 +29,18 @@
 
 (req-package company-ghci
   :requires company
-  :command company-ghci
+  :commands company-ghci
   :config (push 'company-ghci company-backends))
 
 (req-package company-cabal
   :requires company
-  :command company-cabal
+  :commands company-cabal
   :config (push 'company-cabal company-backends))
 
 (req-package haskell-mode
   :require
   shm
   ebal
-  hs-lint
   hindent
   skeleton
   autoinsert
@@ -142,7 +141,7 @@
     (interactive-haskell-mode 1)
     (structured-haskell-mode 1)
     (electric-indent-local-mode -1)
-    (capitalized-words-mode)
+    (subwords-mode)
     (turn-on-haskell-decl-scan)
     #'hindent-mode
     (auto-insert-mode 1)
@@ -252,7 +251,8 @@
   ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
-(req-package hs-lint
-  :loader :path)
+(message "%s" load-path)
+
+(autoload 'hs-lint "hs-lint" "Lint Haskell source code" t)
 
 (provide 'haskell-settings)

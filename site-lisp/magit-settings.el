@@ -42,7 +42,7 @@
            (magit-get-current-branch))))
 
   :bind (:map magit-mode-map
-              ("O" #'endless/visit-pull-request-url)))
+              ("O" . endless/visit-pull-request-url)))
 
 (req-package magit-filenotify
   :require magit

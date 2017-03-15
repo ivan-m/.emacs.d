@@ -22,20 +22,16 @@
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
 (req-package auctex
-  :requires reftex
+  :require reftex
   :config (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
-(req-package auctex
-  :requires flyspell
+(req-package latex
+  :require auctex flyspell
   :config (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 (req-package auctex
-  :requires org
+  :require org
   :config (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
-
-(req-package auctex
-  :requires preview
-  :config (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
 (req-package reftex
   :init
@@ -47,11 +43,14 @@
   (add-hook 'reftex-mode-hook 'imenu-add-menubar-index))
 
 (req-package preview
+  :require auctex latex
   :init
   (setq preview-auto-cache-preamble t)
   (setq preview-default-option-list
         '("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels"))
   :commands
-  LaTeX-preview-setup)
+  LaTeX-preview-setup
+  :config
+  (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
 (provide 'auctex-settings)

@@ -28,18 +28,16 @@
   :init
   (setq mmm-global-mode 'maybe)
   (setq mmm-parse-when-idle t)
-  :mode
+  :commands
   mmm-mode
   :config
   (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent))
 
-(req-package mmm-pandoc
-  :loader :path
-  :requires
-  mmm-mode
-  markdown-mode
-  :init
-  (setq mmm-pandoc-prefer-backticks t)
-  (setq mmm-parse-when-idle t))
+(eval-after-load 'mmm-mode
+  (progn
+    (setq mmm-pandoc-prefer-backticks t)
+    (setq mmm-parse-when-idle t)
+    (require 'mmm-pandoc)
+    t))
 
 (provide 'markdown-settings)
