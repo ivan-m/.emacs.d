@@ -74,14 +74,16 @@
   :config
   (smex-initialize)
 
-  (if (system-type-is-darwin)
-      (global-set-key (kbd "s-SPC") 'smex))
-
   ;; speed smex up
   (defun smex-update-after-load (unused)
     (when (boundp 'smex-cache)
       (smex-update)))
   (add-hook 'after-load-functions 'smex-update-after-load))
+
+(req-package smex
+  :bind ("s-SPC" . smex)
+  :functions system-type-is-darwin
+  :if (system-type-is-darwin))
 
 (req-package icomplete
   :config
