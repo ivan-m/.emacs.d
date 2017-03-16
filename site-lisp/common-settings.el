@@ -290,9 +290,9 @@ the actual manpage using the function `man'."
 (req-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-;; For some reason using req-package for this failed; since it's a
-;; file kept in the load-path it doesn't really matter.
-(autoload 'align-cols "align-cols" "Align text in the region." t)
+(req-package align-cols
+  :loader :path
+  :commands align-cols)
 
 (req-package whitespace
   :init

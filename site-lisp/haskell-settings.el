@@ -253,6 +253,8 @@
 
 (message "%s" load-path)
 
-(autoload 'hs-lint "hs-lint" "Lint Haskell source code" t)
+(req-package hs-lint
+  :loader :path
+  :commands hs-lint)
 
 (provide 'haskell-settings)

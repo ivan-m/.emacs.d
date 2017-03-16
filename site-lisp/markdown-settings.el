@@ -33,11 +33,11 @@
   :config
   (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent))
 
-(eval-after-load 'mmm-mode
-  (progn
-    (setq mmm-pandoc-prefer-backticks t)
-    (setq mmm-parse-when-idle t)
-    (require 'mmm-pandoc)
-    t))
+(req-package mmm-pandoc
+  :require mmm-mode
+  :loader :path
+  :init
+  (setq mmm-pandoc-prefer-backticks t)
+  (setq mmm-parse-when-idle t))
 
 (provide 'markdown-settings)
