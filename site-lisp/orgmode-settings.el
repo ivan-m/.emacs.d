@@ -3,7 +3,7 @@
 ;; Having problems? Try this: http://emacs.stackexchange.com/a/16616
 
 (req-package org
-  :requires
+  :require
   org-plus-contrib
   :init
   (setq org-completion-use-ido t)

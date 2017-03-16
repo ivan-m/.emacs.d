@@ -100,7 +100,7 @@
   (add-hook 'font-lock-mode-hook 'try-to-add-imenu))
 
 (req-package artist
-  :requires ido
+  :require ido
   :bind
   (:map artist-mode-map
    ("C-C C-a C-o" . artist-ido-select-operation)

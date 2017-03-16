@@ -28,12 +28,12 @@
   :commands hindent-mode)
 
 (req-package company-ghci
-  :requires company
+  :require company
   :commands company-ghci
   :config (push 'company-ghci company-backends))
 
 (req-package company-cabal
-  :requires company
+  :require company
   :commands company-cabal
   :config (push 'company-cabal company-backends))
 

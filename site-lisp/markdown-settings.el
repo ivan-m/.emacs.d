@@ -14,11 +14,11 @@
    ("[cC]hange\\.?[lL]og?\\'" . markdown-mode)))
 
 (req-package markdown-mode
-  :requires flyspell
+  :require flyspell
   :config (add-hook 'markdown-mode-hook 'flyspell-mode))
 
 (req-package pandoc
-  :requires
+  :require
   markdown-mode
   :config
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
