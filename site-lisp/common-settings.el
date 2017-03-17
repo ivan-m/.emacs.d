@@ -266,14 +266,18 @@ the actual manpage using the function `man'."
 (req-package recentf
   :init
   (setq recentf-max-saved-items 1000)
-  (setq recentf-save-file (expand-file-name "recentf" user-emacs-directory))
+  ;; Needs to be done before it's started: https://www.emacswiki.org/emacs/RecentFiles#toc12
   (setq recentf-auto-cleanup 'never)
   :config
-  ;; Needs to be done before it's started: https://www.emacswiki.org/emacs/RecentFiles#toc12
   (add-to-list 'recentf-exclude "^/ssh:.*")
   (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
   (add-to-list 'recentf-exclude ".*-autoloads\\.el\\'")
+  (add-to-list 'recentf-exclude "ido\\.last")
+  (add-to-list 'recentf-exclude "recentf")
   (add-to-list 'recentf-exclude "[/\\]\\.elpa/")
+
+  ;; Need to use this function apparently
+  (setq recentf-save-file (recentf-expand-file-name (expand-file-name "recentf" user-emacs-directory)))
 
   (recentf-mode 1)
   ;; Save recent list when idle for five minutes.
@@ -576,7 +580,8 @@ _h_   _l_   _o_k        _y_ank
   :loader :built-in
   :init
   (setq backup-by-copying t)
-  (setq backup-directory-alist '((expand-file-name "backups" user-emacs-directory)))
+  (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
+  (setq auto-save-file-name-transforms `((".*" ,(expand-file-name "backups" user-emacs-directory))))
   (setq delete-old-versions t))
 
 (req-package delsel
