@@ -62,6 +62,26 @@
 (req-package-finish)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;; req-package / use-package don't seem to play nicely with themes:
+;; https://github.com/jwiegley/use-package/issues/351
+
+(try-install 'alect-themes)
+(require 'alect-themes)
+
+;; When using emacs --daemon, it seems that the cursor color isn't
+;; set.  As such, use this to set it manually (needs to be set after
+;; customize).
+;;
+;; Unfortunately, there doesn't seem to be any way of making this work
+;; for all themes, and the theme-specific cursor color needs to be
+;; used.
+(add-to-list 'default-frame-alist
+             `(cursor-color . ,(alect-get-color 'dark 'cursor)))
+(set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
+
+(load-theme 'alect-dark t)
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.
 
 (load custom-file :noerror)
