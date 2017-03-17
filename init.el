@@ -50,6 +50,9 @@
 ;; Byte-compile settings; make sure we do this after req-package is installed.
 (with-no-warnings (byte-recompile-directory site-lisp-dir 0))
 
+;; Just in case something went wrong with the byte-compilation
+(setq load-prefer-newer t)
+
 (req-package load-dir
   :force true
   :init
