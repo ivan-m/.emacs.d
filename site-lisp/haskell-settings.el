@@ -1,6 +1,7 @@
 (eval-when-compile (require 'req-package))
 
 (req-package shm
+  :require hindent
   :init
   (setq shm-auto-insert-skeletons t)
   (setq shm-indent-point-after-adding-where-clause t)
@@ -10,9 +11,15 @@
          :map shm-repl-map)
   :functions system-type-is-darwin
   :config
-  (require 'shm-case-split)
   (if (system-type-is-darwin)
       (define-key shm-map (kbd "<s-backspace>") 'shm/delete)))
+
+(req-package shm-case-split
+  :require shm haskell-process
+  :commands shm/case-split)
+
+(req-package haskell-process
+  :require haskell-mode)
 
 (req-package ebal
   :init
