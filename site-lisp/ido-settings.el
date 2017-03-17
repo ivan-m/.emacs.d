@@ -1,6 +1,7 @@
 (eval-when-compile (require 'req-package))
 
 (req-package ido
+  :demand t
   :init
   (setq ido-all-frames t)
   (setq ido-auto-merge-work-directories-length -1)
@@ -21,7 +22,8 @@
   (setq ido-use-filename-at-point 'guess)
   (setq ido-use-virtual-buffers t)
 
-  :requires recentf
+  :require
+  recentf
 
   :commands
   ido-completing-read
@@ -29,8 +31,6 @@
   ido-complete
 
   :bind (("C-x C-r" . recentf-ido-find-file)
-         :map ido-completion-map
-         ([tab] . ido-complete)
          :map ido-file-dir-completion-map
          ("SPC" . self-insert-command))
   :config
