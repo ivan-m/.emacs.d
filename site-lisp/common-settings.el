@@ -21,7 +21,6 @@
 
       tab-width 4
       truncate-lines t
-      indent-tabs-mode nil
       after-save-hook 'executable-make-buffer-file-executable-if-script-p
       require-final-newline t
       select-enable-primary nil
@@ -36,6 +35,8 @@
       compilation-message-face 'default
 
       text-mode-hook '(turn-on-auto-fill table-recognize text-mode-hook-identify))
+
+(setq-default indent-tabs-mode nil)
 
 (set-scroll-bar-mode 'left)
 
