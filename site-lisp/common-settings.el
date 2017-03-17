@@ -27,7 +27,6 @@
       select-enable-clipboard t
       select-active-regions t
 
-      apropos-do-all t
       history-length 1000
       history-delete-duplicates t
 
@@ -660,6 +659,10 @@ _h_   _l_   _o_k        _y_ank
   (when (boundp 'mouse-wheel-up-event) ; Emacs 22+
     (global-set-key (vector (list 'control mouse-wheel-up-event))
                     'zoom-out)))
+
+(req-package apropos
+  (setq apropos-do-all t)
+  :commands apropos)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
