@@ -631,6 +631,7 @@ _h_   _l_   _o_k        _y_ank
 (req-package yaml-mode)
 
 (req-package zoom-frm
+  :demand t
   :init
   (setq zoom-frame/buffer 'buffer)
   :commands

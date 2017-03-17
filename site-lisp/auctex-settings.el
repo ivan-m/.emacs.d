@@ -49,8 +49,10 @@
   (setq preview-default-option-list
         '("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels"))
   :commands
-  LaTeX-preview-setup
-  :config
-  (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
+  LaTeX-preview-setup)
+
+(req-package 'latex
+  :require auctex preview
+  :config (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
 (provide 'auctex-settings)
