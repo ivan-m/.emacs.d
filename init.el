@@ -57,8 +57,9 @@
   (setq load-dir-debug nil)
   (setq load-dir-recursive t)
   :config
-  (load-dir-one site-lisp-dir)
-  (req-package-finish))
+  (load-dir-one site-lisp-dir))
+
+(req-package-finish)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.
