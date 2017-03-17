@@ -158,6 +158,7 @@ the actual manpage using the function `man'."
                (man (match-string 1 node)))
       ad-do-it)))
 
+;; https://github.com/alezost/alect-themes#emacs-bug-in-themed-variables
 (defadvice custom-theme-set-variables
     (around fix-inhibit-bug activate)
   "Allow setting of undefined variables in themes."
