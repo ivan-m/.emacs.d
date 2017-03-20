@@ -24,6 +24,8 @@
 (req-package ebal
   :init
   (setq ebal-completing-read-function 'ebal-ido-completing-read)
+  :commands
+  ebal-execute
   :config
   (push '(configure "--enable-tests" "--enable-benchmarks")
         ebal-global-option-alist)
@@ -36,12 +38,10 @@
 
 (req-package company-ghci
   :require company
-  :commands company-ghci
   :config (push 'company-ghci company-backends))
 
 (req-package company-cabal
   :require company
-  :commands company-cabal
   :config (push 'company-cabal company-backends))
 
 (req-package haskell-mode
@@ -74,7 +74,6 @@
   haskell-c2hs-mode
   ghci-script-mode
   ghc-core-mode
-  company
   :interpreter
   (("runhaskell" . haskell-mode)
    ("runghc" . haskell-mode))
