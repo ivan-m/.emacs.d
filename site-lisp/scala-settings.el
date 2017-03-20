@@ -3,7 +3,7 @@
 (req-package scala-mode
   :require
   ensime
-  company-mode
+  company
   :init
   (setq scala-indent:indent-value-expression t)
   :commands
