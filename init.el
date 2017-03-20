@@ -5,13 +5,22 @@
   (expand-file-name "site-lisp" user-emacs-directory))
 
 (setq custom-theme-directory
-      (expand-file-name "themes" site-lisp-dir))
+      (expand-file-name "themes" user-emacs-directory))
+
+(defconst lib-dir
+  (expand-file-name "lib" user-emacs-directory))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" site-lisp-dir))
 
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
+
+(add-to-list 'load-path lib-dir)
+
+(defun init-compile-dir (dir)
+  ;; Byte-compile a directory when starting emacs.
+  (with-no-warnings (byte-recompile-directory dir 0)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
@@ -48,7 +57,9 @@
 (require 'req-package)
 
 ;; Byte-compile settings; make sure we do this after req-package is installed.
-(with-no-warnings (byte-recompile-directory site-lisp-dir 0))
+(init-compile-dir site-lisp-dir)
+(init-compile-dir lib-dir)
+(init-compile-dir custom-theme-directory)
 
 ;; Just in case something went wrong with the byte-compilation
 (setq load-prefer-newer t)
