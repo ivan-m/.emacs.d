@@ -80,7 +80,7 @@
 ;; https://github.com/jwiegley/use-package/issues/351
 
 (try-install 'alect-themes)
-(require 'alect-themes)
+(load-theme 'alect-dark t)
 
 ;; When using emacs --daemon, it seems that the cursor color isn't
 ;; set.  As such, use this to set it manually (needs to be set after
@@ -92,8 +92,6 @@
 (add-to-list 'default-frame-alist
              `(cursor-color . ,(alect-get-color 'dark 'cursor)))
 (set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
-
-(load-theme 'alect-dark t)
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.
