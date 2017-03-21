@@ -265,7 +265,7 @@ the actual manpage using the function `man'."
   :mode ("smb\\.conf$" . samba-generic-mode))
 
 (req-package rainbow-delimiters
-  :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (req-package align-cols
   :loader :path
@@ -373,13 +373,13 @@ _h_   _l_   _o_k        _y_ank
   org-mode
   :mode
   ("\\.org$" . org-mode)
-  :config
+  :init
   (add-hook 'fundamental-mode-hook 'turn-on-orgtbl)
   :defer t)
 
 (req-package csv-mode
   :require org
-  :config
+  :init
   (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
 (req-package ispell
@@ -396,12 +396,11 @@ _h_   _l_   _o_k        _y_ank
   (setq rw-hunspell-dicpath-list (list (expand-file-name "dictionaries" user-emacs-directory)))
   (setq rw-hunspell-make-dictionary-menu t)
   (setq rw-hunspell-use-rw-ispell t)
+  (add-hook 'after-init-hook 'rw-hunspell-setup)
   :require
   ispell
   rw-language-and-country-codes
-  rw-ispell
-  :config
-  (add-hook 'after-init-hook 'rw-hunspell-setup))
+  rw-ispell)
 
 (req-package font-utils
   :init
@@ -500,19 +499,19 @@ _h_   _l_   _o_k        _y_ank
   (setq unicode-fonts-existence-checks 'first)
   (setq unicode-fonts-skip-font-groups
         '(chinese-simplified chinese-traditional low-quality-glyphs microsoft-only multicolor non-free))
+
+  (add-hook 'after-init-hook
+            (lambda ()
+              (if (display-graphic-p)
+                  (my/init-fonts)
+                (add-hook 'after-make-frame-functions 'my/init-fonts))))
   :config
   ;; Taken from https://github.com/rolandwalker/unicode-fonts/issues/3
   (defun my/init-fonts (&optional frame)
     (when (display-graphic-p frame)
       (when frame (select-frame frame))
       (unicode-fonts-setup)
-      (remove-hook 'after-make-frame-functions 'my/init-fonts)))
-
-  (add-hook 'after-init-hook
-            (lambda ()
-              (if (display-graphic-p)
-                  (my/init-fonts)
-                (add-hook 'after-make-frame-functions 'my/init-fonts)))))
+      (remove-hook 'after-make-frame-functions 'my/init-fonts))))
 
 (req-package ascii-art-to-unicode
   :commands

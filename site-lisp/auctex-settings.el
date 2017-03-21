@@ -8,6 +8,8 @@
   (setq TeX-parse-self t)
   (setq-default TeX-master nil)
   (setq TeX-auto-untabify t)
+
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
   :mode
   ("\\.tex\\'" . latex-mode)
   :bind (:map LaTeX-mode-map
@@ -18,29 +20,28 @@
   plain-tex-mode
   :config
   (defun TeX-toggle-escape nil (interactive)
-         (if (string= LaTeX-command "latex") "latex -shell-escape" "latex"))
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+         (if (string= LaTeX-command "latex") "latex -shell-escape" "latex")))
 
 (req-package auctex
   :require reftex
-  :config (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
+  :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
 (req-package latex
   :require auctex flyspell
-  :config (add-hook 'LaTeX-mode-hook 'flyspell-mode))
+  :init (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 (req-package auctex
   :require org
-  :config (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
+  :init (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
 
 (req-package reftex
   :init
   (setq reftex-plug-into-AUCTeX t)
-  :commands
-  turn-on-reftex
-  :config
+
   (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index))
+  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
+  :commands
+  turn-on-reftex)
 
 (req-package preview
   :require auctex latex
@@ -53,6 +54,6 @@
 
 (req-package 'latex
   :require auctex preview
-  :config (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
+  :init (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
 (provide 'auctex-settings)

@@ -15,12 +15,12 @@
 
 (req-package markdown-mode
   :require flyspell
-  :config (add-hook 'markdown-mode-hook 'flyspell-mode))
+  :init (add-hook 'markdown-mode-hook 'flyspell-mode))
 
 (req-package pandoc
   :require
   markdown-mode
-  :config
+  :init
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
   (add-hook 'markdown-mode-hook 'pandoc-mode))
 
@@ -28,10 +28,10 @@
   :init
   (setq mmm-global-mode 'maybe)
   (setq mmm-parse-when-idle t)
+
+  (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent)
   :commands
-  mmm-mode
-  :config
-  (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent))
+  mmm-mode)
 
 (req-package mmm-pandoc
   :require mmm-mode

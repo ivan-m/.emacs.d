@@ -6,6 +6,12 @@
   company
   :init
   (setq scala-indent:indent-value-expression t)
+
+  (add-hook 'scala-mode-hook
+            (lambda ()
+              (company-mode)
+              (ensime-mode)
+              (scala-mode:goto-start-of-code)))
   :commands
   scala-mode
   :bind
@@ -17,13 +23,7 @@
     ;; shouldn't this be in a post-insert hook?
     (interactive)
     (newline-and-indent)
-    (scala-indent:insert-asterisk-on-multiline-comment))
-
-  (add-hook 'scala-mode-hook
-            (lambda ()
-              (company-mode)
-              (ensime-mode)
-              (scala-mode:goto-start-of-code))))
+    (scala-indent:insert-asterisk-on-multiline-comment)))
 
 (req-package sbt-mode)
 

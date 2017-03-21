@@ -31,6 +31,13 @@
                 (save-excursion
                   (outline-previous-visible-heading 1)
                   (org-show-subtree)))))
+
+  ;; Make windmove work in org-mode:
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right)
+
   :commands
   org-mode
   :mode
@@ -46,13 +53,7 @@
   (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
   ;;(custom-set-variables `(org-emphasis-alist ',org-emphasis-alist)) ;; doesn't seem to be needed
-  (org-element--set-regexps)
-
-  ;; Make windmove work in org-mode:
-  (add-hook 'org-shiftup-final-hook 'windmove-up)
-  (add-hook 'org-shiftleft-final-hook 'windmove-left)
-  (add-hook 'org-shiftdown-final-hook 'windmove-down)
-  (add-hook 'org-shiftright-final-hook 'windmove-right))
+  (org-element--set-regexps))
 
 (req-package org-table
   :ensure

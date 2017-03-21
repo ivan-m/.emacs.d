@@ -64,6 +64,8 @@
   :init
   (setq smex-auto-update nil)
   (setq smex-save-file (expand-file-name "smex-items" user-emacs-directory))
+
+  (add-hook 'after-load-functions 'smex-update-after-load)
   :commands
   smex
   smex-major-mode-commands
@@ -77,8 +79,7 @@
   ;; speed smex up
   (defun smex-update-after-load (unused)
     (when (boundp 'smex-cache)
-      (smex-update)))
-  (add-hook 'after-load-functions 'smex-update-after-load))
+      (smex-update))))
 
 (req-package smex
   :bind ("s-SPC" . smex)
@@ -90,6 +91,7 @@
   (icomplete-mode 1))
 
 (req-package imenu
+  :demand t
   :init
   (setq imenu-auto-rescan t)
   :commands

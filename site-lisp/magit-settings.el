@@ -8,6 +8,8 @@
   (setq magit-merge-arguments "--no-ff")
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
+
+  (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
   :commands
   magit-status
   :config
@@ -25,8 +27,6 @@
         (magit-git-string
          "config" "--add" "remote.origin.fetch"
          fetch-address)))))
-
-  (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
 
   ;; http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html
   (defun endless/visit-pull-request-url ()
@@ -47,7 +47,7 @@
 (req-package magit-filenotify
   :require magit
   :commands magit-filenotify-mode
-  :config (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
+  :init (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
   :functions system-type-is-gnu
   :if (system-type-is-gnu))
 
