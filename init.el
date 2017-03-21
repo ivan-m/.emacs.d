@@ -22,6 +22,23 @@
   ;; Byte-compile a directory when starting emacs.
   (with-no-warnings (byte-recompile-directory dir 0)))
 
+;; Want to make sure these are always available, no matter which order
+;; the -settings files are loaded in.
+
+;; Check if system is Darwin/Mac OS X
+(defun system-type-is-darwin ()
+  (interactive)
+  "Return true if system is darwin-based (Mac OS X)"
+  (string-equal system-type "darwin")
+  )
+
+;; Check if system is GNU/Linux
+(defun system-type-is-gnu ()
+  (interactive)
+  "Return true if system is GNU/Linux-based"
+  (string-equal system-type "gnu/linux")
+  )
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
 ;; depends on some packages being available/loaded.

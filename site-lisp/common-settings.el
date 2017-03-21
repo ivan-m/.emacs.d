@@ -169,20 +169,6 @@ the actual manpage using the function `man'."
 
 ;; OS-specific functionality
 
-;; Check if system is Darwin/Mac OS X
-(defun system-type-is-darwin ()
-  (interactive)
-  "Return true if system is darwin-based (Mac OS X)"
-  (string-equal system-type "darwin")
-  )
-
-;; Check if system is GNU/Linux
-(defun system-type-is-gnu ()
-  (interactive)
-  "Return true if system is GNU/Linux-based"
-  (string-equal system-type "gnu/linux")
-  )
-
 (if (system-type-is-darwin)
     (progn
       (setenv "DICTIONARY" "en_AU")
