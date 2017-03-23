@@ -287,6 +287,9 @@ the actual manpage using the function `man'."
 (req-package flycheck-color-mode-line)
 
 (req-package flyspell
+  :require
+  ispell
+  rw-hunspell
   :init
   (setq flyspell-issue-message-flag nil)
   (setq flyspell-issue-welcome-flag nil)
@@ -385,6 +388,8 @@ _h_   _l_   _o_k        _y_ank
 (req-package ispell
   :init
   (setq ispell-highlight-p t)
+  (when (system-type-is-darwin)
+    (setenv "DICTPATH" (expand-file-name "dictionaries" user-emacs-directory)))
   (setq ispell-program-name (if (system-type-is-darwin)
                                 "/usr/local/bin/hunspell"
                               "hunspell")))
