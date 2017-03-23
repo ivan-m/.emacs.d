@@ -17,9 +17,11 @@
   :require flyspell
   :init (add-hook 'markdown-mode-hook 'flyspell-mode))
 
-(req-package pandoc
+(req-package pandoc-mode
   :require
   markdown-mode
+  :commands
+  pandoc-mode
   :init
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
   (add-hook 'markdown-mode-hook 'pandoc-mode))
