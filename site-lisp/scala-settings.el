@@ -7,7 +7,7 @@
     (newline-and-indent)
     (scala-indent:insert-asterisk-on-multiline-comment))
 
-  (define-key scala-mode-map (kbd "RET") 'scala-mode-newline-comments)
+  ;; (define-key scala-mode-map (kbd "RET") 'scala-mode-newline-comments)
 
   (add-hook 'scala-mode-hook
             (lambda ()
