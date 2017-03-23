@@ -33,7 +33,8 @@
 
   (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent)
   :commands
-  mmm-mode)
+  mmm-mode
+  add-mode-ext-class)
 
 (req-package mmm-pandoc
   :require mmm-mode
