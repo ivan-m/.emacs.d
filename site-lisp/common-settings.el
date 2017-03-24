@@ -279,7 +279,7 @@ the actual manpage using the function `man'."
 
 (req-package flycheck
   :init
-  (setq flycheck-check-syntax-automatically 'save)
+  (setq flycheck-check-syntax-automatically '(save))
   :config
   (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
