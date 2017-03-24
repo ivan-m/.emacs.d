@@ -280,6 +280,8 @@ the actual manpage using the function `man'."
 (req-package flycheck
   :init
   (setq flycheck-check-syntax-automatically '(save))
+  :commands
+  flycheck-mode
   :config
   (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
@@ -292,11 +294,18 @@ the actual manpage using the function `man'."
   :init
   (setq flyspell-issue-message-flag nil)
   (setq flyspell-issue-welcome-flag nil)
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (flyspell-prog-mode)))
   :diminish flyspell-mode
-  :config
-  (define-key flyspell-mode-map (kbd "C-.") nil)
-  ;; '(define-key flyspell-mode-map (kbd "C-M-i") nil)
-  (define-key flyspell-mode-map (kbd "C-,") nil))
+  :commands
+  flyspell-mode
+  flyspell-prog-mode
+  :bind
+  (:map flyspell-mode-map
+        ("C-." . nil)
+        ;; ("C-M-i" . nil)
+        ("C-," . nil)))
 
 (req-package auto-highlight-symbol
   :init

@@ -2,6 +2,9 @@
 
 (req-package shm
   :require hindent
+  :commands
+  structured-haskell-mode
+  structured-haskell-repl-mode
   :init
   (setq shm-auto-insert-skeletons t)
   (setq shm-indent-point-after-adding-where-clause t)
@@ -15,14 +18,39 @@
   :require shm haskell-process
   :commands shm/case-split)
 
+(req-package shm
+  :require
+  haskell-interactive-mode
+  :bind
+  (:map shm-repl-map
+        ("TAB" . shm-repl-tab))
+  :config
+  (defun shm-repl-tab ()
+    "TAB completion or jumping."
+    (interactive)
+    (unless (shm/jump-to-slot)
+      (call-interactively 'haskell-interactive-mode-tab))))
+
 (req-package haskell-process
   :require haskell-mode)
 
 (req-package ebal
+  :require
+  haskell-mode
   :init
   (setq ebal-completing-read-function 'ebal-ido-completing-read)
   :commands
   ebal-execute
+  :bind
+  (:map haskell-mode-map
+   ("C-c c" . ebal-execute)
+
+   :map haskell-interactive-mode-map
+   ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
+   ("C-z c" . ebal-execute)
+
+   :map haskell-cabal-mode-map
+   ("C-c c" . ebal-execute))
   :config
   (push '(configure "--enable-tests" "--enable-benchmarks")
         ebal-global-option-alist)
@@ -31,6 +59,7 @@
         ebal-global-option-alist))
 
 (req-package hindent
+  :diminish hindent-mode
   :commands hindent-mode)
 
 (req-package company-ghci
@@ -41,18 +70,24 @@
   :require company
   :config (push 'company-cabal company-backends))
 
-(req-package haskell-mode
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(req-package haskell-doc
   :require
-  shm
-  ebal
-  hindent
-  skeleton
-  autoinsert
+  haskell-mode
+  :commands
+  haskell-doc-mode
+  :diminish
+  haskell-doc-mode)
+
+(req-package haskell
+  :require
+  haskell-mode
+  :preface (message "split haskell-mode")
   :init
+  (message "haskell-mode")
   (setq haskell-ask-also-kill-buffers nil)
-  (setq haskell-interactive-mode-eval-mode 'haskell-mode)
-  (setq haskell-interactive-mode-hide-multi-line-errors t)
-  (setq haskell-literate-default bird)
+  (setq haskell-literate-default 'bird)
   (setq haskell-notify-p t)
   (setq haskell-process-auto-import-loaded-modules t)
   (setq haskell-process-check-cabal-config-on-load t)
@@ -64,133 +99,101 @@
   (setq haskell-process-suggest-no-warn-orphans t)
   (setq haskell-process-suggest-overloaded-strings t)
   (setq haskell-stylish-on-save t)
+  (setq haskell-interactive-mode-eval-mode 'haskell-mode)
+  (setq haskell-interactive-mode-hide-multi-line-errors t)
+
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (haskell-doc-mode 1)
+              (interactive-haskell-mode 1)
+              (haskell-decl-scan-mode 1)
+              (electric-indent-local-mode -1)
+              (auto-insert-mode 1)
+              (subword-mode)
+              (font-lock-add-keywords
+               nil
+               '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
+              (setq process-connection-type nil)
+
+              (when (buffer-file-name)
+                (flyspell-prog-mode)
+                (if (equal (file-name-extension (buffer-file-name)) "lhs")
+                    (haskell-literate-hook)
+                  (haskell-file-hook)))))
+
   :commands
   haskell-mode
   literate-haskell-mode
-  haskell-cabal-mode
-  haskell-c2hs-mode
-  ghci-script-mode
-  ghc-core-mode
+
+  :diminish
+  (interactive-haskell-mode . "Int")
+
+
   :interpreter
   (("runhaskell" . haskell-mode)
    ("runghc" . haskell-mode))
+
   :mode
   (("\\.hsc\\'" . haskell-mode)
    ("\\.l[gh]s\\'" . literate-haskell-mode)
-   ("\\.[gh]s\\'" . haskell-mode)
-   ("\\.cabal\\'" . haskell-cabal-mode)
-   ("\\.chs\\'" . haskell-c2hs-mode)
-   ("\\.ghci\\'" . ghci-script-mode)
-   ("\\.dump-simpl\\'" . ghc-core-mode)
-   ("\\.hcr\\'" . ghc-core-mode)
-   ("\\.hs\\'" . haskell-mode))
-  :bind (:map haskell-mode-map
-         ("C-c C-l" . haskell-process-load-file)
-         ("C-c C-r" . haskell-process-reload)
-         ([f5] . haskell-process-load-file)
+   ("\\.[gh]s\\'" . haskell-mode))
 
-         ;; Switch to the REPL.
-         (define-key haskell-mode-map [?\C-c ?\C-z] haskell-interactive-switch)
-         ;; "Bring" the REPL, hiding all other windows apart from the source
-         ;; and the REPL.
-         ("C-`" . haskell-interactive-bring)
+  :bind
+  (:map haskell-mode-map
+        ("C-c C-l" . haskell-process-load-file)
+        ("C-c C-r" . haskell-process-reload)
+        ([f5] . haskell-process-load-file)
 
-         ;; Build the Cabal project.
-         ;; Interactively choose the Cabal command to run.
-         ("C-c C-c" . nil)
-         ("C-c c" . ebal-execute)
+        ;; Switch to the REPL.
+        ("C-c C-z" . haskell-interactive-switch)
+        ;; "Bring" the REPL, hiding all other windows apart from the source
+        ;; and the REPL.
+        ("C-`" . haskell-interactive-bring)
 
-         ;; Get the type and info of the symbol at point, print it in the
-         ;; message buffer.
-         ("C-c C-t" . haskell-process-do-type)
-         ("C-c C-i" . haskell-process-do-info)
+        ;; Build the Cabal project.
+        ;; Interactively choose the Cabal command to run.
+        ("C-c C-c" . nil)
 
-         ;; Jump to the imports. Keep tapping to jump between import
-         ;; groups. C-u f8 to jump back again.
-         ([f8] . haskell-navigate-imports)
+        ;; Get the type and info of the symbol at point, print it in the
+        ;; message buffer.
+        ("C-c C-t" . haskell-process-do-type)
+        ("C-c C-i" . haskell-process-do-info)
 
-         ;; Jump to the definition of the current symbol.
-         ("M-." . haskell-mode-tag-find)
+        ;; Jump to the imports. Keep tapping to jump between import
+        ;; groups. C-u f8 to jump back again.
+        ([f8] . haskell-navigate-imports)
 
-         ("M-," . haskell-who-calls)
+        ;; Jump to the definition of the current symbol.
+        ("M-." . haskell-mode-tag-find)
 
-         ;; Move the code below the current nesting left one.
-         ("C-," . haskell-move-left)
+        ("M-," . haskell-who-calls)
 
-         ;; Move the code below the current nesting right one.
-         ("C-." . haskell-move-right)
+        ;; Move the code below the current nesting left one.
+        ("C-," . haskell-move-left)
 
-         ("C-c C-s" . haskell-mode-toggle-scc-at-point)
-         ("C-c l" . hs-lint)
+        ;; Move the code below the current nesting right one.
+        ("C-." . haskell-move-right)
 
-         :map cabal-mode-map
-         ("C-`" . haskell-interactive-bring)
-         ("C-c C-z" . haskell-interactive-switch)
-         ("C-c c" . ebal-execute)
-
-         :map haskell-interactive-mode-map
-         ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
-         ("C-z c" . ebal-execute)
-
-         :map shm-repl-map
-         ("TAB" . shm-repl-tab))
+        ("C-c C-s" . haskell-mode-toggle-scc-at-point))
 
   :config
-  (require 'haskell-interactive-mode)
-
-  (add-hook 'haskell-mode-hook 'haskell-hook)
-
-  (defun haskell-hook ()
-    (interactive-haskell-mode 1)
-    (structured-haskell-mode 1)
-    (electric-indent-local-mode -1)
-    (subwords-mode)
-    (turn-on-haskell-decl-scan)
-    #'hindent-mode
-    (auto-insert-mode 1)
-    (font-lock-add-keywords nil
-                            '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
-
-    (when (buffer-file-name)
-      (haskell-file-hook)
-      (when (equal (file-name-extension (buffer-file-name)) "lhs")
-        (haskell-literate-hook)))
-
-    (setq process-connection-type nil))
+  (message "haskell-mode config")
 
   (defun haskell-file-hook ()
-    (flyspell-prog-mode)
+    (structured-haskell-mode 1)
     (flycheck-mode 1)
-    (company-mode 1))
+    (company-mode 1)
+    (hindent-mode))
 
   (defun haskell-literate-hook ()
     (structured-haskell-mode 0)
     (haskell-indent-mode 1)
     (flycheck-mode 0))
 
-  (add-hook 'haskell-cabal-mode-hook 'cabal-hook)
-
-  (defun cabal-hook ()
-    (electric-indent-local-mode -1))
-
-  (add-hook 'haskell-interactive-mode-hook 'haskell-interactive-hook)
-
-  (defun haskell-interactive-hook ()
-    (structured-haskell-repl-mode)
-    (company-mode 1))
-
   (defun haskell-insert-doc ()
     "Insert the documentation syntax."
     (interactive)
     (insert "-- | "))
-
-  (defun haskell-insert-undefined ()
-    "Insert undefined."
-    (interactive)
-    (if (and (boundp 'structured-haskell-mode)
-             structured-haskell-mode)
-        (shm-insert-string "undefined")
-      (insert "undefined")))
 
   (defun haskell-move-right ()
     (interactive)
@@ -238,26 +241,92 @@
     "   " _ "\n"
     "\n"
     " -}\n"
-    "module " v1 " where\n\n")
+    "module " v1 " where\n\n"))
 
-  (add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton))
+(req-package autoinsert
+  :require
+  skeleton
+  haskell
 
-  (defun shm-repl-tab ()
-    "TAB completion or jumping."
-    (interactive)
-    (unless (shm/jump-to-slot)
-      (call-interactively 'haskell-interactive-mode-tab))))
+  :config
+  (add-to-list 'auto-insert-alist '("\\.hs\\'" . haskell-module-skeleton)))
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(req-package haskell-interactive-mode
+  :require shm
+  :init
+  (add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode))
+
+(req-package haskell-interactive-mode
+  :require company
+  :init
+  (add-hook 'haskell-interactive-mode-hook
+            (lambda ()
+              (company-mode 1))))
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(req-package haskell-cabal
+  :require haskell-mode
+  :commands
+  haskell-cabal-mode
+
+  :mode
+  ("\\.cabal\\'" . haskell-cabal-mode)
+
+  :bind
+  (:map haskell-cabal-mode-map
+        ("C-`" . haskell-interactive-bring)
+        ("C-c C-z" . haskell-interactive-switch))
+
+  :init
+  (add-hook 'haskell-cabal-mode-hook
+            (lambda ()
+              (electric-indent-local-mode -1))))
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(req-package ghci-script-mode
+  :require
+  haskell-mode
+  :commands
+  ghci-script-mode
+  :mode
+  ("\\.ghci\\'" . ghci-script-mode))
+
+(req-package haskell-c2hs
+  :require
+  haskell-mode
+  :commands
+  haskell-c2hs-mode
+  :mode
+  ("\\.chs\\'" . haskell-c2hs-mode))
+
+(req-package ghc-core
+  :require
+  haskell-mode
+  :commands
+  ghc-core-mode
+  :mode
+  (("\\.dump-simpl\\'" . ghc-core-mode)
+   ("\\.hcr\\'" . ghc-core-mode)))
+
+;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package flycheck-haskell
   :require flycheck
-  :config
+  :init
   ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
-(message "%s" load-path)
-
 (req-package hs-lint
+  :require haskell-mode
   :loader :path
-  :commands hs-lint)
+  :commands hs-lint
+  :bind
+  (:map haskell-mode-map
+        ("C-c l" . hs-lint)))
+
 
 (provide 'haskell-settings)
