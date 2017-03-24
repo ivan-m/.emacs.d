@@ -6,9 +6,6 @@
   (setq shm-auto-insert-skeletons t)
   (setq shm-indent-point-after-adding-where-clause t)
   (setq shm-use-hdevtools t)
-  :bind (:map shm-map
-         ("SPC" . shm/space)
-         :map shm-repl-map)
   :functions system-type-is-darwin
   :config
   (if (system-type-is-darwin)
