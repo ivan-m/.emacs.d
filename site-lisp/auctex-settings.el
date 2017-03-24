@@ -52,7 +52,7 @@
   :commands
   LaTeX-preview-setup)
 
-(req-package 'latex
+(req-package latex
   :require auctex preview
   :init (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
