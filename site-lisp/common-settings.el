@@ -261,7 +261,6 @@ the actual manpage using the function `man'."
 (req-package lorem-ipsum)
 
 (req-package generic-x
-  :loader :built-in
   :mode ("smb\\.conf$" . samba-generic-mode))
 
 (req-package rainbow-delimiters
@@ -545,7 +544,6 @@ _h_   _l_   _o_k        _y_ank
   :mode ("\\.sql$" . sql-mode))
 
 (req-package uniquify
-  :loader :built-in
   :init
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
@@ -554,7 +552,6 @@ _h_   _l_   _o_k        _y_ank
   (auto-image-file-mode 1))
 
 (req-package files
-  :loader :built-in
   :init
   (setq backup-by-copying t)
   (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
@@ -566,7 +563,6 @@ _h_   _l_   _o_k        _y_ank
   (delete-selection-mode 1))
 
 (req-package dired
-  :loader :built-in
   :init
   (setq dired-dwim-target t)
   (setq dired-listing-switches "-alh")
