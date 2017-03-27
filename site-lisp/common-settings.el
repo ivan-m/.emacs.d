@@ -20,7 +20,6 @@
       default-directory "~/"
 
       tab-width 4
-      truncate-lines t
       after-save-hook 'executable-make-buffer-file-executable-if-script-p
       require-final-newline t
       select-enable-primary nil
@@ -36,6 +35,7 @@
       text-mode-hook '(turn-on-auto-fill table-recognize text-mode-hook-identify))
 
 (setq-default indent-tabs-mode nil)
+(setq-default truncate-lines t)
 
 (set-scroll-bar-mode 'left)
 
