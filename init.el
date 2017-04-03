@@ -54,6 +54,10 @@
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
 
+;; Just calling :pin in req-package blocks doesn't work:
+;; https://github.com/jwiegley/use-package/issues/343#issuecomment-220463365
+(setq package-pinned-packages '((ensime . "melpa-stable")))
+
 (package-initialize)
 
 (when (not package-archive-contents)
