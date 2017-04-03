@@ -32,6 +32,7 @@
   :pin melpa-stable
   :init
   (setq ensime-graphical-tooltips t)
+  (setq ensime-auto-generate-config t)
   :commands
   ensime
   ensime-mode)
