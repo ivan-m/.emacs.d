@@ -5,8 +5,6 @@
   ensime
   company
   :init
-  (setq scala-indent:indent-value-expression t)
-
   (add-hook 'scala-mode-hook
             (lambda ()
               (company-mode)
