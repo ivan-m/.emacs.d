@@ -55,4 +55,11 @@
 
 (req-package github-notifier)
 
+(req-package git-gutter-fringe
+  :init
+  (setq git-gutter-fr:side 'right-fringe)
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode 1))
+
 (provide 'magit-settings)
