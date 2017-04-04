@@ -34,9 +34,11 @@
 
 (setq-default indent-tabs-mode nil
               tab-width 4
-              truncate-lines t)
+              truncate-lines t
+              indicate-buffer-boundaries 'left
+              indicate-empty-lines +1)
 
-(set-scroll-bar-mode 'left)
+(set-scroll-bar-mode nil)
 (tool-bar-mode -1)
 
 (add-to-list 'completion-ignored-extensions ".hi")
@@ -206,6 +208,12 @@ the actual manpage using the function `man'."
   (diminish 'auto-fill-function))
 
 (req-package bind-key)
+
+(req-package fringe-current-line
+  :init
+  (setq fcl-fringe-bitmap 'filled-rectangle)
+  :config
+  (global-fringe-current-line-mode 1))
 
 (use-package windmove
   :config
