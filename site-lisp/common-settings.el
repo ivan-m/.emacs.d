@@ -14,7 +14,6 @@
       icon-title-format frame-title-format
       column-number-mode t
       size-indication-mode t
-      tool-bar-mode nil
       use-dialog-box nil
 
       default-directory "~/"
@@ -38,6 +37,7 @@
               truncate-lines t)
 
 (set-scroll-bar-mode 'left)
+(tool-bar-mode -1)
 
 (add-to-list 'completion-ignored-extensions ".hi")
 
