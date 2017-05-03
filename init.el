@@ -48,6 +48,9 @@
 ;; this function to prevent it.
 (defun package--save-selected-packages (&rest opt) nil)
 
+;; Don't suggest removing packages
+(defun package--removable-packages () nil)
+
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
