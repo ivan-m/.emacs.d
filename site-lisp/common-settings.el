@@ -320,7 +320,7 @@ the actual manpage using the function `man'."
   (setq ahs-case-fold-search nil)
   :diminish auto-highlight-symbol-mode
   :config
-  ;;(add-to-list 'ahs-modes 'haskell-mode)
+  (add-to-list 'ahs-modes 'haskell-mode)
   (global-auto-highlight-symbol-mode 1))
 
 (req-package subword
