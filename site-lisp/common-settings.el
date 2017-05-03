@@ -660,6 +660,9 @@ _h_   _l_   _o_k        _y_ank
   (setq apropos-do-all t)
   :commands apropos)
 
+(req-package dockerfile-mode
+  :mode ("Dockerfile" . dockerfile-mode))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
