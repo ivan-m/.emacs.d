@@ -66,6 +66,11 @@
   (setq smex-save-file (expand-file-name "smex-items" user-emacs-directory))
 
   (add-hook 'after-load-functions 'smex-update-after-load)
+
+  ;; speed smex up
+  (defun smex-update-after-load (unused)
+    (when (boundp 'smex-cache)
+      (smex-update)))
   :commands
   smex
   smex-major-mode-commands
@@ -74,12 +79,7 @@
          ("<menu>"  . smex)
          ("C-c M-x" . execute-extended-command))
   :config
-  (smex-initialize)
-
-  ;; speed smex up
-  (defun smex-update-after-load (unused)
-    (when (boundp 'smex-cache)
-      (smex-update))))
+  (smex-initialize))
 
 (req-package smex
   :bind ("s-SPC" . smex)
