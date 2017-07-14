@@ -197,6 +197,8 @@ the actual manpage using the function `man'."
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package exec-path-from-shell
+  :init
+  (setq exec-path-from-shell-check-startup-files nil)
   :config
   (exec-path-from-shell-initialize)
   (if (system-type-is-darwin)
