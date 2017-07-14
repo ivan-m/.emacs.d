@@ -5,7 +5,7 @@
   (setq magit-completing-read-function 'magit-ido-completing-read)
   (setq magit-delete-by-moving-to-trash nil)
   (setq magit-diff-use-overlays nil)
-  (setq magit-merge-arguments "--no-ff")
+  (setq magit-merge-arguments '("--no-ff"))
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
 
