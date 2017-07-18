@@ -406,9 +406,7 @@ _h_   _l_   _o_k        _y_ank
   (setq ispell-highlight-p t)
   (when (system-type-is-darwin)
     (setenv "DICTPATH" (expand-file-name "dictionaries" user-emacs-directory)))
-  (setq ispell-program-name (if (system-type-is-darwin)
-                                "/usr/local/bin/hunspell"
-                              "hunspell")))
+  (setq ispell-program-name "hunspell"))
 
 (req-package rw-hunspell
   :init
