@@ -576,6 +576,8 @@ _h_   _l_   _o_k        _y_ank
   (setq delete-old-versions t))
 
 (req-package delsel
+  :init
+  (setq delete-active-region t)
   :config
   (delete-selection-mode 1))
 
