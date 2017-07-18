@@ -1,5 +1,18 @@
 (eval-when-compile (require 'req-package))
 
+(define-minor-mode haskell-stack-mode
+  "Extra functionality for stack.yaml files"
+  :init-value nil
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-c c") 'ebal-execute)
+            map))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (and (buffer-file-name)
+                       (string= (file-name-nondirectory (buffer-file-name)) "stack.yaml"))
+              (haskell-stack-mode 1))))
+
 (req-package shm
   :require hindent
   :commands
