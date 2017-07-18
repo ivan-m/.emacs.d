@@ -321,6 +321,7 @@ the actual manpage using the function `man'."
   :diminish auto-highlight-symbol-mode
   :config
   (add-to-list 'ahs-modes 'haskell-mode)
+  (add-to-list 'ahs-modes 'scala-mode)
   (global-auto-highlight-symbol-mode 1))
 
 (req-package subword
@@ -556,7 +557,8 @@ _h_   _l_   _o_k        _y_ank
   (setq sql-product 'postgres)
   :commands
   sql-mode
-  :mode ("\\.sql$" . sql-mode))
+  :mode ("\\.sql$" . sql-mode)
+  :mode ("\\.cql$" . sql-mode))
 
 (req-package uniquify
   :init
