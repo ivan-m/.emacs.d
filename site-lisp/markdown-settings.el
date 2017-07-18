@@ -5,6 +5,9 @@
   (setq markdown-command "pandoc -Ss")
   (setq markdown-indent-on-enter nil)
   (setq markdown-italic-underscore t)
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              (electric-indent-local-mode -1)))
   :commands
   markdown-mode
   :mode
@@ -32,6 +35,9 @@
   (setq mmm-parse-when-idle t)
 
   (add-hook 'mmm-haskell-mode-submode-hook 'turn-on-haskell-indent)
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              (mmm-mode 1)))
   :commands
   mmm-mode
   add-mode-ext-class)
