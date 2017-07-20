@@ -51,7 +51,7 @@
   :defer t
   :require ido)
 
-(req-package ido-ubiquitous
+(req-package ido-completing-read+
   :require ido
   :config
   (ido-ubiquitous-mode t))
