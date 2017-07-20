@@ -50,6 +50,7 @@
 (req-package ebal
   :require
   haskell-mode
+  haskell-cabal
   haskell-interactive-mode
   :init
   (setq ebal-completing-read-function 'ebal-ido-completing-read)
