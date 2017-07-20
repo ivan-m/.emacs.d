@@ -61,6 +61,7 @@
   (crux-reopen-as-root-mode))
 
 (req-package smex
+  :require ido-completing-read+
   :init
   (setq smex-auto-update nil)
   (setq smex-save-file (expand-file-name "smex-items" user-emacs-directory))
