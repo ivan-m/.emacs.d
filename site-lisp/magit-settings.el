@@ -6,6 +6,7 @@
   (setq magit-delete-by-moving-to-trash nil)
   (setq magit-diff-use-overlays nil)
   (setq magit-merge-arguments '("--no-ff"))
+  (setq magit-push-arguments '("--follow-tags"))
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
 
@@ -13,6 +14,9 @@
   :commands
   magit-status
   :config
+  (magit-define-popup-switch 'magit-push-popup
+    ?t "Follow tags" "--follow-tags")
+
   ;; http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
   (defun endless/add-PR-fetch ()
     "If refs/pull is not defined on a GH repo, define it."
