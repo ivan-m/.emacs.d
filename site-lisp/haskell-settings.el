@@ -98,9 +98,7 @@
 (req-package haskell
   :require
   haskell-mode
-  :preface (message "split haskell-mode")
   :init
-  (message "haskell-mode")
   (setq haskell-ask-also-kill-buffers nil)
   (setq haskell-literate-default 'bird)
   (setq haskell-notify-p t)
@@ -141,7 +139,6 @@
 
   :diminish
   (interactive-haskell-mode . "Int")
-
 
   :interpreter
   (("runhaskell" . haskell-mode)
@@ -191,8 +188,6 @@
         ("C-c C-s" . haskell-mode-toggle-scc-at-point))
 
   :config
-  (message "haskell-mode config")
-
   (defun haskell-file-hook ()
     (structured-haskell-mode 1)
     (flycheck-mode 1)
