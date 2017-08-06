@@ -129,6 +129,7 @@
               (setq process-connection-type nil)
 
               (when (buffer-file-name)
+                (flyspell-prog-mode)
                 (if (equal (file-name-extension (buffer-file-name)) "lhs")
                     (haskell-literate-hook)
                   (haskell-file-hook)))))
