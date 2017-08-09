@@ -574,7 +574,7 @@ _h_   _l_   _o_k        _y_ank
   :init
   (setq backup-by-copying t)
   (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
-  (setq auto-save-file-name-transforms `((".*" ,(expand-file-name "backups" user-emacs-directory))))
+  (setq auto-save-file-name-transforms `((".*" ,(expand-file-name "backups" user-emacs-directory) t)))
   (setq delete-old-versions t))
 
 (req-package delsel
