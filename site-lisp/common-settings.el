@@ -635,7 +635,11 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package nixos-options)
 
-(req-package yaml-mode)
+(req-package yaml-mode
+  :init
+  (add-to-list 'interpreter-mode-alist '("ansible-playbook" . yaml-mode))
+  :commands
+  yaml-mode)
 
 (req-package zoom-frm
   :demand t
@@ -666,6 +670,30 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package dockerfile-mode
   :mode ("Dockerfile" . dockerfile-mode))
+
+(req-package ansible
+  :require
+  yaml-mode
+  :init
+  (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+  :commands
+  ansible)
+
+(req-package ansible-doc
+  :require
+  yaml-mode
+  :init
+  (add-hook 'yaml-mode-hook #'ansible-doc-mode)
+  :commands
+  ansible-doc-mode)
+
+(req-package company-ansible
+  :require
+  company-mode
+  yaml-mode
+  :init
+  (add-to-list 'company-backends 'company-ansible)
+  (add-hook 'yaml-mode-hook '(lambda () (company-mode 1))))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
