@@ -689,7 +689,7 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package company-ansible
   :require
-  company-mode
+  company
   yaml-mode
   :init
   (add-to-list 'company-backends 'company-ansible)
