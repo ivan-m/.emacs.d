@@ -695,6 +695,13 @@ _h_   _l_   _o_k        _y_ank
   (add-to-list 'company-backends 'company-ansible)
   (add-hook 'yaml-mode-hook '(lambda () (company-mode 1))))
 
+(req-package jinja2-mode
+  :init
+  ;; Variant typically used with Ansible
+  (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
+  :commands
+  jinja2-mode)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
