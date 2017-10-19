@@ -102,7 +102,6 @@
   (setq haskell-ask-also-kill-buffers nil)
   (setq haskell-literate-default 'bird)
   (setq haskell-notify-p t)
-  (setq haskell-process-auto-import-loaded-modules t)
   (setq haskell-process-check-cabal-config-on-load t)
   (setq haskell-process-load-or-reload-prompt t)
   (setq haskell-process-log t)
