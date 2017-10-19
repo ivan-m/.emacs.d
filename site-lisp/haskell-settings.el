@@ -326,6 +326,7 @@
 (req-package flycheck-haskell
   :require flycheck
   :init
+  (setq flycheck-haskell-runghc-command '("runghc"))
   ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
