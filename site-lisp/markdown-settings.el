@@ -5,6 +5,7 @@
   (setq markdown-command "pandoc -Ss")
   (setq markdown-indent-on-enter nil)
   (setq markdown-italic-underscore t)
+  (setq markdown-use-pandoc-style-yaml-metadata t)
   (add-hook 'markdown-mode-hook
             (lambda ()
               (electric-indent-local-mode -1)))
