@@ -11,6 +11,8 @@
               (electric-indent-local-mode -1)))
   :commands
   markdown-mode
+  :config
+  (set-face-attribute 'markdown-code-face nil :background nil)
   :mode
   (("\\.txt" . markdown-mode)
    ("\\.md" . markdown-mode)
