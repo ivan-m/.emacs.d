@@ -46,7 +46,10 @@
   add-mode-ext-class)
 
 (req-package mmm-pandoc
-  :require mmm-mode
+  :require
+  mmm-mode
+  markdown-mode
+  yaml-mode
   :loader :path
   :init
   (setq mmm-pandoc-prefer-backticks t)
