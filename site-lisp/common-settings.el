@@ -701,6 +701,11 @@ _h_   _l_   _o_k        _y_ank
   :commands
   jinja2-mode)
 
+(req-package editorconfig
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
