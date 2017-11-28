@@ -343,6 +343,17 @@ the actual manpage using the function `man'."
   (push 'company-capf company-backends)
   (push 'company-dabbrev-code company-backends))
 
+(req-package company-quickhelp
+  :require
+  company
+  :init
+  (add-hook company-mode-hook (lambda () (company-quickhelp-mode 1)))
+  :commands
+  company-quickhelp-mode
+  company-quickhelp-manual-begin
+  :bind (:map company-active-map
+              ("C-c h" . #'company-quickhelp-manual-begin)))
+
 (req-package goto-chg
   :commands
   goto-last-change
