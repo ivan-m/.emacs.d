@@ -703,6 +703,8 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package editorconfig
   :diminish editorconfig-mode
+  :commands
+  editorconfig-mode
   :config
   (editorconfig-mode 1))
 
