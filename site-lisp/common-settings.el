@@ -719,6 +719,24 @@ _h_   _l_   _o_k        _y_ank
   :config
   (editorconfig-mode 1))
 
+(req-package terraform-mode
+  :init
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+  :commands
+  terraform-formant-on-save-mode
+  terraform-mode
+  :mode
+  ("\\.tf\\(vars\\)?\\'" . terraform-mode))
+
+(req-package company-terraform
+  :require
+  terraform-mode
+  company
+  :init
+  (add-hook 'terraform-mode-hook (lambda () (company-mode 1)))
+  :config
+  (add-to-list 'company-backends 'company-terraform))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
