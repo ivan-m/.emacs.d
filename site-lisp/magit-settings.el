@@ -43,7 +43,13 @@
               (magit-get "remote"
                          (magit-get-push-remote)
                          "url"))
-           (magit-get-current-branch))))
+             (magit-get-current-branch))))
+
+  ;; https://github.com/magit/magit/issues/3230
+  (magit-add-section-hook 'magit-status-sections-hook
+                          'magit-insert-unpushed-to-upstream
+                          'magit-insert-unpushed-to-upstream-or-recent
+                          'replace)
 
   :bind (:map magit-mode-map
               ("O" . endless/visit-pull-request-url)))
