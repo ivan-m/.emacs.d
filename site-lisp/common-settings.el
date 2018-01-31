@@ -217,7 +217,7 @@ the actual manpage using the function `man'."
   :config
   (global-fringe-current-line-mode 1))
 
-(use-package windmove
+(req-package windmove
   :config
   (defun ignore-error-wrapper (fn)
     "Funtion return new function that ignore errors.
