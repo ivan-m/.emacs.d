@@ -723,7 +723,7 @@ _h_   _l_   _o_k        _y_ank
   :init
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
   :commands
-  terraform-formant-on-save-mode
+  terraform-format-on-save-mode
   terraform-mode
   :mode
   ("\\.tf\\(vars\\)?\\'" . terraform-mode))
