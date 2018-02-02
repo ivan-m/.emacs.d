@@ -76,6 +76,10 @@
        (message "%s" (error-message-string err))))))
 
 (try-install 'req-package)
+
+(setq use-package-compute-statistics t)
+(setq use-package-always-ensure t)
+
 (require 'req-package)
 
 ;; Byte-compile settings; make sure we do this after req-package is installed.

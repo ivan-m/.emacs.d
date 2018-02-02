@@ -45,6 +45,7 @@
       (call-interactively 'haskell-interactive-mode-tab))))
 
 (req-package haskell-process
+  :ensure nil
   :require haskell-mode)
 
 (req-package ebal
@@ -88,6 +89,7 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package haskell-doc
+  :ensure nil
   :require
   haskell-mode
   :commands
@@ -96,6 +98,7 @@
   haskell-doc-mode)
 
 (req-package haskell
+  :ensure nil
   :require
   haskell-mode
   :init
@@ -277,6 +280,7 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package haskell-cabal
+  :ensure nil
   :require haskell-mode
   :commands
   haskell-cabal-mode
@@ -297,6 +301,7 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package ghci-script-mode
+  :ensure nil
   :require
   haskell-mode
   :commands
@@ -305,6 +310,7 @@
   ("\\.ghci\\'" . ghci-script-mode))
 
 (req-package haskell-c2hs
+  :ensure nil
   :require
   haskell-mode
   :commands
@@ -313,6 +319,7 @@
   ("\\.chs\\'" . haskell-c2hs-mode))
 
 (req-package ghc-core
+  :ensure nil
   :require
   haskell-mode
   :commands
@@ -331,8 +338,8 @@
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 (req-package hs-lint
+  :ensure nil
   :require haskell-mode
-  :loader :path
   :commands hs-lint
   :bind
   (:map haskell-mode-map

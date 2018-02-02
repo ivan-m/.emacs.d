@@ -50,7 +50,6 @@
   mmm-mode
   markdown-mode
   yaml-mode
-  :loader :path
   :init
   (setq mmm-pandoc-prefer-backticks t)
   (setq mmm-parse-when-idle t))
