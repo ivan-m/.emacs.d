@@ -93,6 +93,7 @@
   (setq load-dir-debug nil)
   (setq load-dir-recursive t)
   :config
+  (add-to-list 'load-dir-ignored "custom\.elc?")
   (load-dir-one site-lisp-dir))
 
 (req-package-finish)
