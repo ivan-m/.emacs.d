@@ -743,6 +743,29 @@ _h_   _l_   _o_k        _y_ank
   :config
   (add-to-list 'company-backends 'company-terraform))
 
+(req-package plantuml-mode
+  :init
+  (setq plantuml-jar-path (expand-file-name "~/.nix-profile/lib/plantuml.jar"))
+  :functions system-type-is-darwin
+  :config
+  (if (system-type-is-darwin)
+      (progn
+        (setenv "GRAPHVIZ_DOT" (expand-file-name "~/.nix-profile/bin/dot"))
+        (add-to-list 'plantuml-java-args "-Dhttps.proxyHost=127.0.0.1")
+        (add-to-list 'plantuml-java-args "-Dhttps.proxyPort=3129")))
+  :commands
+  plantuml-mode
+  :mode
+  "\\.p\\(lant\\)?uml$")
+
+(req-package flycheck-plantuml
+  :require
+  flycheck
+  plantuml-mode
+  :hook
+  (plantuml-mode . flycheck-mode)
+  (flycheck-mode . flycheck-plantuml-setup))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
