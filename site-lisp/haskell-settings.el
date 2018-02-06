@@ -28,6 +28,7 @@
       (define-key shm-map (kbd "<s-backspace>") 'shm/delete)))
 
 (req-package shm-case-split
+  :ensure nil
   :require shm haskell-process
   :commands shm/case-split)
 
@@ -266,11 +267,13 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (req-package haskell-interactive-mode
+  :ensure nil
   :require shm
   :init
   (add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode))
 
 (req-package haskell-interactive-mode
+  :ensure nil
   :require company
   :init
   (add-hook 'haskell-interactive-mode-hook
