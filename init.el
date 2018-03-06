@@ -77,10 +77,10 @@
       (error
        (message "%s" (error-message-string err))))))
 
-(try-install 'req-package)
-
 (setq use-package-compute-statistics t)
 (setq use-package-always-ensure t)
+
+(try-install 'req-package)
 
 (require 'req-package)
 
