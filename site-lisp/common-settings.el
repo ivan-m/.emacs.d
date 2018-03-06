@@ -202,7 +202,12 @@ the actual manpage using the function `man'."
   :config
   (exec-path-from-shell-initialize)
   (if (system-type-is-darwin)
-      (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))))
+      (progn
+        (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
+        (setq url-proxy-services
+              `(("http"   . ,(getenv "http_proxy"))
+                ("https"  . ,(getenv "https_proxy"))
+                (no_proxy . ,(getenv "no_proxy")))))))
 
 (req-package diminish
   :config
