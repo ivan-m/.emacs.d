@@ -1,6 +1,8 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Specifying paths.
 
+(setq toggle-debug-on-error t)
+
 (defconst site-lisp-dir
   (expand-file-name "site-lisp" user-emacs-directory))
 
@@ -11,7 +13,7 @@
   (expand-file-name "lib" user-emacs-directory))
 
 ;; Keep emacs Custom-settings in separate file
-(setq custom-file (expand-file-name "custom.el" site-lisp-dir))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
