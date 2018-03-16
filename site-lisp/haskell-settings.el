@@ -54,8 +54,6 @@
   haskell-mode
   haskell-cabal
   haskell-interactive-mode
-  :init
-  (setq ebal-completing-read-function 'ebal-ido-completing-read)
   :commands
   ebal-execute
   :bind
