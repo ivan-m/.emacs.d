@@ -781,6 +781,11 @@ _h_   _l_   _o_k        _y_ank
   (plantuml-mode . flycheck-mode)
   (flycheck-mode . flycheck-plantuml-setup))
 
+(req-package suggest
+  :bind ((:prefix-map lisp-evaluation-map
+          :prefix "C-c e"
+          ("s" . suggest))))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
