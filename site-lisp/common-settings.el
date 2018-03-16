@@ -299,7 +299,8 @@ the actual manpage using the function `man'."
   :commands
   flycheck-mode
   :config
-  (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+  (add-to-list 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+  (add-to-list 'flycheck-disabled-checkers 'haskell-stack-ghc))
 
 (req-package flycheck-color-mode-line)
 
