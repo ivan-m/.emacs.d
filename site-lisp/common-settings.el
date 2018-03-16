@@ -196,6 +196,15 @@ the actual manpage using the function `man'."
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+(defun extract-proxy-from-env (env)
+  "Get the proxy component from ENV.
+
+i.e. no protocol/scheme, no trailing slash, just foobar:port."
+  (save-match-data
+    (let ((env-value (getenv env)))
+      (string-match "://\\([^/]+\\)/?$" env-value)
+      (match-string 1 env-value))))
+
 (req-package exec-path-from-shell
   :init
   (setq exec-path-from-shell-check-startup-files nil)
@@ -205,9 +214,8 @@ the actual manpage using the function `man'."
       (progn
         (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
         (setq url-proxy-services
-              `(("http"   . ,(getenv "http_proxy"))
-                ("https"  . ,(getenv "https_proxy"))
-                (no_proxy . ,(getenv "no_proxy")))))))
+              `(("http"   . ,(extract-proxy-from-env "http_proxy"))
+                ("https"  . ,(extract-proxy-from-env "https_proxy")))))))
 
 (req-package diminish
   :config
