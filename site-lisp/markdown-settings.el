@@ -46,6 +46,7 @@
   add-mode-ext-class)
 
 (req-package mmm-pandoc
+  :ensure nil
   :require
   mmm-mode
   markdown-mode
