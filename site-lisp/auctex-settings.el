@@ -31,7 +31,7 @@
   :init (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 (req-package auctex
-  :require org
+  :require org-table
   :init (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
 
 (req-package reftex
