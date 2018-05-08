@@ -22,16 +22,21 @@
   (defun TeX-toggle-escape nil (interactive)
          (if (string= LaTeX-command "latex") "latex -shell-escape" "latex")))
 
-(req-package auctex
-  :require reftex
+(req-package reftex
+  :ensure nil)
+
+(req-package latex
+  :ensure auctex
+  :ensure reftex
   :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
 (req-package latex
-  :require auctex flyspell
+  :ensure auctex
+  :ensure flyspell
   :init (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
-(req-package auctex
-  :require org-table
+(req-package latex
+  :ensure auctex
   :init (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
 
 (req-package reftex
@@ -44,16 +49,13 @@
   turn-on-reftex)
 
 (req-package preview
-  :require auctex latex
+  :ensure auctex
   :init
   (setq preview-auto-cache-preamble t)
   (setq preview-default-option-list
         '("displaymath" "floats" "graphics" "textmath" "sections" "footnotes" "showlabels"))
+  (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup)
   :commands
   LaTeX-preview-setup)
-
-(req-package latex
-  :require auctex preview
-  :init (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup))
 
 (provide 'auctex-settings)
