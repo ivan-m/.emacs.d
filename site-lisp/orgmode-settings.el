@@ -50,14 +50,30 @@
    ("C-c b" . org-iswitchb))
   :config
 
-  (add-to-list 'org-src-lang-modes '("dot" . "graphviz-dot"))
+  (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 
-  (require 'org-element) ;; to get org-element--set-regexps
-  ;; From http://stackoverflow.com/questions/24169333/how-can-i-emphasize-or-verbatim-quote-a-comma-in-org-mode/24173780
-  (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
-  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-  ;;(custom-set-variables `(org-emphasis-alist ',org-emphasis-alist)) ;; doesn't seem to be needed
-  (org-element--set-regexps)
+
+
+  (defadvice org-babel-execute-src-block (around load-language nil activate)
+    "Load language if needed"
+    (let ((language (org-element-property :language (org-element-at-point))))
+      (unless (cdr (assoc (intern language) org-babel-load-languages))
+        (add-to-list 'org-babel-load-languages (cons (intern language) t))
+        (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+      ad-do-it))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sql . t)
+     (dot . t)
+     (shell . t)))
+
+  ;; (require 'org-element) ;; to get org-element--set-regexps
+  ;; ;; From http://stackoverflow.com/questions/24169333/how-can-i-emphasize-or-verbatim-quote-a-comma-in-org-mode/24173780
+  ;; (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
+  ;; (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+  ;; ;;(custom-set-variables `(org-emphasis-alist ',org-emphasis-alist)) ;; doesn't seem to be needed
+  ;; (org-element--set-regexps)
 
   ;; https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
   (define-key org-mode-map [remap org-return] (lambda () (interactive)
@@ -72,12 +88,18 @@
   turn-on-orgtbl
   orgtbl-mode)
 
-
-
 ;; (req-package org-pandoc)
 
 (req-package outline-magic)
 
+(req-package ob
+  :ensure org-plus-contrib)
+(req-package ob-emacs-lisp
+  :ensure org-plus-contrib)
+(req-package ob-shell
+  :ensure org-plus-contrib)
+(req-package ob-sql
+  :ensure org-plus-contrib)
 (req-package ob-sql-mode)
 (req-package org-beautify-theme
   :init
