@@ -786,6 +786,12 @@ _h_   _l_   _o_k        _y_ank
           :prefix "C-c e"
           ("s" . suggest))))
 
+(req-package lua-mode
+  :commands
+  lua-mode
+  :mode
+  ("\\.lua\\'" . lua-mode))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
