@@ -13,7 +13,8 @@
   (when (system-type-is-win)
     (setq vc-handled-backends (delq 'Git vc-handled-backends))
     (setq magit-need-cygwin-noglob t)
-    (setq magit-commit-dhow-diff nil))
+    (setq magit-commit-dhow-diff nil)
+    (setq magit-git-executable "/usr/libexec/git-core/git"))
 
   (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
   :commands
