@@ -187,6 +187,10 @@ the actual manpage using the function `man'."
       (unless (server-running-p)
         (server-start))))
 
+(if (system-type-is-win)
+    (progn
+      (global-set-key [apps] 'execute-extended-command)))
+
 (if (system-type-is-gnu)
     (progn
       (setq default-frame-alist (quote ((font . "DejaVu Sans Mono-10"))))

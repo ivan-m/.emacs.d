@@ -12,6 +12,16 @@
 (defconst lib-dir
   (expand-file-name "lib" user-emacs-directory))
 
+;; Directory containing work-specific configurations.
+;; This shouldn't be stored in Git.
+(defconst work-site-lisp-dir
+  (expand-file-name "work-site-lisp" user-emacs-directory))
+
+;; Directory containing work-specific libraries.
+;; This shouldn't be stored in Git.
+(defconst work-lib-dir
+  (expand-file-name "work-lib" user-emacs-directory))
+
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -19,6 +29,9 @@
 (add-to-list 'load-path site-lisp-dir)
 
 (add-to-list 'load-path lib-dir)
+
+(if (file-directory-p work-lib-dir)
+  (add-to-list 'load-path work-lib-dir))
 
 (defun init-compile-dir (dir)
   ;; Byte-compile a directory when starting emacs.
@@ -38,6 +51,13 @@
   (interactive)
   "Return true if system is GNU/Linux-based"
   (string-equal system-type "gnu/linux"))
+
+(defun system-type-is-win ()
+  (interactive)
+  "Return true if system is Windows-based"
+  (or (string-equal system-type "cygwin")
+      (string-equal system-type "windows-nt")
+      (string-equal system-type "ms-dos")))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
@@ -89,6 +109,8 @@
 (init-compile-dir site-lisp-dir)
 (init-compile-dir lib-dir)
 (init-compile-dir custom-theme-directory)
+(init-compile-dir work-lib-dir)
+(init-compile-dir work-site-lisp-dir)
 
 ;; Just in case something went wrong with the byte-compilation
 (setq load-prefer-newer t)
@@ -101,7 +123,8 @@
   (setq load-dir-recursive t)
   :config
   (add-to-list 'load-dir-ignored "custom\.elc?")
-  (load-dir-one site-lisp-dir))
+  (load-dir-one site-lisp-dir)
+  (if (file-directory-p work-site-lisp-dir) (load-dir-one work-site-lisp-dir)))
 
 (req-package-finish)
 

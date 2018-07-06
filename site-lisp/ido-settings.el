@@ -78,7 +78,8 @@
   :bind (("M-x"     . smex)
          ("M-X"     . smex-major-mode-commands)
          ("<menu>"  . smex)
-         ("C-c M-x" . execute-extended-command))
+         ("C-c M-x" . execute-extended-command)
+         ("<apps>"  . smex))
   :config
   (smex-initialize))
 
