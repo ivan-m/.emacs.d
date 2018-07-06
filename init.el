@@ -12,15 +12,19 @@
 (defconst lib-dir
   (expand-file-name "lib" user-emacs-directory))
 
+;; Work config found here; don't store in git!
+(defconst work-dir
+  (expand-file-name "work" user-emacs-directory))
+
 ;; Directory containing work-specific configurations.
 ;; This shouldn't be stored in Git.
 (defconst work-site-lisp-dir
-  (expand-file-name "work-site-lisp" user-emacs-directory))
+  (expand-file-name "site-lisp" work-dir))
 
 ;; Directory containing work-specific libraries.
 ;; This shouldn't be stored in Git.
 (defconst work-lib-dir
-  (expand-file-name "work-lib" user-emacs-directory))
+  (expand-file-name "lib" work-dir))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
