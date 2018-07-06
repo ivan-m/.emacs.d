@@ -465,7 +465,7 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package unicode-fonts
   :require font-utils
-  :if system-type-is-gnu
+  :if (system-type-is-gnu)
   :functions system-type-is-gnu
   :init
   (setq unicode-fonts-block-font-mapping
@@ -674,7 +674,7 @@ _h_   _l_   _o_k        _y_ank
 (req-package nix-mode)
 
 (req-package nixos-options
-  :if system-type-is-gnu
+  :if (system-type-is-gnu)
   :functions system-type-is-gnu)
 
 (req-package yaml-mode
