@@ -189,7 +189,10 @@
         ;; Move the code below the current nesting right one.
         ("C-." . haskell-move-right)
 
-        ("C-c C-s" . haskell-mode-toggle-scc-at-point))
+        ("C-c C-s" . haskell-mode-toggle-scc-at-point)
+
+   :map interactive-haskell-mode-map
+        ("C-c C-c" . nil))
 
   :config
   (defun haskell-file-hook ()
