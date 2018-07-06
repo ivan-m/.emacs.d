@@ -806,6 +806,15 @@ _h_   _l_   _o_k        _y_ank
   :mode
   ("\\.lua\\'" . lua-mode))
 
+(req-package projectile
+  :init
+  (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)
+  :config
+  (projectile-global-mode +1)
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (provide 'common-settings)
