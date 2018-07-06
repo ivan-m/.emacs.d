@@ -10,6 +10,11 @@
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
 
+  (when (system-type-is-win)
+    (setq vc-handled-backends (delq 'Git vc-handled-backends))
+    (setq magit-need-cygwin-noglob t)
+    (setq magit-commit-dhow-diff nil))
+
   (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
   :commands
   magit-status
@@ -50,6 +55,19 @@
                           'magit-insert-unpushed-to-upstream
                           'magit-insert-unpushed-to-upstream-or-recent
                           'replace)
+
+  ;; Based upon https://github.com/magit/magit/wiki/Tips-and-Tricks#show-staged-and-unstaged-changes-but-nothing-else
+  (define-derived-mode magit-staging-mode magit-status-mode "Magit staging"
+    "Mode for showing staged and unstaged changes."
+    :group 'magit-status)
+  (defun magit-staging-refresh-buffer ()
+    (magit-insert-section (status)
+      ;; (magit-insert-untracked-files)
+      (magit-insert-unstaged-changes)
+      (magit-insert-staged-changes)))
+  (defun magit-staging ()
+    (interactive)
+    (magit-mode-setup #'magit-staging-mode))
 
   :bind (:map magit-mode-map
               ("O" . endless/visit-pull-request-url)))
