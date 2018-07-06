@@ -362,16 +362,16 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   (push 'company-capf company-backends)
   (push 'company-dabbrev-code company-backends))
 
-(req-package company-quickhelp
-  :require
-  company
-  :init
-  (add-hook company-mode-hook (lambda () (company-quickhelp-mode 1)))
-  :commands
-  company-quickhelp-mode
-  company-quickhelp-manual-begin
-  :bind (:map company-active-map
-              ("C-c h" . #'company-quickhelp-manual-begin)))
+;; (req-package company-quickhelp
+;;   :require
+;;   company
+;;   :init
+;;   (add-hook company-mode-hook (lambda () (company-quickhelp-mode 1)))
+;;   :commands
+;;   company-quickhelp-mode
+;;   company-quickhelp-manual-begin
+;;   :bind (:map company-active-map
+;;               ("C-c h" . #'company-quickhelp-manual-begin)))
 
 (req-package goto-chg
   :commands
