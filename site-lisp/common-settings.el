@@ -317,6 +317,8 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
 (req-package flycheck-color-mode-line)
 
 (req-package flyspell
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu
   :require
   ispell
   rw-hunspell
@@ -435,12 +437,16 @@ _h_   _l_   _o_k        _y_ank
   (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
 (req-package ispell
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu
   :init
   (setq ispell-highlight-p t)
   (setenv "DICPATH" (expand-file-name "dictionaries" user-emacs-directory))
   (setq ispell-program-name "hunspell"))
 
 (req-package rw-hunspell
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu
   :init
   (set-language-environment "UTF-8")
   (setq rw-hunspell-default-dictionary "en_AU_dictionaries")

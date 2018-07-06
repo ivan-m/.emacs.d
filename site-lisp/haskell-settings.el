@@ -98,6 +98,8 @@
 
 (req-package haskell
   :ensure nil
+  :functions
+  system-type-is-gnu
   :require
   haskell-mode
   :init
@@ -130,7 +132,7 @@
               (setq process-connection-type nil)
 
               (when (buffer-file-name)
-                (flyspell-prog-mode)
+                (if (system-type-is-gnu) (flyspell-prog-mode))
                 (if (equal (file-name-extension (buffer-file-name)) "lhs")
                     (haskell-literate-hook)
                   (haskell-file-hook)))))
