@@ -812,9 +812,18 @@ _h_   _l_   _o_k        _y_ank
   (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths)
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)
+
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+
+  (defvar my-project-name nil)
+  (put 'my-project-name 'safe-local-variable #'stringp)
+
+  (defun projectile-project-name--prefer-mine (orig-fun &rest args)
+    (or my-project-name (apply orig-fun args)))
   :config
-  (projectile-global-mode +1)
-  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
+  (projectile-mode +1)
+
+  (advice-add 'projectile-project-name :around #'projectile-project-name--prefer-mine))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
