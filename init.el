@@ -59,9 +59,7 @@
 (defun system-type-is-win ()
   (interactive)
   "Return true if system is Windows-based"
-  (or (string-equal system-type "cygwin")
-      (string-equal system-type "windows-nt")
-      (string-equal system-type "ms-dos")))
+  (memq system-type '(windows-nt ms-dos cygwin)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Loading existing packages. Need to do this here as byte-compilation
