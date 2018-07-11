@@ -807,6 +807,7 @@ _h_   _l_   _o_k        _y_ank
   ("\\.lua\\'" . lua-mode))
 
 (req-package projectile
+  :demand t
   :init
   (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths)
   (setq projectile-enable-caching t)
