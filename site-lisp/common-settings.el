@@ -214,7 +214,7 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   (setq exec-path-from-shell-check-startup-files nil)
   :config
   (exec-path-from-shell-initialize)
-  (if (system-type-is-darwin)
+  (if (not (system-type-is-gnu))
       (progn
         (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
         (setq url-proxy-services

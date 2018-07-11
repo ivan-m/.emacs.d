@@ -75,11 +75,15 @@
 ;; Don't suggest removing packages
 (defun package--removable-packages () nil)
 
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
+(let* ((no-ssl (and (system-type-is-win)
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (setq package-archives `(,(cons "gnu" (concat proto "://elpa.gnu.org/packages/"))
+                           ,(cons "marmalade" (concat proto "://marmalade-repo.org/packages/"))
+                           ,(cons "melpa" (concat proto "://melpa.org/packages/"))
+                           ,(cons "melpa-stable" (concat proto "://stable.melpa.org/packages/"))
+                           ,(cons "org" "http://orgmode.org/elpa/"))))
 
 ;; Just calling :pin in req-package blocks doesn't work:
 ;; https://github.com/jwiegley/use-package/issues/343#issuecomment-220463365
