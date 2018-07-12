@@ -209,18 +209,6 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
       (string-match "://\\([^/]+\\)/?$" env-value)
       (match-string 1 env-value))))
 
-(req-package exec-path-from-shell
-  :init
-  (setq exec-path-from-shell-check-startup-files nil)
-  :config
-  (exec-path-from-shell-initialize)
-  (if (not (system-type-is-gnu))
-      (progn
-        (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
-        (setq url-proxy-services
-              `(("http"   . ,(extract-proxy-from-env "http_proxy"))
-                ("https"  . ,(extract-proxy-from-env "https_proxy")))))))
-
 (req-package diminish
   :config
   ;; Doesn't seem to have a dedicated file for it
@@ -252,6 +240,7 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   (global-set-key [S-down] (ignore-error-wrapper 'windmove-down)))
 
 (req-package tramp
+  :defer 30
   :init
   (setq tramp-default-method "ssh")
   :config
@@ -285,7 +274,11 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
 
 (req-package notifications)
 
-(req-package lorem-ipsum)
+(req-package lorem-ipsum
+  :commands
+  lorem-ipsum-insert-paragraphs
+  lorem-ipsum-insert-sentences
+  lorem-ipsum-insert-list)
 
 (req-package generic-x
   :ensure nil
@@ -352,7 +345,9 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   :diminish subword-mode)
 
 (req-package mmm-mode
-  :diminish mmm-mode)
+  :diminish mmm-mode
+  :commands
+  mmm-mode)
 
 (req-package subword
   :diminish subword-mode)
@@ -382,10 +377,14 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   :bind (("C->" . goto-last-change)
          ("C-<" . gogo-last-change-reverse)))
 
-(req-package paredit)
+(req-package paredit
+  :commands
+  paredit-mode)
 
 (req-package paredit-menu
-  :require paredit)
+  :require paredit
+  :commands
+  paredit-menu)
 
 (req-package hydra
   :config
@@ -421,20 +420,14 @@ _h_   _l_   _o_k        _y_ank
     ("g" text-scale-increase "in")
     ("l" text-scale-decrease "out")))
 
-(req-package org
-  :commands
-  turn-on-orgtbl
-  org-mode
-  :mode
-  ("\\.org$" . org-mode)
-  :init
-  (add-hook 'fundamental-mode-hook 'turn-on-orgtbl)
-  :defer t)
-
 (req-package csv-mode
   :require org
   :init
-  (add-hook 'csv-mode-hook 'turn-on-orgtbl))
+  (add-hook 'csv-mode-hook 'turn-on-orgtbl)
+  :commands
+  csv-mode
+  :mode
+  "\\.csv\'")
 
 (req-package ispell
   :if (system-type-is-gnu)
@@ -443,6 +436,14 @@ _h_   _l_   _o_k        _y_ank
   (setq ispell-highlight-p t)
   (setenv "DICPATH" (expand-file-name "dictionaries" user-emacs-directory))
   (setq ispell-program-name "hunspell"))
+
+(req-package rw-ispell
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu)
+
+(req-package rw-language-and-country-codes
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu)
 
 (req-package rw-hunspell
   :if (system-type-is-gnu)
@@ -596,8 +597,9 @@ _h_   _l_   _o_k        _y_ank
   (setq sql-product 'postgres)
   :commands
   sql-mode
-  :mode ("\\.sql$" . sql-mode)
-  :mode ("\\.cql$" . sql-mode))
+  :mode
+  (("\\.sql$" . sql-mode)
+   ("\\.cql$" . sql-mode)))
 
 (req-package uniquify
   :ensure nil
@@ -635,7 +637,9 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package man
   :init
-  (setq Man-notify-method 'pushy))
+  (setq Man-notify-method 'pushy)
+  :commands
+  man)
 
 (req-package woman
   :init
@@ -669,9 +673,17 @@ _h_   _l_   _o_k        _y_ank
   :commands helm-mini
   :bind ([f9] . helm-mini))
 
-(req-package graphviz-dot-mode)
+(req-package graphviz-dot-mode
+  :commands
+  graphviz-dot-mode
+  :mode
+  "\\.gv\\'")
 
-(req-package nix-mode)
+(req-package nix-mode
+  :commands
+  nix-mode
+  :mode
+  "\\.nix\\'")
 
 (req-package nixos-options
   :if (system-type-is-gnu)
@@ -681,7 +693,9 @@ _h_   _l_   _o_k        _y_ank
   :init
   (add-to-list 'interpreter-mode-alist '("ansible-playbook" . yaml-mode))
   :commands
-  yaml-mode)
+  yaml-mode
+  :mode
+  "\\.y[a]ml\\'")
 
 ;; (req-package zoom-frm
 ;;   :ensure nil

@@ -22,34 +22,40 @@
   (defun TeX-toggle-escape nil (interactive)
          (if (string= LaTeX-command "latex") "latex -shell-escape" "latex")))
 
-(req-package reftex
-  :ensure nil)
+(req-package latex
+  :require
+  auctex
+  reftex
+  :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  :commands
+  TeX-latex-mode)
 
 (req-package latex
-  :ensure auctex
-  :ensure reftex
-  :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
-
-(req-package latex
-  :ensure auctex
-  :ensure flyspell
+  :require
+  auctex
+  flyspell
   :init (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 (req-package latex
-  :ensure auctex
+  :require
+  auctex
+  org-table
   :init (add-hook 'LaTeX-mode-hook 'orgtbl-mode))
 
 (req-package reftex
+  :ensure
+  nil
   :init
   (setq reftex-plug-into-AUCTeX t)
 
   (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
   (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
   :commands
-  turn-on-reftex)
+  turn-on-reftex
+  reftex-mode)
 
 (req-package preview
-  :ensure auctex
+  :require auctex
   :init
   (setq preview-auto-cache-preamble t)
   (setq preview-default-option-list

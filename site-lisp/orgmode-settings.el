@@ -52,8 +52,6 @@
 
   (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 
-
-
   (defadvice org-babel-execute-src-block (around load-language nil activate)
     "Load language if needed"
     (let ((language (org-element-property :language (org-element-at-point))))
@@ -79,170 +77,215 @@
   (define-key org-mode-map [remap org-return] (lambda () (interactive)
                                                 (if (org-in-src-block-p)
                                                     (org-return)
-                                                  (org-return-indent)))))
+                                                  (org-return-indent))))
+
+  ;; Based upon https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
+  (defun paste-html-to-org ()
+    "Assumes the contents of the system clip/paste-board to be
+HTML, this calls out to `pandoc' to convert it for the org-mode
+format."
+    (interactive)
+    (let* ((clip (if (system-type-is-darwin)
+                     "pbpaste -Prefer rts"
+                   "xclip -out -selection 'clipboard' -t text/html"))
+           (format (if (eq mode-name "Org") "org" "markdown"))
+           (pandoc (concat "pandoc -f rts -t " format))
+           (cmd    (concat clip " | " pandoc))
+           (text   (shell-command-to-string cmd)))
+      (kill-new text)
+      (yank)))
+
+  ;; https://github.com/howardabrams/dot-files/blob/master/emacs-org.org#better-org-return
+
+  (require 'org-inlinetask)
+
+  (defun ha/org-return (&optional ignore)
+    "Add new list item, heading or table row with RET.
+A double return on an empty element deletes it.
+Use a prefix arg to get regular RET. "
+    (interactive "P")
+    (if ignore
+        (org-return)
+      (cond
+       ;; Open links like usual
+       ((eq 'link (car (org-element-context)))
+        (org-return))
+       ;; lists end with two blank lines, so we need to make sure we are also not
+       ;; at the beginning of a line to avoid a loop where a new entry gets
+       ;; created with only one blank line.
+       ((and (org-in-item-p) (not (bolp)))
+        (if (org-element-property :contents-begin (org-element-context))
+            (org-insert-heading)
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")
+          (org-return)))
+       ((org-at-heading-p)
+        (if (not (string= "" (org-element-property :title (org-element-context))))
+            (progn (org-end-of-meta-data)
+                   (org-insert-heading))
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")))
+       ((org-at-table-p)
+        (if (-any?
+             (lambda (x) (not (string= "" x)))
+             (nth
+              (- (org-table-current-dline) 1)
+              (org-table-to-lisp)))
+            (org-return)
+          ;; empty row
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")
+          (org-return)))
+       (t
+        (org-return)))))
+
+  (defun scimax/org-return (&optional ignore)
+    "Add new list item, heading or table row with RET.
+A double return on an empty element deletes it.
+Use a prefix arg to get regular RET. "
+    (interactive "P")
+    (if ignore
+        (org-return)
+      (cond
+
+       ((eq 'line-break (car (org-element-context)))
+        (org-return-indent))
+
+       ;; Open links like usual, unless point is at the end of a line.
+       ;; and if at beginning of line, just press enter.
+       ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
+            (bolp))
+        (org-return))
+
+       ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
+       ;; Johansson!
+       ((org-inlinetask-in-task-p)
+        (org-return))
+
+       ;; checkboxes too
+       ((org-at-item-checkbox-p)
+        (org-insert-todo-heading nil))
+
+       ;; lists end with two blank lines, so we need to make sure we are also not
+       ;; at the beginning of a line to avoid a loop where a new entry gets
+       ;; created with only one blank line.
+       ((org-in-item-p)
+        (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
+            (org-insert-item)
+          (beginning-of-line)
+          (delete-region (line-beginning-position) (line-end-position))
+          (org-return)))
+
+       ;; org-heading
+       ((org-at-heading-p)
+        (if (not (string= "" (org-element-property :title (org-element-context))))
+            (progn (org-end-of-meta-data)
+                   (org-insert-heading-respect-content)
+                   (outline-show-entry))
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")))
+
+       ;; tables
+       ((org-at-table-p)
+        (if (-any?
+             (lambda (x) (not (string= "" x)))
+             (nth
+              (- (org-table-current-dline) 1)
+              (org-table-to-lisp)))
+            (org-return)
+          ;; empty row
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")
+          (org-return)))
+
+       ;; fall-through case
+       (t
+        (org-return)))))
+
+  (define-key org-mode-map (kbd "RET")  'scimax/org-return)
+  )
 
 (req-package org-table
   :ensure
-  org-plus-contrib
+  nil
+  :require
+  org
+  :init
+  (add-hook 'fundamental-mode-hook 'turn-on-orgtbl)
   :commands
   turn-on-orgtbl
   orgtbl-mode)
 
 ;; (req-package org-pandoc)
 
-(req-package outline-magic)
+(req-package outline-magic
+  :commands
+  outline-cycle
+  outline-next-line
+  outline-move-subtree-up
+  outline-move-subtree-down
+  outline-promote
+  outline-demote)
 
-(req-package ob
-  :ensure org-plus-contrib)
+;; (req-package ob
+;;   :ensure nil :require org)
 (req-package ob-emacs-lisp
-  :ensure org-plus-contrib)
+  :ensure
+  nil
+  :require
+  org
+  :commands
+  org-babel-execute:emacs-lisp
+  org-babel-expand-body:emacs-lisp
+  org-babel-execute:elisp
+  org-babel-expand-body:elisp)
 (req-package ob-shell
-  :ensure org-plus-contrib)
+  :ensure
+  nil
+  :require
+  org
+  :commands
+  org-babel-execute:shell
+  org-babel-expand-body:shell)
 (req-package ob-sql
-  :ensure org-plus-contrib)
-(req-package ob-sql-mode)
+  :ensure
+  nil
+  :require
+  org
+  :commands
+  org-babel-execute:sql
+  org-babel-expand-body:sql)
+(req-package ob-dot
+  :ensure
+  nil
+  :require
+  org
+  :commands
+  org-babel-execute:dot
+  org-babel-expand-body:dot)
+(req-package ob-sql-mode
+  :commands
+  org-babel-execute:sql-mode
+  org-babel-expand-body:sql-mode)
 (req-package org-beautify-theme
   :init
   (setq org-beautify-theme-use-box-hack nil))
 (req-package org-bullets
-  :init (add-hook 'org-mode-hook 'org-bullets-mode))
-
-;; Based upon https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
-(defun paste-html-to-org ()
-  "Assumes the contents of the system clip/paste-board to be
-HTML, this calls out to `pandoc' to convert it for the org-mode
-format."
-  (interactive)
-  (let* ((clip (if (system-type-is-darwin)
-                   "pbpaste -Prefer rts"
-                 "xclip -out -selection 'clipboard' -t text/html"))
-         (format (if (eq mode-name "Org") "org" "markdown"))
-         (pandoc (concat "pandoc -f rts -t " format))
-         (cmd    (concat clip " | " pandoc))
-         (text   (shell-command-to-string cmd)))
-    (kill-new text)
-    (yank)))
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode)
+  :commands
+  org-bullets-mode)
 
 (req-package org-rich-yank
-  :config
-  (define-key org-mode-map (kbd "C-M-y") #'org-rich-yank))
-
-;; #############################################################################
-
-;; https://github.com/howardabrams/dot-files/blob/master/emacs-org.org#better-org-return
-
-(require 'org-inlinetask)
-
-(defun ha/org-return (&optional ignore)
-  "Add new list item, heading or table row with RET.
-A double return on an empty element deletes it.
-Use a prefix arg to get regular RET. "
-  (interactive "P")
-  (if ignore
-      (org-return)
-    (cond
-     ;; Open links like usual
-     ((eq 'link (car (org-element-context)))
-      (org-return))
-     ;; lists end with two blank lines, so we need to make sure we are also not
-     ;; at the beginning of a line to avoid a loop where a new entry gets
-     ;; created with only one blank line.
-     ((and (org-in-item-p) (not (bolp)))
-      (if (org-element-property :contents-begin (org-element-context))
-          (org-insert-heading)
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-     ((org-at-heading-p)
-      (if (not (string= "" (org-element-property :title (org-element-context))))
-          (progn (org-end-of-meta-data)
-                 (org-insert-heading))
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")))
-     ((org-at-table-p)
-      (if (-any?
-           (lambda (x) (not (string= "" x)))
-           (nth
-            (- (org-table-current-dline) 1)
-            (org-table-to-lisp)))
-          (org-return)
-        ;; empty row
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-     (t
-      (org-return)))))
-
-(defun scimax/org-return (&optional ignore)
-  "Add new list item, heading or table row with RET.
-A double return on an empty element deletes it.
-Use a prefix arg to get regular RET. "
-  (interactive "P")
-  (if ignore
-      (org-return)
-    (cond
-
-     ((eq 'line-break (car (org-element-context)))
-      (org-return-indent))
-
-     ;; Open links like usual, unless point is at the end of a line.
-     ;; and if at beginning of line, just press enter.
-     ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-          (bolp))
-      (org-return))
-
-     ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
-     ;; Johansson!
-     ((org-inlinetask-in-task-p)
-      (org-return))
-
-     ;; checkboxes too
-     ((org-at-item-checkbox-p)
-      (org-insert-todo-heading nil))
-
-     ;; lists end with two blank lines, so we need to make sure we are also not
-     ;; at the beginning of a line to avoid a loop where a new entry gets
-     ;; created with only one blank line.
-     ((org-in-item-p)
-      (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-          (org-insert-item)
-        (beginning-of-line)
-        (delete-region (line-beginning-position) (line-end-position))
-        (org-return)))
-
-     ;; org-heading
-     ((org-at-heading-p)
-      (if (not (string= "" (org-element-property :title (org-element-context))))
-          (progn (org-end-of-meta-data)
-                 (org-insert-heading-respect-content)
-                 (outline-show-entry))
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")))
-
-     ;; tables
-     ((org-at-table-p)
-      (if (-any?
-           (lambda (x) (not (string= "" x)))
-           (nth
-            (- (org-table-current-dline) 1)
-            (org-table-to-lisp)))
-          (org-return)
-        ;; empty row
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-
-     ;; fall-through case
-     (t
-      (org-return)))))
-
-(define-key org-mode-map (kbd "RET")  'scimax/org-return)
-
-;; #############################################################################
+  :commands
+  org-rich-yank
+  :bind
+  (:map org-mode-map
+   ("C-M-y" . org-rich-yank)))
 
 (provide 'orgmode-settings)

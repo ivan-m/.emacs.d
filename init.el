@@ -1,6 +1,10 @@
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Specifying paths.
 
+(setq default-gc-cons-threshold gc-cons-threshold)
+
+(setq gc-cons-threshold 100000000)
+
 (setq toggle-debug-on-error t)
 
 (defconst site-lisp-dir
@@ -121,18 +125,34 @@
 ;; Just in case something went wrong with the byte-compilation
 (setq load-prefer-newer t)
 
-(req-package load-dir
-  :force true
-  :init
-  (setq force-load-messages nil)
-  (setq load-dir-debug nil)
-  (setq load-dir-recursive t)
-  :config
-  (add-to-list 'load-dir-ignored "custom\.elc?")
-  (load-dir-one site-lisp-dir)
-  (if (file-directory-p work-site-lisp-dir) (load-dir-one work-site-lisp-dir)))
+(let ((file-name-handler-alist nil))
 
-(req-package-finish)
+  ;; Explicitly set this up to try and make sure proxy is set
+  ;; correctly for the rest.
+  (req-package exec-path-from-shell
+    :init
+    (setq exec-path-from-shell-check-startup-files nil)
+    :config
+    (exec-path-from-shell-initialize)
+    (if (not (system-type-is-gnu))
+        (progn
+          (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
+          (setq url-proxy-services
+                `(("http"   . ,(extract-proxy-from-env "http_proxy"))
+                  ("https"  . ,(extract-proxy-from-env "https_proxy")))))))
+
+  (req-package load-dir
+    :force true
+    :init
+    (setq force-load-messages nil)
+    (setq load-dir-debug nil)
+    (setq load-dir-recursive t)
+    :config
+    (add-to-list 'load-dir-ignored "custom\.elc?")
+    (load-dir-one site-lisp-dir)
+    (if (file-directory-p work-site-lisp-dir) (load-dir-one work-site-lisp-dir)))
+
+  (req-package-finish))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; req-package / use-package don't seem to play nicely with themes:
@@ -156,6 +176,8 @@
 ;; Now actually load the custom settings; this shouldn't be much.
 
 (load custom-file :noerror)
+
+(setq gc-cons-threshold default-gc-cons-threshold)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

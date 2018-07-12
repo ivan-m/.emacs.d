@@ -80,9 +80,13 @@
   :functions system-type-is-gnu
   :if (system-type-is-gnu))
 
-(req-package bug-reference-github)
+(req-package bug-reference-github
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu)
 
-(req-package github-notifier)
+(req-package github-notifier
+  :if (system-type-is-gnu)
+  :functions system-type-is-gnu)
 
 (req-package git-gutter-fringe
   :init
