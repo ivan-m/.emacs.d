@@ -713,87 +713,87 @@ _h_   _l_   _o_k        _y_ank
   (setq apropos-do-all t)
   :commands apropos)
 
-(req-package dockerfile-mode
-  :mode ("Dockerfile" . dockerfile-mode))
+;; (req-package dockerfile-mode
+;;   :mode ("Dockerfile" . dockerfile-mode))
 
-(req-package ansible
-  :require
-  yaml-mode
-  :init
-  (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
-  :commands
-  ansible)
+;; (req-package ansible
+;;   :require
+;;   yaml-mode
+;;   :init
+;;   (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+;;   :commands
+;;   ansible)
 
-(req-package ansible-doc
-  :require
-  yaml-mode
-  :init
-  (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-  :commands
-  ansible-doc-mode)
+;; (req-package ansible-doc
+;;   :require
+;;   yaml-mode
+;;   :init
+;;   (add-hook 'yaml-mode-hook #'ansible-doc-mode)
+;;   :commands
+;;   ansible-doc-mode)
 
-(req-package company-ansible
-  :require
-  company
-  yaml-mode
-  :init
-  (add-to-list 'company-backends 'company-ansible)
-  (add-hook 'yaml-mode-hook '(lambda () (company-mode 1))))
+;; (req-package company-ansible
+;;   :require
+;;   company
+;;   yaml-mode
+;;   :init
+;;   (add-to-list 'company-backends 'company-ansible)
+;;   (add-hook 'yaml-mode-hook '(lambda () (company-mode 1))))
 
-(req-package jinja2-mode
-  :init
-  ;; Variant typically used with Ansible
-  (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
-  :commands
-  jinja2-mode)
+;; (req-package jinja2-mode
+;;   :init
+;;   ;; Variant typically used with Ansible
+;;   (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
+;;   :commands
+;;   jinja2-mode)
 
-(req-package editorconfig
-  :diminish editorconfig-mode
-  :commands
-  editorconfig-mode
-  :config
-  (editorconfig-mode 1))
+;; (req-package editorconfig
+;;   :diminish editorconfig-mode
+;;   :commands
+;;   editorconfig-mode
+;;   :config
+;;   (editorconfig-mode 1))
 
-(req-package terraform-mode
-  :init
-  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-  :commands
-  terraform-format-on-save-mode
-  terraform-mode
-  :mode
-  ("\\.tf\\(vars\\)?\\'" . terraform-mode))
+;; (req-package terraform-mode
+;;   :init
+;;   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+;;   :commands
+;;   terraform-format-on-save-mode
+;;   terraform-mode
+;;   :mode
+;;   ("\\.tf\\(vars\\)?\\'" . terraform-mode))
 
-(req-package company-terraform
-  :require
-  terraform-mode
-  company
-  :init
-  (add-hook 'terraform-mode-hook (lambda () (company-mode 1)))
-  :config
-  (add-to-list 'company-backends 'company-terraform))
+;; (req-package company-terraform
+;;   :require
+;;   terraform-mode
+;;   company
+;;   :init
+;;   (add-hook 'terraform-mode-hook (lambda () (company-mode 1)))
+;;   :config
+;;   (add-to-list 'company-backends 'company-terraform))
 
-(req-package plantuml-mode
-  :init
-  (setq plantuml-jar-path (expand-file-name "~/.nix-profile/lib/plantuml.jar"))
-  :functions system-type-is-darwin
-  :config
-  (if (system-type-is-darwin)
-      (progn
-        (setenv "GRAPHVIZ_DOT" (expand-file-name "~/.nix-profile/bin/dot"))
-        (add-to-list 'plantuml-java-args "-Dhttps.proxyHost=127.0.0.1")
-        (add-to-list 'plantuml-java-args "-Dhttps.proxyPort=3129")))
-  :commands
-  plantuml-mode
-  :mode
-  "\\.p\\(lant\\)?uml$")
+;; (req-package plantuml-mode
+;;   :init
+;;   (setq plantuml-jar-path (expand-file-name "~/.nix-profile/lib/plantuml.jar"))
+;;   :functions system-type-is-darwin
+;;   :config
+;;   (if (system-type-is-darwin)
+;;       (progn
+;;         (setenv "GRAPHVIZ_DOT" (expand-file-name "~/.nix-profile/bin/dot"))
+;;         (add-to-list 'plantuml-java-args "-Dhttps.proxyHost=127.0.0.1")
+;;         (add-to-list 'plantuml-java-args "-Dhttps.proxyPort=3129")))
+;;   :commands
+;;   plantuml-mode
+;;   :mode
+;;   "\\.p\\(lant\\)?uml$")
 
-(req-package flycheck-plantuml
-  :require
-  flycheck
-  plantuml-mode
-  :hook
-  (plantuml-mode . flycheck-mode)
-  (flycheck-mode . flycheck-plantuml-setup))
+;; (req-package flycheck-plantuml
+;;   :require
+;;   flycheck
+;;   plantuml-mode
+;;   :hook
+;;   (plantuml-mode . flycheck-mode)
+;;   (flycheck-mode . flycheck-plantuml-setup))
 
 (req-package suggest
   :bind ((:prefix-map lisp-evaluation-map
