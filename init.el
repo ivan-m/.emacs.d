@@ -41,9 +41,13 @@
 (if (file-directory-p work-lib-dir)
   (add-to-list 'load-path work-lib-dir))
 
+(if (file-directory-p work-site-lisp-dir)
+  (add-to-list 'load-path work-site-lisp-dir))
+
 (defun init-compile-dir (dir)
   ;; Byte-compile a directory when starting emacs.
-  (with-no-warnings (byte-recompile-directory dir 0)))
+  (with-no-warnings (byte-recompile-directory dir 0))
+  )
 
 ;; Want to make sure these are always available, no matter which order
 ;; the -settings files are loaded in.
@@ -125,6 +129,9 @@
 ;; Just in case something went wrong with the byte-compilation
 (setq load-prefer-newer t)
 
+;; To enable packages below to override this value
+(setq chosen-theme 'alect-dark)
+
 (let ((file-name-handler-alist nil))
 
   ;; Explicitly set this up to try and make sure proxy is set
@@ -159,7 +166,11 @@
 ;; https://github.com/jwiegley/use-package/issues/351
 
 (try-install 'alect-themes)
-(load-theme 'alect-dark t)
+
+(setq alect-overriding-faces
+      '((font-lock-type-face ((nil :foreground  "#be59d8")))))
+
+(load-theme chosen-theme t)
 
 ;; When using emacs --daemon, it seems that the cursor color isn't
 ;; set.  As such, use this to set it manually (needs to be set after
@@ -170,7 +181,7 @@
 ;; used.
 (add-to-list 'default-frame-alist
              `(cursor-color . ,(alect-get-color 'dark 'cursor)))
-(set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
+;; (set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.

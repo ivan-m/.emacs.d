@@ -30,7 +30,7 @@
       bury-successful-compilation t
       compilation-message-face 'default
 
-      text-mode-hook '(turn-on-auto-fill table-recognize text-mode-hook-identify))
+      text-mode-hook '(turn-on-auto-fill text-mode-hook-identify))
 
 (setq-default indent-tabs-mode nil
               tab-width 4
@@ -189,7 +189,18 @@ the actual manpage using the function `man'."
 
 (if (system-type-is-win)
     (progn
-      (global-set-key [apps] 'execute-extended-command)))
+      (global-set-key [apps] 'execute-extended-command)
+
+      ;; make PC keyboard's Win key or other to type Super or Hyper, for emacs running on Windows.
+      ;;(setq w32-pass-lwindow-to-system nil)
+      (setq w32-lwindow-modifier 'super) ; Left Windows key
+
+      (setq w32-pass-rwindow-to-system nil)
+      (setq w32-rwindow-modifier 'super) ; Right Windows key
+
+      (setq w32-pass-apps-to-system nil)
+      ;;(setq w32-apps-modifier 'hyper) ; Menu/App key
+      ))
 
 (if (system-type-is-gnu)
     (progn
@@ -334,6 +345,8 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
 (req-package auto-highlight-symbol
   :init
   (setq ahs-case-fold-search nil)
+  ;; Allow trailing '
+  (setq ahs-include "^[0-9A-Za-z/_.,:;*+=&%|$#@!^?-]+'?$")
   :diminish auto-highlight-symbol-mode
   :config
   (add-to-list 'ahs-modes 'haskell-mode)
@@ -421,9 +434,6 @@ _h_   _l_   _o_k        _y_ank
     ("l" text-scale-decrease "out")))
 
 (req-package csv-mode
-  :require org
-  :init
-  (add-hook 'csv-mode-hook 'turn-on-orgtbl)
   :commands
   csv-mode
   :mode
@@ -466,96 +476,96 @@ _h_   _l_   _o_k        _y_ank
 
 (req-package unicode-fonts
   :require font-utils
-  :if (system-type-is-gnu)
   :functions system-type-is-gnu
   :init
-  (setq unicode-fonts-block-font-mapping
-        '(("Alchemical Symbols"
-           ("Symbola"))
-          ("Alphabetic Presentation Forms"
-           ("DejaVu Sans:width=condensed" "FreeMono"))
-          ("Arrows"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Block Elements"
-           ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans:width=condensed" "Symbola"))
-          ("Box Drawing"
-           ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans" "Symbola"))
-          ("Combining Diacritical Marks Supplement"
-           ("FreeSerif" "DejaVu Sans:width=condensed"))
-          ("Combining Diacritical Marks for Symbols"
-           ("Cambria Math" "Symbola"))
-          ("Combining Diacritical Marks"
-           ("DejaVu Sans:width=condensed" "DejaVu Sans Mono" "FreeMono"))
-          ("Combining Half Marks"
-           ("Symbola"))
-          ("Control Pictures"
-           ("Symbola" "FreeMono"))
-          ("Currency Symbols"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Cyrillic Supplement"
-           ("DejaVu Sans:width=condensed" "Symbola"))
-          ("Cyrillic"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Dingbats"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-          ("Emoticons"
-           ("Symbola"))
-          ("General Punctuation"
-           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Geometric Shapes"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Gothic"
-           ("FreeSerif"))
-          ("Greek Extended"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "FreeMono"))
-          ("Greek and Coptic"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-          ("IPA Extensions"
-           ("DejaVu Sans Mono" "Symbola" "FreeMono"))
-          ("Latin Extended-C"
-           ("DejaVu Sans:width=condensed"))
-          ("Latin Extended-D"
-           ("FreeMono" "DejaVu Sans Mono" "DejaVu Sans:width=condensed"))
-          ("Letterlike Symbols"
-           ("DejaVu Sans:width=condensed" "Symbola"))
-          ("Mathematical Alphanumeric Symbols"
-           ("Symbola"))
-          ("Mathematical Operators"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Miscellaneous Mathematical Symbols-A"
-           ("Symbola"))
-          ("Miscellaneous Mathematical Symbols-B"
-           ("Symbola"))
-          ("Miscellaneous Symbols and Pictographs"
-           ("Symbola"))
-          ("Miscellaneous Symbols and Arrows"
-           ("Symbola"))
-          ("Miscellaneous Symbols"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
-          ("Miscellaneous Technical"
-           ("Symbola"))
-          ("Musical Symbols"
-           ("Symbola"))
-          ("Number Forms"
-           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Optical Character Recognition"
-           ("Symbola" "FreeMono"))
-          ("Playing Cards"
-           ("DejaVu Sans:width=condensed" "Symbola"))
-          ("Specials"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Superscripts and Subscripts"
-           ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Supplemental Arrows-A"
-           ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
-          ("Supplemental Arrows-B"
-           ("Symbola"))
-          ("Supplemental Mathematical Operators"
-           ("Symbola"))
-          ("Supplemental Punctuation"
-           ("DejaVu Sans Mono" "Symbola"))
-          ("Transport and Map Symbols"
-           ("Symbola"))))
+  (if (system-type-is-gnu)
+      (setq unicode-fonts-block-font-mapping
+            '(("Alchemical Symbols"
+               ("Symbola"))
+              ("Alphabetic Presentation Forms"
+               ("DejaVu Sans:width=condensed" "FreeMono"))
+              ("Arrows"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Block Elements"
+               ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans:width=condensed" "Symbola"))
+              ("Box Drawing"
+               ("DejaVu Sans Mono" "FreeMono" "DejaVu Sans" "Symbola"))
+              ("Combining Diacritical Marks Supplement"
+               ("FreeSerif" "DejaVu Sans:width=condensed"))
+              ("Combining Diacritical Marks for Symbols"
+               ("Cambria Math" "Symbola"))
+              ("Combining Diacritical Marks"
+               ("DejaVu Sans:width=condensed" "DejaVu Sans Mono" "FreeMono"))
+              ("Combining Half Marks"
+               ("Symbola"))
+              ("Control Pictures"
+               ("Symbola" "FreeMono"))
+              ("Currency Symbols"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Cyrillic Supplement"
+               ("DejaVu Sans:width=condensed" "Symbola"))
+              ("Cyrillic"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Dingbats"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+              ("Emoticons"
+               ("Symbola"))
+              ("General Punctuation"
+               ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Geometric Shapes"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Gothic"
+               ("FreeSerif"))
+              ("Greek Extended"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "FreeMono"))
+              ("Greek and Coptic"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+              ("IPA Extensions"
+               ("DejaVu Sans Mono" "Symbola" "FreeMono"))
+              ("Latin Extended-C"
+               ("DejaVu Sans:width=condensed"))
+              ("Latin Extended-D"
+               ("FreeMono" "DejaVu Sans Mono" "DejaVu Sans:width=condensed"))
+              ("Letterlike Symbols"
+               ("DejaVu Sans:width=condensed" "Symbola"))
+              ("Mathematical Alphanumeric Symbols"
+               ("Symbola"))
+              ("Mathematical Operators"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Miscellaneous Mathematical Symbols-A"
+               ("Symbola"))
+              ("Miscellaneous Mathematical Symbols-B"
+               ("Symbola"))
+              ("Miscellaneous Symbols and Pictographs"
+               ("Symbola"))
+              ("Miscellaneous Symbols and Arrows"
+               ("Symbola"))
+              ("Miscellaneous Symbols"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola"))
+              ("Miscellaneous Technical"
+               ("Symbola"))
+              ("Musical Symbols"
+               ("Symbola"))
+              ("Number Forms"
+               ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Optical Character Recognition"
+               ("Symbola" "FreeMono"))
+              ("Playing Cards"
+               ("DejaVu Sans:width=condensed" "Symbola"))
+              ("Specials"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Superscripts and Subscripts"
+               ("DejaVu Sans Mono" "DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Supplemental Arrows-A"
+               ("DejaVu Sans:width=condensed" "Symbola" "FreeMono"))
+              ("Supplemental Arrows-B"
+               ("Symbola"))
+              ("Supplemental Mathematical Operators"
+               ("Symbola"))
+              ("Supplemental Punctuation"
+               ("DejaVu Sans Mono" "Symbola"))
+              ("Transport and Map Symbols"
+               ("Symbola")))))
   (setq unicode-fonts-existence-checks 'first)
   (setq unicode-fonts-skip-font-groups
         '(chinese-simplified chinese-traditional low-quality-glyphs microsoft-only multicolor non-free))
@@ -834,10 +844,18 @@ _h_   _l_   _o_k        _y_ank
 
   (defun projectile-project-name--prefer-mine (orig-fun &rest args)
     (or my-project-name (apply orig-fun args)))
+
+  ;;(w32-register-hot-key [s-f])
   :config
   (projectile-mode +1)
 
   (advice-add 'projectile-project-name :around #'projectile-project-name--prefer-mine))
+  ;; :bind
+  ;; (:map projectile-mode-map
+  ;;  ("s-d" . projectile-find-dir)
+  ;;  ("s-p" . projectile-switch-project)
+  ;;  ("s-f" . projectile-find-file)
+  ;;  ("s-g" . projectile-grep)))
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

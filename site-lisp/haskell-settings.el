@@ -128,7 +128,7 @@
               (subword-mode)
               (font-lock-add-keywords
                nil
-               '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face prepend)))
+               '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face prepend)))
               (setq process-connection-type nil)
 
               (when (buffer-file-name)
@@ -342,7 +342,7 @@
   (setq flycheck-haskell-runghc-command '("runghc"))
   ;; Make flycheck aware of sandboxes.
   (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
-  (setq flycheck-haskell-funghc-command `(,(funcall flycheck-executable-find "runghc") "-i")))
+  (setq flycheck-haskell-runghc-command `(,(funcall flycheck-executable-find "runghc") "-i")))
 
 (req-package hs-lint
   :ensure nil

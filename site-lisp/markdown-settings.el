@@ -14,7 +14,7 @@
   :config
   (set-face-attribute 'markdown-code-face nil :background nil)
   :mode
-  (("\\.txt" . markdown-mode)
+  (;("\\.txt" . markdown-mode)
    ("\\.md" . markdown-mode)
    ("\\.text" . markdown-mode)
    ("[cC]hange\\.?[lL]og?\\'" . markdown-mode)))
@@ -22,6 +22,12 @@
 (req-package markdown-mode
   :require flyspell
   :init (add-hook 'markdown-mode-hook 'flyspell-mode))
+
+(req-package markdown-mode
+  :ensure nil
+  :require org-table
+  :init
+  (add-hook 'markdown-mode-hook 'turn-on-orgtbl))
 
 (req-package pandoc-mode
   :require

@@ -101,9 +101,10 @@
   :bind ("C-c i" . imenu)
   :config
   ;; from http://www.emacswiki.org/cgi-bin/wiki/ImenuMode
-  (defun try-to-add-imenu ()
-    (condition-case nil (imenu-add-menubar-index) (error nil)))
-  (add-hook 'font-lock-mode-hook 'try-to-add-imenu))
+  ;; (defun try-to-add-imenu ()
+  ;;   (condition-case nil (imenu-add-menubar-index) (error nil)))
+  ;; (add-hook 'font-lock-mode-hook 'try-to-add-imenu)
+  )
 
 (req-package artist
   :require ido

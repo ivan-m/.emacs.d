@@ -215,11 +215,54 @@ Use a prefix arg to get regular RET. "
   nil
   :require
   org
-  :init
-  (add-hook 'fundamental-mode-hook 'turn-on-orgtbl)
   :commands
   turn-on-orgtbl
-  orgtbl-mode)
+  orgtbl-mode
+  :config
+  (defun org-table-transform-in-place ()
+    "Just like `ORG-TABLE-EXPORT', but instead of exporting to a
+  file, replace table with data formatted according to user's
+  choice, where the format choices are the same as
+  org-table-export."
+    (interactive)
+    (unless (org-at-table-p) (user-error "No table at point"))
+    (org-table-align)
+    (let* ((format
+            (completing-read "Transform table function: "
+                             '("orgtbl-to-tsv" "orgtbl-to-csv" "orgtbl-to-latex"
+                               "orgtbl-to-html" "orgtbl-to-generic"
+                               "orgtbl-to-texinfo" "orgtbl-to-orgtbl"
+                               "orgtbl-to-unicode")))
+           (curr-point (point)))
+      (if (string-match "\\([^ \t\r\n]+\\)\\( +.*\\)?" format)
+          (let ((transform (intern (match-string 1 format)))
+                (params (and (match-end 2)
+                             (read (concat "(" (match-string 2 format) ")"))))
+                (table (org-table-to-lisp
+                        (buffer-substring-no-properties
+                         (org-table-begin) (org-table-end)))))
+            (unless (fboundp transform)
+              (user-error "No such transformation function %s" transform))
+            (save-restriction
+              (with-output-to-string
+                (delete-region (org-table-begin) (org-table-end))
+                (insert (funcall transform table params) "\n")))
+            (goto-char curr-point)
+            (beginning-of-line)
+            (message "Tranformation done."))
+        (user-error "Table export format invalid"))))
+
+  (define-key org-mode-map (kbd "\C-x |") 'org-table-transform-in-place))
+
+(req-package csv-mode
+  :ensure
+  nil
+  :require
+  org
+  org-table
+  csv-mode
+  :init
+  (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
 ;; (req-package org-pandoc)
 

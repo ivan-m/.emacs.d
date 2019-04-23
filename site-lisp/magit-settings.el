@@ -6,6 +6,7 @@
   (setq magit-delete-by-moving-to-trash nil)
   (setq magit-diff-use-overlays nil)
   (setq magit-merge-arguments '("--no-ff"))
+  (setq magit-cherry-pick-arguments '("-x"))
   (setq magit-push-arguments '("--follow-tags"))
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
@@ -13,15 +14,19 @@
   (when (system-type-is-win)
     (setq vc-handled-backends (delq 'Git vc-handled-backends))
     (setq magit-need-cygwin-noglob t)
-    (setq magit-commit-dhow-diff nil)
+    (setq magit-commit-show-diff nil)
     (setq magit-git-executable "/usr/libexec/git-core/git"))
 
   (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
   :commands
   magit-status
+  magit-staging
   :config
-  (magit-define-popup-switch 'magit-push-popup
-    ?t "Follow tags" "--follow-tags")
+  (transient-append-suffix 'magit-log "-A"
+    '("-m" "Omit merge commits" "--no-merges"))
+  (push "--first-parent" magit-log-arguments)
+  (transient-append-suffix 'magit-log "-m"
+    '("-1" "First parent in merge" "--first-parent"))
 
   ;; http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
   (defun endless/add-PR-fetch ()
@@ -63,15 +68,40 @@
     :group 'magit-status)
   (defun magit-staging-refresh-buffer ()
     (magit-insert-section (status)
-      ;; (magit-insert-untracked-files)
+      (magit-insert-untracked-files)
       (magit-insert-unstaged-changes)
       (magit-insert-staged-changes)))
   (defun magit-staging ()
     (interactive)
     (magit-mode-setup #'magit-staging-mode))
 
+  ;; Protect against accident pushes to upstream
+  (defadvice magit-push-current-to-upstream
+      (around my-protect-accidental-magit-push-current-to-upstream)
+    "Protect against accidental push to upstream.
+
+Causes `magit-git-push' to ask the user for confirmation first."
+    (let ((my-magit-ask-before-push t))
+      ad-do-it))
+
+  (defadvice magit-git-push (around my-protect-accidental-magit-git-push)
+    "Maybe ask the user for confirmation before pushing.
+
+Advice to `magit-push-current-to-upstream' triggers this query."
+    (if (bound-and-true-p my-magit-ask-before-push)
+        ;; Arglist is (BRANCH TARGET ARGS)
+        (if (yes-or-no-p (format "Push %s branch upstream to %s? "
+                                 (ad-get-arg 0) (ad-get-arg 1)))
+            ad-do-it
+          (error "Push to upstream aborted by user"))
+      ad-do-it))
+
+  (ad-activate 'magit-push-current-to-upstream)
+  (ad-activate 'magit-git-push)
+
   :bind (:map magit-mode-map
-              ("O" . endless/visit-pull-request-url)))
+              ("O" . endless/visit-pull-request-url))
+  )
 
 (req-package magit-filenotify
   :require magit

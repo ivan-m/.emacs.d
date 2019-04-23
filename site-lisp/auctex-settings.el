@@ -22,7 +22,21 @@
   (defun TeX-toggle-escape nil (interactive)
          (if (string= LaTeX-command "latex") "latex -shell-escape" "latex")))
 
+(req-package tex
+  :ensure
+  nil
+  :require
+  auctex)
+
 (req-package latex
+  :ensure
+  nil
+  :require
+  auctex)
+
+(req-package latex
+  :ensure
+  nil
   :require
   auctex
   reftex
@@ -31,12 +45,16 @@
   TeX-latex-mode)
 
 (req-package latex
+  :ensure
+  nil
   :require
   auctex
   flyspell
   :init (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 (req-package latex
+  :ensure
+  nil
   :require
   auctex
   org-table
