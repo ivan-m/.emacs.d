@@ -14,7 +14,7 @@
   (setq ido-enable-tramp-completion nil)
   (setq ido-ignore-directories '("\\`CVS/" "\\`\\.\\./" "\\`\\./" "_darcs"))
   (setq ido-ignore-files
-        '("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\`_darcs/" "\\`\\.DS_Store" "\\`cabal\\.sandbox\\.config" "\\`\\.cabal-sandbox/"))
+        '("_flymake.hs" "\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\`_darcs/" "\\`\\.DS_Store" "\\`cabal\\.sandbox\\.config" "\\`\\.cabal-sandbox/"))
   (setq ido-max-work-file-list 100)
   (setq ido-read-file-name-non-ido '(TeX-master-file-ask))
   (setq ido-rotate-file-list-default t)

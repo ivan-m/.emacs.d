@@ -84,9 +84,7 @@
                             calendar-daylight-time-zone-name))))))
  '(safe-local-variable-values
    (quote
-    ((ebal-global-option-alist)
-     (ebal-operation-mode . stack)
-     (flycheck-disabled-checkers emacs-lisp-checkdoc)
+    ((flycheck-disabled-checkers emacs-lisp-checkdoc)
      (eval defun cell-to-list
            (s)
            (concat "["

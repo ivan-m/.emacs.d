@@ -1,81 +1,53 @@
-(eval-when-compile (require 'req-package))
+(eval-when-compile
+  (require 'req-package)
+  (require 'cl))
 
-(define-minor-mode haskell-stack-mode
-  "Extra functionality for stack.yaml files"
-  :init-value nil
-  :keymap (let ((map (make-sparse-keymap)))
-            (define-key map (kbd "C-c c") 'ebal-execute)
-            map))
+;; https://github.com/digital-asset/ghcide#using-with-emacs
 
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (and (buffer-file-name)
-                       (string= (file-name-nondirectory (buffer-file-name)) "stack.yaml"))
-              (haskell-stack-mode 1))))
-
-(req-package shm
-  :require hindent
+;; LSP
+;; (use-package flycheck
+;;   :ensure t
+;;   :init
+;;   (global-flycheck-mode t))
+(req-package yasnippet
   :commands
-  structured-haskell-mode
-  structured-haskell-repl-mode
-  :init
-  (setq shm-auto-insert-skeletons t)
-  (setq shm-indent-point-after-adding-where-clause t)
-  (setq shm-use-hdevtools t)
-  :functions system-type-is-darwin
-  :config
-  (if (system-type-is-darwin)
-      (define-key shm-map (kbd "<s-backspace>") 'shm/delete)))
+  yas-minor-mode-on
+  yas-deactivate-extra-mode)
 
-(req-package shm-case-split
-  :ensure nil
-  :require shm haskell-process
-  :commands shm/case-split)
+(req-package lsp-mode
+  :commands
+  lsp-deferred
+  lsp-mode)
 
-(req-package shm
+(req-package lsp-mode
   :require
-  haskell-interactive-mode
-  :bind
-  (:map shm-repl-map
-        ("TAB" . shm-repl-tab))
-  :config
-  (defun shm-repl-tab ()
-    "TAB completion or jumping."
-    (interactive)
-    (unless (shm/jump-to-slot)
-      (call-interactively 'haskell-interactive-mode-tab))))
+  haskell-mode
+  :hook
+  (haskell-mode . lsp-deferred))
+
+(req-package lsp-ui
+  :require
+  lsp-mode
+  :commands
+  lsp-ui-mode)
+
+(req-package lsp-haskell
+  :require
+  lsp-mode
+  haskell-mode
+  :init
+  (setq lsp-haskell-process-path-hie "ghcide")
+  (setq lsp-haskell-process-args-hie '())
+  ;; Comment/uncomment this line to see interactions between lsp client/server.
+  ;;(setq lsp-log-io t)
+  :hook
+  (haskell-mode . lsp-haskell-set-hlint-on)
+  )
+
 
 (req-package haskell-process
   :ensure nil
   :require haskell-mode)
-
-(req-package ebal
-  :require
-  haskell-mode
-  haskell-cabal
-  haskell-interactive-mode
-  :commands
-  ebal-execute
-  :bind
-  (:map haskell-mode-map
-   ("C-c c" . ebal-execute)
-
-   :map haskell-interactive-mode-map
-   ;; Don't use C-c c or C-c C-c so that computations in ghci can still be killed.
-   ("C-z c" . ebal-execute)
-
-   :map haskell-cabal-mode-map
-   ("C-c c" . ebal-execute))
-  :config
-  (push '(configure "--enable-tests" "--enable-benchmarks")
-        ebal-global-option-alist)
-
-  (push '(install "--only-dependencies" "--enable-tests" "--enable-benchmarks")
-        ebal-global-option-alist))
-
-(req-package hindent
-  :diminish hindent-mode
-  :commands hindent-mode)
 
 (req-package company-ghci
   :require company
@@ -84,9 +56,6 @@
 (req-package company-cabal
   :require company
   :config (push 'company-cabal company-backends))
-
-;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 (req-package haskell-doc
   :ensure nil
   :require
@@ -196,15 +165,12 @@
 
   :config
   (defun haskell-file-hook ()
-    (structured-haskell-mode 1)
-    (flycheck-mode 1)
-    (company-mode 1)
-    (hindent-mode))
+    ;; (flycheck-mode 1)
+    (company-mode 1))
 
   (defun haskell-literate-hook ()
-    (structured-haskell-mode 0)
-    (haskell-indent-mode 1)
-    (flycheck-mode 0))
+    ;; (flycheck-mode 0)
+    )
 
   (defun haskell-insert-doc ()
     "Insert the documentation syntax."
@@ -271,12 +237,6 @@
 
 (req-package haskell-interactive-mode
   :ensure nil
-  :require shm
-  :init
-  (add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode))
-
-(req-package haskell-interactive-mode
-  :ensure nil
   :require company
   :init
   (add-hook 'haskell-interactive-mode-hook
@@ -336,13 +296,16 @@
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-(req-package flycheck-haskell
-  :require flycheck
-  :init
-  (setq flycheck-haskell-runghc-command '("runghc"))
-  ;; Make flycheck aware of sandboxes.
-  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
-  (setq flycheck-haskell-runghc-command `(,(funcall flycheck-executable-find "runghc") "-i")))
+(req-package haskell-hoogle
+  :ensure nil
+  :require
+  haskell-mode
+  :commands
+  haskell-hoogle
+  haskell-hayoo
+  :bind
+  (:map haskell-mode-map
+        ("C-c h" . haskell-hoogle)))
 
 (req-package hs-lint
   :ensure nil
@@ -351,6 +314,5 @@
   :bind
   (:map haskell-mode-map
         ("C-c l" . hs-lint)))
-
 
 (provide 'haskell-settings)
