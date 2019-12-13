@@ -1,6 +1,7 @@
 (eval-when-compile (require 'req-package))
 
 (req-package magit
+  :pin melpa-stable
   :init
   (setq magit-completing-read-function 'magit-ido-completing-read)
   (setq magit-delete-by-moving-to-trash nil)
@@ -10,6 +11,7 @@
   (setq magit-push-arguments '("--follow-tags"))
   (setq magit-push-always-verify nil)
   (setq magit-use-overlays nil)
+  (setq magit-diff-refine-hunk t)
 
   (when (system-type-is-win)
     (setq vc-handled-backends (delq 'Git vc-handled-backends))
@@ -17,14 +19,13 @@
     (setq magit-commit-show-diff nil)
     (setq magit-git-executable "/usr/libexec/git-core/git"))
 
-  (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
   :commands
   magit-status
   magit-staging
   :config
+  (push "--no-ff" magit-merge-arguments)
   (transient-append-suffix 'magit-log "-A"
     '("-m" "Omit merge commits" "--no-merges"))
-  (push "--first-parent" magit-log-arguments)
   (transient-append-suffix 'magit-log "-m"
     '("-1" "First parent in merge" "--first-parent"))
 
@@ -42,6 +43,8 @@
         (magit-git-string
          "config" "--add" "remote.origin.fetch"
          fetch-address)))))
+
+  (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
 
   ;; http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html
   (defun endless/visit-pull-request-url ()
