@@ -37,13 +37,19 @@
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+;; Additional settings for work purposes
+(setq work-custom-file (expand-file-name "work-custom.el" work-dir))
+
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
 
 (add-to-list 'load-path lib-dir)
 
 (if (file-directory-p work-lib-dir)
-  (add-to-list 'load-path work-lib-dir))
+    ;; https://www.emacswiki.org/emacs/LoadPath
+    (let ((default-directory  work-lib-dir))
+      (normal-top-level-add-to-load-path '("."))
+      (normal-top-level-add-subdirs-to-load-path)))
 
 (if (file-directory-p work-site-lisp-dir)
   (add-to-list 'load-path work-site-lisp-dir))
@@ -187,6 +193,9 @@
 ;; Now actually load the custom settings; this shouldn't be much.
 
 (load custom-file :noerror)
+
+(if (file-exists-p work-custom-file)
+    (load work-custom-file :noerror))
 
 (setq gc-cons-threshold default-gc-cons-threshold)
 
