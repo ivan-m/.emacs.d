@@ -140,19 +140,26 @@
 
 (let ((file-name-handler-alist nil))
 
+  (req-package url-methods
+    :ensure nil
+    :commands
+    url-scheme-register-proxy)
+
   ;; Explicitly set this up to try and make sure proxy is set
   ;; correctly for the rest.
   (req-package exec-path-from-shell
+    :require
+    url-methods
     :init
     (setq exec-path-from-shell-check-startup-files nil)
     :config
     (exec-path-from-shell-initialize)
-    (if (not (system-type-is-gnu))
-        (progn
-          (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
-          (setq url-proxy-services
-                `(("http"   . ,(extract-proxy-from-env "http_proxy"))
-                  ("https"  . ,(extract-proxy-from-env "https_proxy")))))))
+    (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
+
+    ;; 10.0.2.2 is the host system when running in VirtualBox.
+    (setq url-proxy-services '(("no_proxy"  ."^\\(localhost\\|10.0.2.2\\|127.0.0.1\\)")))
+    (url-scheme-register-proxy "http")
+    (url-scheme-register-proxy "https"))
 
   (req-package load-dir
     :force true
