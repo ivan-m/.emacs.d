@@ -225,6 +225,9 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   ;; Doesn't seem to have a dedicated file for it
   (diminish 'auto-fill-function))
 
+(req-package eldoc
+  :diminish eldoc-mode)
+
 (req-package bind-key)
 
 (req-package fringe-current-line
@@ -311,7 +314,9 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
 
 (req-package flycheck
   :init
+  ;; These help with responsiveness
   (setq flycheck-check-syntax-automatically '(save))
+  (setq flycheck-display-errors-delay 0.3)
   :commands
   flycheck-mode
   :config

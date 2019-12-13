@@ -1,3 +1,7 @@
+;;; -*- no-byte-compile: t -*-
+;; Don't byte-compile, as it will cause issues (loading older
+;; byte-compiled file, etc.)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Specifying paths.
 
@@ -92,10 +96,6 @@
                            ,(cons "melpa" (concat proto "://melpa.org/packages/"))
                            ,(cons "melpa-stable" (concat proto "://stable.melpa.org/packages/"))
                            ,(cons "org" "http://orgmode.org/elpa/"))))
-
-;; Just calling :pin in req-package blocks doesn't work:
-;; https://github.com/jwiegley/use-package/issues/343#issuecomment-220463365
-(setq package-pinned-packages '((ensime . "melpa-stable")))
 
 (package-initialize)
 
