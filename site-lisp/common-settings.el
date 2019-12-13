@@ -327,7 +327,7 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
 
 (req-package flyspell
   :if (system-type-is-gnu)
-  :functions system-type-is-gnu
+  :functions system-type-is-gnu system-type-is-win
   :require
   ispell
   rw-hunspell
@@ -445,24 +445,24 @@ _h_   _l_   _o_k        _y_ank
   "\\.csv\'")
 
 (req-package ispell
-  :if (system-type-is-gnu)
-  :functions system-type-is-gnu
+  :if (or (system-type-is-gnu) (system-type-is-win))
+  :functions system-type-is-gnu system-type-is-win
   :init
   (setq ispell-highlight-p t)
   (setenv "DICPATH" (expand-file-name "dictionaries" user-emacs-directory))
   (setq ispell-program-name "hunspell"))
 
 (req-package rw-ispell
-  :if (system-type-is-gnu)
-  :functions system-type-is-gnu)
+  :if (or (system-type-is-gnu) (system-type-is-win))
+  :functions system-type-is-gnu system-type-is-win)
 
 (req-package rw-language-and-country-codes
-  :if (system-type-is-gnu)
-  :functions system-type-is-gnu)
+  :if (or (system-type-is-gnu) (system-type-is-win))
+  :functions system-type-is-gnu system-type-is-win)
 
 (req-package rw-hunspell
-  :if (system-type-is-gnu)
-  :functions system-type-is-gnu
+  :if (or (system-type-is-gnu) (system-type-is-win))
+  :functions system-type-is-gnu system-type-is-win
   :init
   (set-language-environment "UTF-8")
   (setq rw-hunspell-default-dictionary "en_AU_dictionaries")
