@@ -859,4 +859,75 @@ _h_   _l_   _o_k        _y_ank
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+;; From https://github.com/jordonbiondo/.emacs.d/blob/master/init.el
+(req-package restclient
+  :require
+  company
+  json-mode
+  :init
+  (add-hook 'restclient-mode-hook
+            (defun jordon-setup-restclient-mode ()
+              (require 'js)
+              (setq-local indent-line-function 'js-indent-line)
+              (setq restclient-inhibit-cookies t)))
+  (add-hook 'restclient-mode-hook (lambda () (company-mode 1)))
+  :mode ("\\.\\(http\\|rest\\)$" . restclient-mode)
+  :config
+  ;; (add-hook 'restclient-response-loaded-hook
+  ;;           (defun maybe-prettify-restclient-errors ()
+  ;;             (if (search-forward "\0" nil t 1)
+  ;;                 (let ((size (buffer-size)))
+  ;;                   (delete-region (point-min) (point-max))
+  ;;                   (insert (format "Binary file: %s" size)))
+  ;;               (let ((things '("&lt;" "<br>" "&nbsp;" "\\n")))
+  ;;                 (when (-any?
+  ;;                        (lambda (str)
+  ;;                          (save-excursion (search-forward str nil t 1)))
+  ;;                        things)
+  ;;                   (let ((reps '(("<br>" . "\n") ("&nbsp;" . " ") ("\\n" . "\n"))))
+  ;;                     (dolist (rep reps)
+  ;;                       (replace-string (car rep) (cdr rep) nil 1 (point-max)))))
+  ;;                 (when (save-excursion
+  ;;                         (goto-char (point-min))
+  ;;                         (search-forward "<!DOCTYPE html>" (line-end-position) t 1))
+  ;;                   (message "Rendering html...")
+  ;;                   (let ((file (make-temp-file "restreponse" nil ".html"))
+  ;;                         (str (buffer-string)))
+  ;;                     (with-temp-file file (insert str))
+  ;;                     (let ((response-text
+  ;;                            (save-window-excursion
+  ;;                              (eww-open-file file)
+  ;;                              (let ((str (buffer-string)))
+  ;;                                (kill-buffer (current-buffer))
+  ;;                                str))))
+  ;;                       (setf (buffer-string) response-text)
+  ;;                       (goto-char (point-min))
+  ;;                       (when (save-excursion (search-forward-regexp "\\_<def " nil t 1))
+  ;;                         (ruby-mode)))))))))
+  (add-hook 'restclient-response-loaded-hook
+            (defun jordon-restclient-delete-headers-when-ok ()
+              (when (equal major-mode 'js-mode)
+                (save-excursion
+                  (goto-char (point-max))
+                  (when (and (search-backward "200 OK" nil t)
+                             (search-backward "}" nil t))
+                    (forward-char 1)
+                    (delete-region (point) (point-max))
+                    (json-mode))))))
+  ;(add-hook 'restclient-response-loaded-hook 'jordon-nice-wrap-mode)
+  (add-hook 'restclient-response-loaded-hook
+            (defun pulse-entire-buffer ()
+              (save-excursion
+                (goto-char (point-min))
+                (pulse-momentary-highlight-region (point-min) (point-max))))))
+
+(req-package json-mode)
+
+(req-package company-restclient
+  :require
+  restclient
+  company
+  :config
+  (add-to-list 'company-backends 'company-restclient))
+
 (provide 'common-settings)
