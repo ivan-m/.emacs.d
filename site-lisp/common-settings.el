@@ -837,7 +837,13 @@ _h_   _l_   _o_k        _y_ank
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)
 
-  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+  (setq projectile-mode-line-prefix " P") ; '(:eval (format " P[%s]" (projectile-project-name))))
+  (setq projectile-mode-line-function
+        (lambda ()
+          (let ((project-name (projectile-project-name)))
+            (format "%s[%s]"
+                    projectile-mode-line-prefix
+                    (or project-name "-")))))
 
   (defvar my-project-name nil)
   (put 'my-project-name 'safe-local-variable #'stringp)
