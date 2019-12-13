@@ -212,7 +212,7 @@ Use a prefix arg to get regular RET. "
 
 (req-package org-table
   :ensure
-  nil
+  org-plus-contrib
   :require
   org
   :commands
@@ -260,7 +260,6 @@ Use a prefix arg to get regular RET. "
   :require
   org
   org-table
-  csv-mode
   :init
   (add-hook 'csv-mode-hook 'turn-on-orgtbl))
 
@@ -320,9 +319,17 @@ Use a prefix arg to get regular RET. "
   (setq org-beautify-theme-use-box-hack nil))
 (req-package org-bullets
   :init
-  (add-hook 'org-mode-hook 'org-bullets-mode)
-  :commands
-  org-bullets-mode)
+  (add-hook 'after-init-hook
+            (lambda ()
+              (if (display-graphic-p)
+                  (my/init-org-bullets)
+                (add-hook 'after-make-frame-functions 'my/init-org-bullets))))
+  :config
+  (defun my/init-org-bullets (&optional frame)
+    (when (display-graphic-p frame)
+      (when frame (select-frame frame))
+      (add-hook 'org-mode-hook 'org-bullets-mode)
+      (remove-hook 'after-make-frame-functions 'my/init-org-bullets))))
 
 (req-package org-rich-yank
   :commands
