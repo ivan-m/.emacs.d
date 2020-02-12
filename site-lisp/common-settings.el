@@ -371,7 +371,7 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   :diminish subword-mode)
 
 (req-package company
-  :diminish (company-mode . "Co.")
+  :diminish company-mode
   :commands company-mode
   :config
   (push 'company-capf company-backends)

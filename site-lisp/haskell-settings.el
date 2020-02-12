@@ -4,12 +4,18 @@
 
 ;; https://github.com/digital-asset/ghcide#using-with-emacs
 
+(req-package flymake
+  :diminish
+  (flymake-mode . "FlyM"))
+
 ;; LSP
 ;; (use-package flycheck
 ;;   :ensure t
 ;;   :init
 ;;   (global-flycheck-mode t))
 (req-package yasnippet
+  :diminish
+  yas-minor-mode
   :commands
   yas-minor-mode-on
   yas-deactivate-extra-mode)
@@ -111,7 +117,7 @@
   literate-haskell-mode
 
   :diminish
-  (interactive-haskell-mode . "Int")
+  interactive-haskell-mode
 
   :interpreter
   (("runhaskell" . haskell-mode)
