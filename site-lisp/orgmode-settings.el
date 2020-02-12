@@ -338,4 +338,11 @@ Use a prefix arg to get regular RET. "
   (:map org-mode-map
    ("C-M-y" . org-rich-yank)))
 
+(req-package ob-restclient
+  :require
+  restclient
+  org
+  :commands
+  org-babel-execute:restclient)
+
 (provide 'orgmode-settings)

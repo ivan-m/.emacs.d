@@ -873,15 +873,14 @@ _h_   _l_   _o_k        _y_ank
 ;; From https://github.com/jordonbiondo/.emacs.d/blob/master/init.el
 (req-package restclient
   :require
-  company
   json-mode
   :init
   (add-hook 'restclient-mode-hook
             (defun jordon-setup-restclient-mode ()
               (require 'js)
               (setq-local indent-line-function 'js-indent-line)
+              (setq-local js-indent-level 2)
               (setq restclient-inhibit-cookies t)))
-  (add-hook 'restclient-mode-hook (lambda () (company-mode 1)))
   :mode ("\\.\\(http\\|rest\\)$" . restclient-mode)
   :config
   ;; (add-hook 'restclient-response-loaded-hook
@@ -924,6 +923,7 @@ _h_   _l_   _o_k        _y_ank
                              (search-backward "}" nil t))
                     (forward-char 1)
                     (delete-region (point) (point-max))
+                    (newline)
                     (json-mode))))))
   ;(add-hook 'restclient-response-loaded-hook 'jordon-nice-wrap-mode)
   (add-hook 'restclient-response-loaded-hook
@@ -932,13 +932,38 @@ _h_   _l_   _o_k        _y_ank
                 (goto-char (point-min))
                 (pulse-momentary-highlight-region (point-min) (point-max))))))
 
-(req-package json-mode)
+(req-package restclient
+  :require
+  rainbow-delimiters
+  :init
+  (add-hook 'restclient-mode-hook 'rainbow-delimiters-mode))
+
+(req-package json-mode
+  :config
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (setq-local js-indent-level 2))))
+
+(req-package hideshow
+  :ensure
+  nil
+  :commands
+  hs-minor-mode)
+
+(req-package json-mode
+  :require
+  hideshow
+  :config
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (hs-minor-mode 1))))
 
 (req-package company-restclient
   :require
   restclient
   company
   :config
+  (add-hook 'restclient-mode-hook (lambda () (company-mode 1)))
   (add-to-list 'company-backends 'company-restclient))
 
 (provide 'common-settings)
