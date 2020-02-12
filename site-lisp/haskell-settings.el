@@ -5,6 +5,8 @@
 ;; https://github.com/digital-asset/ghcide#using-with-emacs
 
 (req-package flymake
+  :init
+  (add-to-list 'grep-find-ignored-files "*_flymake.hs")
   :diminish
   (flymake-mode . "FlyM"))
 

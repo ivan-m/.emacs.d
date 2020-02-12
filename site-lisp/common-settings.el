@@ -646,6 +646,16 @@ _h_   _l_   _o_k        _y_ank
   (setq dired-listing-switches "-alh")
   (setq wdired-allow-to-change-permissions t))
 
+(req-package dired-x
+  :ensure
+  nil
+  :config
+  (setq dired-omit-verbose nil)
+  ;;(setq-default dired-omit-files-p t)
+  ;; toggle `dired-omit-mode' with C-x M-o
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  (setq dired-omit-files "^\\.?#\\|^\\.$\\|_flymake\\.hs$\\|\\.hie$"))
+
 (req-package unkillable-scratch
   :config
   (unkillable-scratch 1))
