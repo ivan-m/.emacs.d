@@ -317,6 +317,14 @@
   (:map haskell-mode-map
         ("C-c h" . haskell-hoogle)))
 
+;; (req-package dante
+;;   :require
+;;   haskell-mode
+;;   :init
+;;   (add-hook 'haskell-mode-hook 'dante-mode)
+;;   :commands
+;;   dante-mode)
+
 (req-package hs-lint
   :ensure nil
   :require haskell-mode
