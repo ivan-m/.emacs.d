@@ -6,7 +6,6 @@
   (setq magit-completing-read-function 'magit-ido-completing-read)
   (setq magit-delete-by-moving-to-trash nil)
   (setq magit-diff-use-overlays nil)
-  (setq magit-merge-arguments '("--no-ff"))
   (setq magit-cherry-pick-arguments '("-x"))
   (setq magit-push-arguments '("--follow-tags"))
   (setq magit-push-always-verify nil)
@@ -23,7 +22,6 @@
   magit-status
   magit-staging
   :config
-  (push "--no-ff" magit-merge-arguments)
   (transient-append-suffix 'magit-log "-A"
     '("-m" "Omit merge commits" "--no-merges"))
   (transient-append-suffix 'magit-log "-m"
