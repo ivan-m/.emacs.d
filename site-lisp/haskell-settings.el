@@ -28,6 +28,8 @@
   lsp-mode)
 
 (req-package lsp-mode
+  :config
+  (setq lsp-enable-imenu nil)
   :require
   haskell-mode
   :hook
