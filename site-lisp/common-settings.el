@@ -82,6 +82,9 @@
 ;; make mouse middle-click only paste from primary X11 selection, not clipboard and kill ring.
 (global-set-key [mouse-2] 'mouse-yank-primary)
 
+;; Avoid some issues that appear to be due to ssh'ing in to a VM
+(global-set-key (kbd "<Scroll_Lock>") '(lambda () (interactive) nil))
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (fset 'yes-or-no-p 'y-or-n-p)
