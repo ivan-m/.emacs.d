@@ -374,6 +374,11 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   :diminish subword-mode)
 
 (req-package company
+  :init
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-ignore-case t)
+  (setq company-dabbrev-code-ignore-case t)
+  (setq company-etags-ignore-case t)
   :diminish company-mode
   :commands company-mode
   :config
