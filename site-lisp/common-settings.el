@@ -333,13 +333,15 @@ i.e. no protocol/scheme, no trailing slash, just foobar:port."
   :functions system-type-is-gnu system-type-is-win
   :require
   ispell
-  rw-hunspell
   :init
   (setq flyspell-issue-message-flag nil)
   (setq flyspell-issue-welcome-flag nil)
   (add-hook 'prog-mode-hook
             (lambda ()
               (flyspell-prog-mode)))
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (flyspell-mode 1)))
   :diminish flyspell-mode
   :commands
   flyspell-mode
@@ -459,29 +461,6 @@ _h_   _l_   _o_k        _y_ank
   (setq ispell-highlight-p t)
   (setenv "DICPATH" (expand-file-name "dictionaries" user-emacs-directory))
   (setq ispell-program-name "hunspell"))
-
-(req-package rw-ispell
-  :if (or (system-type-is-gnu) (system-type-is-win))
-  :functions system-type-is-gnu system-type-is-win)
-
-(req-package rw-language-and-country-codes
-  :if (or (system-type-is-gnu) (system-type-is-win))
-  :functions system-type-is-gnu system-type-is-win)
-
-(req-package rw-hunspell
-  :if (or (system-type-is-gnu) (system-type-is-win))
-  :functions system-type-is-gnu system-type-is-win
-  :init
-  (set-language-environment "UTF-8")
-  (setq rw-hunspell-default-dictionary "en_AU_dictionaries")
-  (setq rw-hunspell-dicpath-list (list (expand-file-name "dictionaries" user-emacs-directory)))
-  (setq rw-hunspell-make-dictionary-menu t)
-  (setq rw-hunspell-use-rw-ispell t)
-  (add-hook 'after-init-hook 'rw-hunspell-setup)
-  :require
-  ispell
-  rw-language-and-country-codes
-  rw-ispell)
 
 (req-package font-utils
   :init
