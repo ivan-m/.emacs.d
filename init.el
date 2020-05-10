@@ -98,7 +98,6 @@
        (proto (if no-ssl "http" "https")))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
   (setq package-archives `(,(cons "gnu" (concat proto "://elpa.gnu.org/packages/"))
-                           ,(cons "marmalade" (concat proto "://marmalade-repo.org/packages/"))
                            ,(cons "melpa" (concat proto "://melpa.org/packages/"))
                            ,(cons "melpa-stable" (concat proto "://stable.melpa.org/packages/"))
                            ,(cons "org" "http://orgmode.org/elpa/"))))

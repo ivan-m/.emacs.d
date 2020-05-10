@@ -4,10 +4,6 @@
   (set-face-attribute 'default nil
                       :font "Consolas-12:antialias=natural"))
 
-(req-package cygwin-mount
-  :if (system-type-is-win)
-  :functions system-type-is-win)
-
 ;; (req-package setup-cygwin
 ;;   :if (system-type-is-win)
 ;;   :functions system-type-is-win)
