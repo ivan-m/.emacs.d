@@ -128,8 +128,8 @@
 (init-compile-dir site-lisp-dir)
 (init-compile-dir lib-dir)
 (init-compile-dir custom-theme-directory)
-(init-compile-dir work-lib-dir)
-(init-compile-dir work-site-lisp-dir)
+(if (file-directory-p work-lib-dir) (init-compile-dir work-lib-dir))
+(if (file-directory-p work-site-lisp-dir) (init-compile-dir work-site-lisp-dir))
 
 ;; Just in case something went wrong with the byte-compilation
 (setq load-prefer-newer t)
