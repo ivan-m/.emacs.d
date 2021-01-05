@@ -153,8 +153,8 @@
     :init
     (setq exec-path-from-shell-check-startup-files nil)
     :config
+    (setq exec-path-from-shell-variables '("PATH" "MANPATH" "http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
     (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-envs '("http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
 
     ;; 10.0.2.2 is the host system when running in VirtualBox.
     (setq url-proxy-services '(("no_proxy"  ."^\\(localhost\\|10.0.2.2\\|127.0.0.1\\)")))
