@@ -203,6 +203,9 @@ the actual manpage using the function `man'."
 
       (setq w32-pass-apps-to-system nil)
       ;;(setq w32-apps-modifier 'hyper) ; Menu/App key
+
+      (when (member "Consolas" (font-family-list))
+        (set-frame-font "Consolas-10" t t))
       ))
 
 (if (system-type-is-gnu)
