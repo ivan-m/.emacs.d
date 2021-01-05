@@ -100,7 +100,8 @@
   (setq package-archives `(,(cons "gnu" (concat proto "://elpa.gnu.org/packages/"))
                            ,(cons "melpa" (concat proto "://melpa.org/packages/"))
                            ,(cons "melpa-stable" (concat proto "://stable.melpa.org/packages/"))
-                           ,(cons "org" "http://orgmode.org/elpa/"))))
+                           ;; ,(cons "org" "http://orgmode.org/elpa/") ; use org-mode shipped with Emacs
+                           )))
 
 (package-initialize)
 

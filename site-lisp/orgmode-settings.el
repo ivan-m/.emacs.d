@@ -3,8 +3,7 @@
 ;; Having problems? Try this: http://emacs.stackexchange.com/a/16616
 
 (req-package org
-  :ensure
-  org-plus-contrib
+  :ensure nil
   :init
   (setq org-completion-use-ido t)
   (setq org-log-done t)
@@ -212,7 +211,7 @@ Use a prefix arg to get regular RET. "
 
 (req-package org-table
   :ensure
-  org-plus-contrib
+  nil
   :require
   org
   :commands
