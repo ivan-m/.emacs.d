@@ -700,9 +700,9 @@ _h_   _l_   _o_k        _y_ank
   :mode
   "\\.nix\\'")
 
-(req-package nixos-options
-  :if (system-type-is-gnu)
-  :functions system-type-is-gnu)
+;; (req-package nixos-options
+;;   :if (system-type-is-gnu)
+;;   :functions system-type-is-gnu)
 
 (req-package yaml-mode
   :init
