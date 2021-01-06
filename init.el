@@ -153,13 +153,16 @@
     :init
     (setq exec-path-from-shell-check-startup-files nil)
     :config
-    (setq exec-path-from-shell-variables '("PATH" "MANPATH" "http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
+    (setq exec-path-from-shell-variables '("PATH" "MANPATH" "http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY" "no_proxy" "NO_PROXY" "GIT_SSH" "NIX_PROFILES" "NIX_PATH" "NIX_REMOTE"))
     (exec-path-from-shell-initialize)
 
-    ;; 10.0.2.2 is the host system when running in VirtualBox.
-    (setq url-proxy-services '(("no_proxy"  ."^\\(localhost\\|10.0.2.2\\|127.0.0.1\\)")))
-    (url-scheme-register-proxy "http")
-    (url-scheme-register-proxy "https"))
+    ;; This should automatically get populated from the environment variables when needed.
+
+    ;; ;; 10.0.2.2 is the host system when running in VirtualBox.
+    ;; (setq url-proxy-services '(("no_proxy"  ."^\\(localhost\\|10.0.2.2\\|127.0.0.1\\)")))
+    ;; (url-scheme-register-proxy "http")
+    ;; (url-scheme-register-proxy "https")
+    )
 
   (req-package load-dir
     :force true
