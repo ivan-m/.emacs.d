@@ -197,7 +197,9 @@
 ;; used.
 (add-to-list 'default-frame-alist
              `(cursor-color . ,(alect-get-color 'dark 'cursor)))
-;; (set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
+
+;; Doesn't seem to work above
+(set-face-attribute 'font-lock-type-face nil :foreground "#be59d8")
 
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;; Now actually load the custom settings; this shouldn't be much.
