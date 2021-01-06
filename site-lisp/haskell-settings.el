@@ -46,12 +46,9 @@
   lsp-mode
   haskell-mode
   :init
-  (setq lsp-haskell-process-path-hie "ghcide")
-  (setq lsp-haskell-process-args-hie '())
+  (setq lsp-haskell-formatting-provider "stylish-haskell")
   ;; Comment/uncomment this line to see interactions between lsp client/server.
   ;;(setq lsp-log-io t)
-  :hook
-  (haskell-mode . lsp-haskell-set-hlint-on)
   )
 
 
