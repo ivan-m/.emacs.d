@@ -707,6 +707,7 @@ _h_   _l_   _o_k        _y_ank
 (req-package yaml-mode
   :init
   (add-to-list 'interpreter-mode-alist '("ansible-playbook" . yaml-mode))
+  (add-to-list 'yaml-mode-hook (lambda () (electric-indent-local-mode -1)))
   :commands
   yaml-mode
   :mode
