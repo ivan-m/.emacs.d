@@ -7,7 +7,7 @@
 (req-package grep
   :ensure
   nil
-  :init
+  :config
   (add-to-list 'grep-find-ignored-files "*_flymake.hs"))
 
 
