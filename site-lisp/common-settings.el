@@ -847,6 +847,7 @@ _h_   _l_   _o_k        _y_ank
   (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths)
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)
+  (setq projectile-use-git-grep t)
 
   (setq projectile-mode-line-prefix " P") ; '(:eval (format " P[%s]" (projectile-project-name))))
   (setq projectile-mode-line-function
@@ -866,7 +867,9 @@ _h_   _l_   _o_k        _y_ank
   :config
   (projectile-mode +1)
 
-  (advice-add 'projectile-project-name :around #'projectile-project-name--prefer-mine))
+  (advice-add 'projectile-project-name :around #'projectile-project-name--prefer-mine)
+  :bind-keymap
+  (("C-c p" . projectile-command-map)))
   ;; :bind
   ;; (:map projectile-mode-map
   ;;  ("s-d" . projectile-find-dir)
