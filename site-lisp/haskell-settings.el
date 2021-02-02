@@ -4,9 +4,14 @@
 
 ;; https://github.com/digital-asset/ghcide#using-with-emacs
 
-(req-package flymake
+(req-package grep
+  :ensure
+  nil
   :init
-  (add-to-list 'grep-find-ignored-files "*_flymake.hs")
+  (add-to-list 'grep-find-ignored-files "*_flymake.hs"))
+
+
+(req-package flymake
   :diminish
   (flymake-mode . "FlyM"))
 
@@ -25,7 +30,8 @@
 (req-package lsp-mode
   :commands
   lsp-deferred
-  lsp-mode)
+  lsp-mode
+  lsp-find-definition)
 
 (req-package lsp-mode
   :config
@@ -49,8 +55,9 @@
   (setq lsp-haskell-formatting-provider "stylish-haskell")
   ;; Comment/uncomment this line to see interactions between lsp client/server.
   ;;(setq lsp-log-io t)
-  )
-
+  :bind
+  (:map haskell-mode-map
+        ("<f12>" . lsp-find-definition)))
 
 (req-package haskell-process
   :ensure nil
@@ -94,24 +101,25 @@
   (setq haskell-interactive-mode-eval-mode 'haskell-mode)
   (setq haskell-interactive-mode-hide-multi-line-errors t)
 
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (haskell-doc-mode 1)
-              (interactive-haskell-mode 1)
-              (haskell-decl-scan-mode 1)
-              (electric-indent-local-mode -1)
-              (auto-insert-mode 1)
-              (subword-mode)
-              (font-lock-add-keywords
-               nil
-               '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face prepend)))
-              (setq process-connection-type nil)
+  (defun my/haskell-mode-hook ()
+    (haskell-doc-mode 1)
+    (interactive-haskell-mode 1)
+    (haskell-decl-scan-mode 1)
+    (electric-indent-local-mode 1)
+    (auto-insert-mode 1)
+    (subword-mode)
+    (font-lock-add-keywords
+     nil
+     '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face prepend)))
+    (setq process-connection-type nil)
 
-              (when (buffer-file-name)
-                (if (system-type-is-gnu) (flyspell-prog-mode))
-                (if (equal (file-name-extension (buffer-file-name)) "lhs")
-                    (haskell-literate-hook)
-                  (haskell-file-hook)))))
+    (when (buffer-file-name)
+      (if (system-type-is-gnu) (flyspell-prog-mode))
+      (if (equal (file-name-extension (buffer-file-name)) "lhs")
+          (haskell-literate-hook)
+        (haskell-file-hook))))
+
+  (add-hook 'haskell-mode-hook #'my/haskell-mode-hook)
 
   :commands
   haskell-mode
@@ -307,9 +315,12 @@
   :ensure nil
   :require
   haskell-mode
+  :init
+  ;; Use website, don't try and use a local DB that almost definitely
+  ;; doesn't exist.
+  (setq haskell-hoogle-command nil)
   :commands
   haskell-hoogle
-  haskell-hayoo
   :bind
   (:map haskell-mode-map
         ("C-c h" . haskell-hoogle)))
