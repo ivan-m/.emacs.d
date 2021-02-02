@@ -113,6 +113,11 @@
 
 (turn-on-auto-fill)
 
+;; Prevent Emacs from creating Windows on its own and force it to use
+;; existing ones.
+(setq split-height-threshold nil)
+(setq split-width-threshold nil)
+
 ;; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ;; defadvice
